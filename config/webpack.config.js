@@ -442,6 +442,7 @@ module.exports = function (webpackEnv) {
               loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
+                ignore: [ './node_modules/mapbox-gl/dist/mapbox-gl.js' ],
                 configFile: false,
                 compact: false,
                 presets: [
