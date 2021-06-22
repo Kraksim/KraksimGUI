@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import ReactMapGL from 'react-map-gl';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import ReactMapGL from '!react-map-gl';
 
 function App() {
   const [viewport, setViewport] = useState({
