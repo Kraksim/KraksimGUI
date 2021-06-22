@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In order to view mapbox content, set environmental variable REACT_APP_MAPBOX_ACCESS_TOKEN value to your mapbox api token
+(pk.eyJ1Ijoid2lrdG9yNjYzNiIsImEiOiJja280ZjRvMGgwYjZyMnZteXdqYXozeWdhIn0.6QDLb_ZkJ5ZRLtchIbVfdg)
 
 ## Available Scripts
 
