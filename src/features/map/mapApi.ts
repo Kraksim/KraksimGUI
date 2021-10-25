@@ -14,11 +14,11 @@ export const mapApi = createApi({
         (result ? [{ type: 'Map', id: result.id }, 'Map'] : ['Map']),
     }),
     getAllMapIds: builder.query<number[], void>({
-      query: () => ({ url: 'simulation/all' }),
+      query: () => ({ url: 'map/all' }),
       providesTags: ['Id'],
     }),
     createMap: builder.mutation<SimulationMap, CreateMapRequest>({
-      query: (request) => ({ url: 'simulation/create', method: 'POST', body: request }),
+      query: (request) => ({ url: 'map/create', method: 'POST', body: request }),
       invalidatesTags: (result) => 
         (result ? [{ type: 'Map', id: result.id }, 'Map'] : ['Map']),
     }),
