@@ -61,7 +61,7 @@ export function CreateSimulationBasicInfoForm({ allowedMapIds }: Props): JSX.Ele
                             </InputLabel>
                             <Field
                             name={'name'}
-                            placeholder="Max Velocity"
+                            placeholder="Name"
                             as={FormInpiutField}
                             />
                             <ErrorMessage

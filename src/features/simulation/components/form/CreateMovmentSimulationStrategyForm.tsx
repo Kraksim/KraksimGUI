@@ -91,12 +91,12 @@ export function CreateMovmentSimulationStrategyForm(): JSX.Element {
                         <Box>
                             <InputLabel 
                             htmlFor={'slowDownProbability'}>
-                                Slow Down Probability
+                                Slow Down Probability (%)
                             </InputLabel>
                             <Field
                             name={'slowDownProbability'}
                             type="number"
-                            placeholder="Slow down probability"
+                            placeholder="Slow down probability (%)"
                             as={FormInpiutField}
                             />
                             <ErrorMessage
