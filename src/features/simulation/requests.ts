@@ -7,7 +7,7 @@ export interface SimulateRequest {
   times: number,
 }
 
-interface CreatePhaseRequest {
+export interface CreatePhaseRequest {
   laneId: number,
   state: LightState,
 }
@@ -17,7 +17,7 @@ interface CreateTrafficLightRequest {
   phases: CreatePhaseRequest[],
 }
 
-interface CreateGeneratorsRequest {
+export interface CreateGeneratorsRequest {
   releaseDelay: number,
   carsToRelease: number,
   targetGatewayId: number,
@@ -25,7 +25,6 @@ interface CreateGeneratorsRequest {
 }
 
 interface CreateGatewayStateRequest {
-  id: number,
   generators: CreateGeneratorsRequest[],
 }
 
@@ -41,7 +40,7 @@ interface CreateMovementSimulationStrategyRequest {
   maxVelocity: number,
 }
 
-interface CreateLightPhaseStrategyRequest {
+export interface CreateLightPhaseStrategyRequest {
   algorithm: LightAlgorithmType,
   turnLength: number,
   intersections: number[],
