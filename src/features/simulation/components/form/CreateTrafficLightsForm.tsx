@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Formik, Field, Form, ErrorMessage, FieldArray, FieldProps, 
+  FastField, ErrorMessage, FieldArray, FieldProps, 
 } from 'formik';
 import {
   Box, InputLabel, MenuItem, 
@@ -15,6 +15,7 @@ import {
 interface Props {
   allowedIntersectionIds: number[],
   allowedLaneIds: number[],
+  values: InitialValues,
 }
 
 interface Phases {
@@ -23,7 +24,7 @@ interface Phases {
 
 type InitialValues = Record<number, Phases>;
 
-function getInitialValues(intersectionIds: number[]): InitialValues{
+export function getTrafficLightsInitialValues(intersectionIds: number[]): InitialValues{
   return intersectionIds.reduce((reducer, next) => ({ ...reducer, [next]: {
     phases: [
       {
@@ -35,21 +36,15 @@ function getInitialValues(intersectionIds: number[]): InitialValues{
 }
 
 
-export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneIds }: Props): JSX.Element {
+export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneIds, values }: Props): JSX.Element {
 
   const [currentId, setCurrentId] = useState<number>(allowedIntersectionIds[0]);
-  const initialValues = getInitialValues(allowedIntersectionIds);
 
   return (
     <div>
       <h1>Create Traffic Lights</h1>
-        <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
-              {({ values }) => (
-        <Form>
-          <FieldArray name={`${currentId}.phases`}>
+        <>
+          <FieldArray name={`trafficLights.${currentId}.phases`}>
             {({ remove, push }) => (
               <FormBox>
                 <ControlContainer>
@@ -61,7 +56,8 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneId
                     onChange={(e) => setCurrentId(parseInt(e.target.value as string))}
                 >
                 {allowedIntersectionIds
-                  .map(intersectionId => <MenuItem value={intersectionId}>{intersectionId}</MenuItem>)}
+                  .map(intersectionId => 
+                  <MenuItem key={intersectionId} value={intersectionId}>{intersectionId}</MenuItem>)}
                 </FormSelect>
                 <ControlButton
                   type="button"
@@ -73,44 +69,44 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneId
                 >
                   Add new entry
                 </ControlButton>
-                <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
                 </ControlContainer>
                 <ScrollbarBox>
                 <AddedElementListBox>
                 {values[currentId].phases.length > 0 &&
                   values[currentId].phases.map((phase, index) => (
                       <>
-                    <ElementBox>
+                    <ElementBox key={index}>
                       <Box>
                         <InputLabel 
-                        htmlFor={`${currentId}.phases.${index}.state`}>State</InputLabel>
-                        <Field
-                          name={`${currentId}.phases.${index}.state`}
+                        htmlFor={`trafficLights.${currentId}.phases.${index}.state`}>State</InputLabel>
+                        <FastField
+                          name={`trafficLights.${currentId}.phases.${index}.state`}
                           as={FormSelect}
                         >
                             <MenuItem value={'GREEN'}>Green</MenuItem>
                             <MenuItem value={'RED'}>Red</MenuItem>
-                        </Field>    
+                        </FastField>    
                         <ErrorMessage
-                          name={`${currentId}.phases.${index}.state`}
+                          name={`trafficLights.${currentId}.phases.${index}.state`}
                           component="div"
                         />
                       </Box>  
                       <Box>
                         <InputLabel 
-                        htmlFor={`${currentId}.phases.${index}.laneId`}>Lane ID</InputLabel>
-                        <Field
-                          name={`${currentId}.phases.${index}.laneId`}
+                        htmlFor={`trafficLights.${currentId}.phases.${index}.laneId`}>Lane ID</InputLabel>
+                        <FastField
+                          name={`trafficLights.${currentId}.phases.${index}.laneId`}
                           type="number"
                           >
                              {({ field }: FieldProps) => (
                                 <FormSelect {...field} label="Target Gateway ID">
-                                {allowedLaneIds.map(laneId => <MenuItem value={laneId}>{laneId}</MenuItem>)}
+                                {allowedLaneIds
+                                  .map(laneId => <MenuItem key={laneId} value={laneId}>{laneId}</MenuItem>)}
                                 </FormSelect>
                              )}
-                        </Field>    
+                        </FastField>    
                         <ErrorMessage
-                          name={`${currentId}.phases.${index}.laneId`}
+                          name={`trafficLights.${currentId}.phases.${index}.laneId`}
                           component="div"
                         />
                       </Box>
@@ -130,9 +126,7 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneId
               </FormBox>
             )}
           </FieldArray>
-        </Form>
-              )}
-    </Formik> 
+        </>
     </div>  
   );
 

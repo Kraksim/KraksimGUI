@@ -12,7 +12,7 @@ export interface CreatePhaseRequest {
   state: LightState,
 }
 
-interface CreateTrafficLightRequest {
+export interface CreateTrafficLightRequest {
   intersectionId: number,
   phases: CreatePhaseRequest[],
 }
@@ -24,16 +24,17 @@ export interface CreateGeneratorsRequest {
   gpsType: GPSType,
 }
 
-interface CreateGatewayStateRequest {
+export interface CreateGatewayStateRequest {
+  id: number,
   generators: CreateGeneratorsRequest[],
 }
 
-interface CreateInitialSimulationStateRequest {
+export interface CreateInitialSimulationStateRequest {
   trafficLights: CreateTrafficLightRequest[],
   gatewaysStates: CreateGatewayStateRequest[],
 }
 
-interface CreateMovementSimulationStrategyRequest {
+export interface CreateMovementSimulationStrategyRequest {
   type: MovementSimulationStrategyType,
   randomProvider: RandomProviderType,
   slowDownProbability: number,
@@ -46,11 +47,13 @@ export interface CreateLightPhaseStrategyRequest {
   intersections: number[],
 }
 
+export type CreateExpectedVelocityRequest = Map<number, number>;
+
 export interface CreateSimulationRequest {
   name: string,
   mapId: number,
   simulationType: SimulationType,
-  expectedVelocity: Map<number, number>,
+  expectedVelocity: CreateExpectedVelocityRequest,
   movementSimulationStrategy: CreateMovementSimulationStrategyRequest,
   lightPhaseStrategies: CreateLightPhaseStrategyRequest[],
   initialState: CreateInitialSimulationStateRequest,

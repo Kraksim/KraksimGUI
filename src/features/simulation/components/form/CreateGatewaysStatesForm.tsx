@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Formik, Field, Form, ErrorMessage, FieldArray, FieldProps, 
+  FastField, ErrorMessage, FieldArray, FieldProps, 
 } from 'formik';
 import {
   Box, InputLabel, MenuItem, 
@@ -13,7 +13,8 @@ import {
 } from './common';
 
 interface Props {
-  allowedGatewayIds: number[];
+  allowedGatewayIds: number[],
+  values: InitialValues,
 }
 
 interface Generators {
@@ -22,7 +23,7 @@ interface Generators {
 
 type InitialValues = Record<number, Generators>;
 
-function getInitialValues(gatewayIds: number[]): InitialValues{
+export function getGatewaysStatesInitialValues(gatewayIds: number[]): InitialValues{
   return gatewayIds.reduce((reducer, next) => ({ ...reducer, [next]: {
     generators: [
       {
@@ -36,21 +37,15 @@ function getInitialValues(gatewayIds: number[]): InitialValues{
 }
 
 
-export function CreateGatewaysStatesForm( { allowedGatewayIds }: Props): JSX.Element {
+export function CreateGatewaysStatesForm( { allowedGatewayIds, values }: Props): JSX.Element {
 
   const [currentId, setCurrentId] = useState<number>(allowedGatewayIds[0]);
-  const initialValues = getInitialValues(allowedGatewayIds);
 
   return (
     <div>
       <h1>Create Gateways States</h1>
-        <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
-              {({ values }) => (
-        <Form>
-          <FieldArray name={`${currentId}.generators`}>
+        <>
+          <FieldArray name={`gatewaysStates.${currentId}.generators`}>
             {({ remove, push }) => (
               <FormBox>
                 <ControlContainer>
@@ -61,7 +56,8 @@ export function CreateGatewaysStatesForm( { allowedGatewayIds }: Props): JSX.Ele
                     value={currentId}
                     onChange={(e) => setCurrentId(parseInt(e.target.value as string))}
                 >
-                {allowedGatewayIds.map(gatewayId => <MenuItem value={gatewayId}>{gatewayId}</MenuItem>)}
+                {allowedGatewayIds
+                  .map(gatewayId => <MenuItem key={gatewayId} value={gatewayId}>{gatewayId}</MenuItem>)}
                 </FormSelect>
                 <ControlButton
                   type="button"
@@ -75,79 +71,84 @@ export function CreateGatewaysStatesForm( { allowedGatewayIds }: Props): JSX.Ele
                 >
                   Add new entry
                 </ControlButton>
-                <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
                 </ControlContainer>
                 <ScrollbarBox>
                 <AddedElementListBox>
                 {values[currentId].generators.length > 0 &&
                   values[currentId].generators.map((generator, index) => (
-                      <>
-                    <ElementBox>
+                    <>
+                    <ElementBox key={index}>
                       <Box>
                         <InputLabel 
-                        htmlFor={`${currentId}.generators.${index}.carsToRelease`}>
+                        htmlFor={`gatewaysStates.${currentId}.generators.${index}.carsToRelease`}>
                             Cars to Release
                         </InputLabel>
-                        <Field
-                          name={`${currentId}.generators.${index}.carsToRelease`}
+                        <FastField
+                          name={`gatewaysStates.${currentId}.generators.${index}.carsToRelease`}
                           type="number"
                           placeholder="Cars To Release"
                           as={FormInpiutField}
                         />
                         <ErrorMessage
-                          name={`${currentId}.generators.${index}.carsToRealese`}
+                          name={`gatewaysStates.${currentId}.generators.${index}.carsToRealese`}
                           component="div"
                           className="field-error"
                         />
                       </Box>  
                       <Box>
                         <InputLabel 
-                        htmlFor={`${currentId}.generators.${index}.targetGatewayId`}>Target Gateway ID</InputLabel>
-                        <Field
-                          name={`${currentId}.generators.${index}.targetGatewayId`}
+                        htmlFor={`gatewaysStates.${currentId}.generators.${index}.targetGatewayId`}>
+                          Target Gateway ID
+                        </InputLabel>
+                        <FastField
+                          name={`gatewaysStates.${currentId}.generators.${index}.targetGatewayId`}
                           type="number"
                           >
                              {({ field }: FieldProps) => (
                                 <FormSelect {...field} label="Target Gateway ID">
-                                {allowedGatewayIds.map(gatewayId => <MenuItem value={gatewayId}>{gatewayId}</MenuItem>)}
+                                {allowedGatewayIds
+                                  .map(gatewayId => <MenuItem key={gatewayId} value={gatewayId}>{gatewayId}</MenuItem>)}
                                 </FormSelect>
                              )}
-                        </Field>    
+                        </FastField>    
                         <ErrorMessage
-                          name={`${currentId}.generators.${index}.targetGatewayId`}
+                          name={`gatewaysStates.${currentId}.generators.${index}.targetGatewayId`}
                           component="div"
                         />
                       </Box>
                       </ElementBox>
-                      <ElementBox>
-                      <Box>
-                        <InputLabel htmlFor={`${currentId}.generators.${index}.releaseDelay`}>Realese delay</InputLabel>
-                        <Field
-                          name={`${currentId}.generators.${index}.releaseDelay`}
-                          type="number"
-                          placeholder="Realese Delay"
-                          as={FormInpiutField}
-                        />
-                        <ErrorMessage
-                          name={`${currentId}.generators.${index}.releaseDelay`}
-                          component="div"
-                          className="field-error"
-                        />
-                      </Box>
-                      <Box>
-                        <InputLabel 
-                        htmlFor={`${currentId}.generators.${index}.gpsType`}>GPS type</InputLabel>
-                        <Field
-                          name={`${currentId}.generators.${index}.gpsType`}
-                          as={FormSelect}
-                        >
-                            <MenuItem value={'DIJKSTRA_ROAD_LENGTH'}>Dijkstra road length</MenuItem>
-                        </Field>    
-                        <ErrorMessage
-                          name={`${currentId}.generators.${index}.gpsType`}
-                          component="div"
-                        />
-                      </Box>
+                      <ElementBox key={index + 'second'}>
+                        <Box>
+                          <InputLabel 
+                          htmlFor={`gatewaysStates.${currentId}.generators.${index}.releaseDelay`}>
+                            Realese delay
+                          </InputLabel>
+                          <FastField
+                            name={`gatewaysStates.${currentId}.generators.${index}.releaseDelay`}
+                            type="number"
+                            placeholder="Realese Delay"
+                            as={FormInpiutField}
+                          />
+                          <ErrorMessage
+                            name={`gatewaysStates.${currentId}.generators.${index}.releaseDelay`}
+                            component="div"
+                            className="field-error"
+                          />
+                        </Box>
+                        <Box>
+                          <InputLabel 
+                          htmlFor={`gatewaysStates.${currentId}.generators.${index}.gpsType`}>GPS type</InputLabel>
+                          <FastField
+                            name={`gatewaysStates.${currentId}.generators.${index}.gpsType`}
+                            as={FormSelect}
+                          >
+                              <MenuItem value={'DIJKSTRA_ROAD_LENGTH'}>Dijkstra road length</MenuItem>
+                          </FastField>    
+                          <ErrorMessage
+                            name={`gatewaysStates.${currentId}.generators.${index}.gpsType`}
+                            component="div"
+                          />
+                        </Box>
                         <ControlButton
                           variant="contained"
                           type="button"
@@ -164,10 +165,7 @@ export function CreateGatewaysStatesForm( { allowedGatewayIds }: Props): JSX.Ele
               </FormBox>
             )}
           </FieldArray>
-        </Form>
-              )}
-    </Formik> 
-    </div>  
+        </>
+      </div>  
   );
-
 }

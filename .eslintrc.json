@@ -3,6 +3,14 @@
         "browser": true,
         "es6": true
     },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx"], // Your TypeScript files extension
+            "parserOptions": {
+                "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+            }
+        }
+    ],
     "extends": [
         "airbnb-typescript",
         "plugin:@typescript-eslint/recommended",
@@ -25,7 +33,7 @@
         "ecmaVersion": 2018,
         "sourceType": "module",
         "project": [
-            "tsconfig.json"
+            "./tsconfig.json"
         ]
     },
     "settings": {

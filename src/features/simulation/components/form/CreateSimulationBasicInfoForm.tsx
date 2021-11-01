@@ -1,46 +1,35 @@
 import React from 'react';
 import {
-  Formik, Field, Form, ErrorMessage, FieldProps, 
+  FastField, ErrorMessage, FieldProps, 
 } from 'formik';
 import {
   Box, InputLabel, MenuItem, 
 } from '@mui/material';
 
 import {
-  FormBox, ControlButton, FormInpiutField, ElementBox, FormSelect, 
+  FormBox, FormInpiutField, ElementBox, FormSelect, 
 } from './common';
 
-interface Props {
-  allowedMapIds: number[],
-}
+export const simulationBasicInfoInitialValues = {
+  name: '',
+  simulationType: '',
+};
 
-export function CreateSimulationBasicInfoForm({ allowedMapIds }: Props): JSX.Element {
-
-  const initialValues = {
-    name: '',
-    mapId: '',
-    simulationType: '',
-  };
+export function CreateSimulationBasicInfoForm(): JSX.Element {
 
   return (
     <div>
       <h1>Create Simulation</h1>
-        <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
-            {() => (
-            <Form>
+            <>
               <FormBox>
                 <ElementBox>
-                <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
                 </ElementBox>
                     <ElementBox>
                         <Box>
                             <InputLabel 
-                            htmlFor={'simulationType'}>Simulation Type</InputLabel>
-                            <Field
-                            name={'simulationType'}
+                            htmlFor={'simulationBasicInfo.simulationType'}>Simulation Type</InputLabel>
+                            <FastField
+                            name={'simulationBasicInfo.simulationType'}
                             type="number"
                             >
                                 {({ field }: FieldProps) => (
@@ -48,54 +37,31 @@ export function CreateSimulationBasicInfoForm({ allowedMapIds }: Props): JSX.Ele
                                         <MenuItem value={'NAGEL_CORE'}>{'NAGEL_CORE'}</MenuItem>
                                     </FormSelect>
                                 )}
-                            </Field>    
+                            </FastField>    
                             <ErrorMessage
-                            name={'simulationType'}
+                            name={'simulationBasicInfo.simulationType'}
                             component="div"
                             />
                         </Box>
                         <Box>
                             <InputLabel 
-                            htmlFor={'name'}>
+                            htmlFor={'simulationBasicInfo.name'}>
                                 Name
                             </InputLabel>
-                            <Field
-                            name={'name'}
+                            <FastField
+                            name={'simulationBasicInfo.name'}
                             placeholder="Name"
                             as={FormInpiutField}
                             />
                             <ErrorMessage
-                            name={'name'}
+                            name={'simulationBasicInfo.name'}
                             component="div"
                             className="field-error"
                             />
                         </Box>  
                     </ElementBox>
-                    <ElementBox>
-                        <Box>
-                            <InputLabel 
-                            htmlFor={'mapId'}>Map ID</InputLabel>
-                            <Field
-                            name={'mapId'}
-                            type="number"
-                            >
-                                {({ field }: FieldProps) => (
-                                    <FormSelect {...field} label="Map ID">
-                                        {allowedMapIds.map(mapId => <MenuItem value={mapId}>{mapId}</MenuItem>)}
-                                    </FormSelect>
-                                )}
-                            </Field>    
-                            <ErrorMessage
-                            name={'mapId'}
-                            component="div"
-                            />
-                        </Box>
-                    </ElementBox>
               </FormBox>
-        </Form>
-            )}
-    </Formik> 
+        </>
     </div>
   );
-
 }
