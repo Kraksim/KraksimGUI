@@ -19,7 +19,7 @@ export function CreateSimulationBasicInfoForm(): JSX.Element {
 
   return (
     <div>
-      <h1>Create Simulation</h1>
+      <h1>Simulation Basic Info</h1>
             <>
               <FormBox>
                 <ElementBox>

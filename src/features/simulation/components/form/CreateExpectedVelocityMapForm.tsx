@@ -28,7 +28,7 @@ export function CreateExpectedVelocityMapForm( { allowedRoadIds, values }: Props
 
   return (
     <div>
-      <h1>Create Expected Velocities map</h1>
+      <h1>Expected Velocities map</h1>
         <>
           <FieldArray name="expectedVelocity.roadVelocityPairs">
             {({ remove, push }) => (
@@ -58,7 +58,7 @@ export function CreateExpectedVelocityMapForm( { allowedRoadIds, values }: Props
                         <Field
                           name={`expectedVelocity.roadVelocityPairs.${index}.velocity`}
                           type="number"
-                          placeholder="Road ID"
+                          placeholder="Velocity"
                           as={FormInpiutField}
                         />
                         <ErrorMessage

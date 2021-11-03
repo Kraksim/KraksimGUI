@@ -43,7 +43,7 @@ export function CreateGatewaysStatesForm( { allowedGatewayIds, values }: Props):
 
   return (
     <div>
-      <h1>Create Gateways States</h1>
+      <h1>Gateways States</h1>
         <>
           <FieldArray name={`gatewaysStates.${currentId}.generators`}>
             {({ remove, push }) => (

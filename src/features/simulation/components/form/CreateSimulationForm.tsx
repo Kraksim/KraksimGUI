@@ -1,7 +1,8 @@
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useGetMapByIdQuery } from '../../../map/mapApi';
+import { useCreateSimulationMutation } from '../../simulationApi';
 
 import { ControlButton } from './common';
 import { CreateExpectedVelocityMapForm, expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
@@ -25,8 +26,31 @@ interface Props {
 
 export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   const { data } = useGetMapByIdQuery(mapId);
-  const intersectionIds = [2, 1, 3, 7];
-  const gatewayIds = [1, 4, 8, 9];
+  const [ createSimulation, result ] = useCreateSimulationMutation();
+
+  useEffect(() => {
+    if (result.data && !result.error){
+      alert('Simulation created successfully!!');
+      console.log(result.data);
+    }
+  }, [result]);
+
+  const intersectionIds = data?.roadNodes
+    .filter(roadNode => roadNode.type === 'INTERSECTION')
+    .map(intersection => intersection.id) ?? [];
+  
+  const gatewayIds = data?.roadNodes
+    .filter(roadNode => roadNode.type === 'GATEWAY')
+    .map(gateway => gateway.id) ?? [];
+  
+  const roadIds = data?.roads.map(road => road.id) ?? [];
+
+  const intersectionLanes = data?.roadNodes
+    .filter(roadNode => roadNode.type === 'INTERSECTION')
+    .map(intersection => ({
+      intersectionId: intersection.id, 
+      allowedLanesIds: intersection.endingRoads.flatMap(road => road.lanes).map(lane => lane.id),
+    })) ?? [];
 
   const initialValues = {
     simulationBasicInfo: simulationBasicInfoInitialValues,
@@ -37,24 +61,22 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     gatewaysStates: getGatewaysStatesInitialValues(gatewayIds),
   };
 
-  console.log(initialValues);
-
   return (
     <div>
       {data && (<Formik
         initialValues={initialValues}
-        onSubmit={(values) => console.log(parseFormResultToRequest(values, mapId))}
+        onSubmit={(values) => createSimulation(parseFormResultToRequest(values, mapId))}
         >
         {({ values }) => (
           <Form>
             <CreateSimulationBasicInfoForm/>
             <CreateMovmentSimulationStrategyForm />
-            <CreateExpectedVelocityMapForm values={values.expectedVelocity} allowedRoadIds={[2, 1, 3, 7]} />
+            <CreateExpectedVelocityMapForm values={values.expectedVelocity} allowedRoadIds={roadIds} />
             <CreateGatewaysStatesForm values={values.gatewaysStates} allowedGatewayIds={gatewayIds} />
             <CreateTrafficLightsForm 
               values={values.trafficLights} 
               allowedIntersectionIds={intersectionIds} 
-              allowedLaneIds={[2, 1, 3, 7]}
+              intersectionLanes={intersectionLanes}
             />
             <CreateLightPhaseStrategiesForm 
               values={values.lightPhaseStrategies} 

@@ -21,7 +21,7 @@ export function CreateMovmentSimulationStrategyForm(): JSX.Element {
 
   return (
     <div>
-      <h1>Create Movment Simulation Strategy</h1>
+      <h1>Movment Simulation Strategy</h1>
             <>
               <FormBox>
                 <ElementBox>

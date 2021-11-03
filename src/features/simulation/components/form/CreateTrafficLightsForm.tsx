@@ -14,7 +14,7 @@ import {
 
 interface Props {
   allowedIntersectionIds: number[],
-  allowedLaneIds: number[],
+  intersectionLanes: Array<{ intersectionId: number, allowedLanesIds: number[] }>,
   values: InitialValues,
 }
 
@@ -36,13 +36,13 @@ export function getTrafficLightsInitialValues(intersectionIds: number[]): Initia
 }
 
 
-export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneIds, values }: Props): JSX.Element {
+export function CreateTrafficLightsForm( { allowedIntersectionIds, intersectionLanes, values }: Props): JSX.Element {
 
   const [currentId, setCurrentId] = useState<number>(allowedIntersectionIds[0]);
 
   return (
-    <div>
-      <h1>Create Traffic Lights</h1>
+    (allowedIntersectionIds.length > 0 && Object.keys(values).length > 0) ? (<div>
+      <h1>Traffic Lights</h1>
         <>
           <FieldArray name={`trafficLights.${currentId}.phases`}>
             {({ remove, push }) => (
@@ -100,7 +100,7 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneId
                           >
                              {({ field }: FieldProps) => (
                                 <FormSelect {...field} label="Target Gateway ID">
-                                {allowedLaneIds
+                                {(intersectionLanes.find(x => x.intersectionId === currentId)?.allowedLanesIds ?? [])
                                   .map(laneId => <MenuItem key={laneId} value={laneId}>{laneId}</MenuItem>)}
                                 </FormSelect>
                              )}
@@ -127,7 +127,7 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, allowedLaneId
             )}
           </FieldArray>
         </>
-    </div>  
+    </div>) : <div><h1>Couldn't create traffic lights for this simulation</h1></div> 
   );
 
 }

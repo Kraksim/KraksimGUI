@@ -32,8 +32,8 @@ export const lightPhaseStrategiesInitialValues: InitialValues = [
 export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds, values }: Props): JSX.Element {
 
   return (
-    <div>
-      <h1>Create Light Phase Strategies</h1>
+    (allowedIntersectionIds.length > 0 && values.length > 0) ? (<div>
+      <h1>Light Phase Strategies</h1>
       <>
           <FieldArray name="lightPhaseStrategies">
             {({ remove, push }) => (
@@ -125,7 +125,7 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds, values
             )}
           </FieldArray>
         </>
-    </div>  
+    </div>) : <div><h1>Couldn't create light phase strategies for this simulation</h1></div>  
   );
 
 }
