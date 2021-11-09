@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Formik, Field, Form, ErrorMessage, FieldArray, 
+  FastField, ErrorMessage, FieldArray, 
 } from 'formik';
 import {
   Box, Checkbox, InputLabel, ListItemText, MenuItem, 
@@ -12,38 +12,30 @@ import {
 
 interface Props {
   allowedIntersectionIds: number[];
+  values: InitialValues;
 }
 
-interface InitialValues {
-  lightPhaseStrategies: Array<{
-    algorithm: string,
-    turnLength: string,
-    intersections: string[]
-  }>
-}
+type InitialValues = Array<{
+  algorithm: string,
+  turnLength: string,
+  intersections: string[]
+}>;
 
-const initialValues: InitialValues = {
-  lightPhaseStrategies: [
-    {
-      algorithm: '',
-      turnLength: '',
-      intersections: [],
-    },
-  ],
-};
+export const lightPhaseStrategiesInitialValues: InitialValues = [
+  {
+    algorithm: '',
+    turnLength: '',
+    intersections: [],
+  },
+];
 
-export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds }: Props): JSX.Element {
+export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds, values }: Props): JSX.Element {
 
   return (
-    <div>
-      <h1>Create Light Phase Strategies</h1>
-        <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
-              {({ values }) => (
-        <Form>
-          <FieldArray name="roadVelocityPairs">
+    (allowedIntersectionIds.length > 0 && values.length > 0) ? (<div>
+      <h1>Light Phase Strategies</h1>
+      <>
+          <FieldArray name="lightPhaseStrategies">
             {({ remove, push }) => (
               <FormBox>
                 <ControlContainer>
@@ -51,23 +43,23 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds }: Prop
                   type="button"
                   variant="contained"
                   onClick={() => push({
-                    roadId: '',
-                    velocity: '',
+                    algorithm: '',
+                    turnLength: '',
+                    intersections: [],
                   })}
                 >
                   Add new entry
                 </ControlButton>
-                <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
                 </ControlContainer>
                 <ScrollbarBox>
                 <AddedElementListBox>
-                {values.lightPhaseStrategies.length > 0 &&
-                  values.lightPhaseStrategies.map((lightPhaseStrategy, index) => (
+                {values.length > 0 &&
+                  values.map((lightPhaseStrategy, index) => (
                     <>
                     <ElementBox key={index}>
                       <Box>
                         <InputLabel htmlFor={`lightPhaseStrategies.${index}.turnLength`}>Turn length</InputLabel>
-                        <Field
+                        <FastField
                           name={`lightPhaseStrategies.${index}.turnLength`}
                           type="number"
                           placeholder="Turn length"
@@ -88,12 +80,12 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds }: Prop
                                 multiple value={allowedIntersectionIds}>
                                     {allowedIntersectionIds.map((id) => (
                                     <MenuItem key={id} value={id}>
-                                      <Field type="checkbox" 
+                                      <FastField type="checkbox" 
                                       name={`lightPhaseStrategies.${index}.intersections`}
                                       value={id} 
                                       as={Checkbox} 
                                       checked={
-                                          values.lightPhaseStrategies[index].intersections.indexOf(id.toString()) > -1
+                                          values[index].intersections.indexOf(id.toString()) > -1
                                         }/>
                                       <ListItemText primary={id} />
                                     </MenuItem>
@@ -105,12 +97,12 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds }: Prop
                       <Box>
                         <InputLabel 
                         htmlFor={`lightPhaseStrategies.${index}.algorithm`}>Algorithm</InputLabel>
-                        <Field
+                        <FastField
                           name={`lightPhaseStrategies.${index}.algorithm`}
                           as={FormSelect}
                         >
                             <MenuItem value={'TURN_BASED'}>Turn based</MenuItem>
-                        </Field>    
+                        </FastField>    
                         <ErrorMessage
                           name={`lightPhaseStrategies.${index}.algorithm`}
                           component="div"
@@ -132,10 +124,8 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds }: Prop
               </FormBox>
             )}
           </FieldArray>
-        </Form>
-              )}
-    </Formik> 
-    </div>  
+        </>
+    </div>) : <div><h1>Couldn't create light phase strategies for this simulation</h1></div>  
   );
 
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Formik, Field, Form, ErrorMessage, FieldArray, 
+  Field, ErrorMessage, FieldArray, 
 } from 'formik';
 import {
   Box, InputLabel, MenuItem, 
@@ -11,10 +11,11 @@ import {
 } from './common';
 
 interface Props {
-  allowedRoadIds: number[];
+  allowedRoadIds: number[],
+  values: typeof expectedVelocityInitialValues,
 }
 
-const initialValues = {
+export const expectedVelocityInitialValues = {
   roadVelocityPairs: [
     {
       roadId: '',
@@ -23,18 +24,13 @@ const initialValues = {
   ],
 };
 
-export function CreateExpectedVelocityMapForm( { allowedRoadIds }: Props): JSX.Element {
+export function CreateExpectedVelocityMapForm( { allowedRoadIds, values }: Props): JSX.Element {
 
   return (
     <div>
-      <h1>Create Expected Velocities map</h1>
-        <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
-              {({ values }) => (
-        <Form>
-          <FieldArray name="roadVelocityPairs">
+      <h1>Expected Velocities map</h1>
+        <>
+          <FieldArray name="expectedVelocity.roadVelocityPairs">
             {({ remove, push }) => (
               <FormBox>
                 <ControlContainer>
@@ -48,7 +44,6 @@ export function CreateExpectedVelocityMapForm( { allowedRoadIds }: Props): JSX.E
                 >
                   Add new entry
                 </ControlButton>
-                <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
                 </ControlContainer>
                 <ScrollbarBox>
                 <AddedElementListBox>
@@ -56,30 +51,33 @@ export function CreateExpectedVelocityMapForm( { allowedRoadIds }: Props): JSX.E
                   values.roadVelocityPairs.map((roadVelocityPair, index) => (
                     <ElementBox key={index}>
                       <Box>
-                        <InputLabel htmlFor={`roadVelocityPairs.${index}.velocity`}>Velocity</InputLabel>
+                        <InputLabel 
+                        htmlFor={`expectedVelocity.roadVelocityPairs.${index}.velocity`}>
+                          Velocity
+                        </InputLabel>
                         <Field
-                          name={`roadVelocityPairs.${index}.velocity`}
+                          name={`expectedVelocity.roadVelocityPairs.${index}.velocity`}
                           type="number"
-                          placeholder="Road ID"
+                          placeholder="Velocity"
                           as={FormInpiutField}
                         />
                         <ErrorMessage
-                          name={`roadVelocityPairs.${index}.velocity`}
+                          name={`expectedVelocity.roadVelocityPairs.${index}.velocity`}
                           component="div"
                         />
                       </Box>
                       <Box>
                         <InputLabel 
-                        htmlFor={`roadVelocityPairs.${index}.roadId`}>Road ID</InputLabel>
+                        htmlFor={`expectedVelocity.roadVelocityPairs.${index}.roadId`}>Road ID</InputLabel>
                         <Field
-                          name={`roadVelocityPairs.${index}.roadId`}
+                          name={`expectedVelocity.roadVelocityPairs.${index}.roadId`}
                           type="number"
                           as={FormSelect}
                         >
-                            {allowedRoadIds.map(roadId => <MenuItem value={roadId}>{roadId}</MenuItem>)}
+                            {allowedRoadIds.map(roadId => <MenuItem key={roadId} value={roadId}>{roadId}</MenuItem>)}
                         </Field>    
                         <ErrorMessage
-                          name={`roadVelocityPairs.${index}.roadId`}
+                          name={`expectedVelocity.roadVelocityPairs.${index}.roadId`}
                           component="div"
                         />
                       </Box>
@@ -98,9 +96,7 @@ export function CreateExpectedVelocityMapForm( { allowedRoadIds }: Props): JSX.E
               </FormBox>
             )}
           </FieldArray>
-        </Form>
-              )}
-    </Formik> 
+        </>
     </div>  
   );
 

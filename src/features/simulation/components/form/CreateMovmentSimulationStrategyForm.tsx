@@ -1,43 +1,37 @@
 import React from 'react';
 import {
-  Formik, Field, Form, ErrorMessage, FieldProps, 
+  FastField, ErrorMessage, FieldProps, 
 } from 'formik';
 import {
   Box, InputLabel, MenuItem, 
 } from '@mui/material';
 
 import {
-  FormBox, ControlButton, FormInpiutField, ElementBox, FormSelect, 
+  FormBox, FormInpiutField, ElementBox, FormSelect, 
 } from './common';
+
+export const movmentSimulationStrategyInitialValues = {
+  type:'',
+  randomProvider: '',
+  slowDownProbability: '',
+  maxVelocity: '',
+};
 
 export function CreateMovmentSimulationStrategyForm(): JSX.Element {
 
-  const initialValues = {
-    type:'',
-    randomProvider: '',
-    slowDownProbability: '',
-    maxVelocity: '',
-  };
-
   return (
     <div>
-      <h1>Create Movment Simulation Strategy</h1>
-        <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
-            {() => (
-            <Form>
+      <h1>Movment Simulation Strategy</h1>
+            <>
               <FormBox>
                 <ElementBox>
-                <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
                 </ElementBox>
                     <ElementBox>
                         <Box>
                             <InputLabel 
-                            htmlFor={'type'}>Strategy Type</InputLabel>
-                            <Field
-                            name={'type'}
+                            htmlFor={'movmentSimulationStrategy.type'}>Strategy Type</InputLabel>
+                            <FastField
+                            name={'movmentSimulationStrategy.type'}
                             type="number"
                             >
                                 {({ field }: FieldProps) => (
@@ -45,25 +39,25 @@ export function CreateMovmentSimulationStrategyForm(): JSX.Element {
                                         <MenuItem value={'NAGEL_SCHRECKENBERG'}>{'NAGEL_SCHRECKENBERG'}</MenuItem>
                                     </FormSelect>
                                 )}
-                            </Field>    
+                            </FastField>    
                             <ErrorMessage
-                            name={'type'}
+                            name={'movmentSimulationStrategy.type'}
                             component="div"
                             />
                         </Box>
                         <Box>
                             <InputLabel 
-                            htmlFor={'maxVelocity'}>
+                            htmlFor={'movmentSimulationStrategy.maxVelocity'}>
                                 Max Velocity
                             </InputLabel>
-                            <Field
-                            name={'maxVelocity'}
+                            <FastField
+                            name={'movmentSimulationStrategy.maxVelocity'}
                             type="number"
                             placeholder="Max Velocity"
                             as={FormInpiutField}
                             />
                             <ErrorMessage
-                            name={'maxVelocity'}
+                            name={'movmentSimulationStrategy.maxVelocity'}
                             component="div"
                             className="field-error"
                             />
@@ -72,9 +66,9 @@ export function CreateMovmentSimulationStrategyForm(): JSX.Element {
                     <ElementBox>
                         <Box>
                             <InputLabel 
-                            htmlFor={'randomProvider'}>Random Provider</InputLabel>
-                            <Field
-                            name={'randomProvider'}
+                            htmlFor={'movmentSimulationStrategy.randomProvider'}>Random Provider</InputLabel>
+                            <FastField
+                            name={'movmentSimulationStrategy.randomProvider'}
                             type="number"
                             >
                                 {({ field }: FieldProps) => (
@@ -82,34 +76,32 @@ export function CreateMovmentSimulationStrategyForm(): JSX.Element {
                                         <MenuItem value={'TRUE'}>True Random</MenuItem>
                                     </FormSelect>
                                 )}
-                            </Field>    
+                            </FastField>    
                             <ErrorMessage
-                            name={'randomProvider'}
+                            name={'movmentSimulationStrategy.randomProvider'}
                             component="div"
                             />
                         </Box>
                         <Box>
                             <InputLabel 
-                            htmlFor={'slowDownProbability'}>
+                            htmlFor={'movmentSimulationStrategy.slowDownProbability'}>
                                 Slow Down Probability (%)
                             </InputLabel>
-                            <Field
-                            name={'slowDownProbability'}
+                            <FastField
+                            name={'movmentSimulationStrategy.slowDownProbability'}
                             type="number"
                             placeholder="Slow down probability (%)"
                             as={FormInpiutField}
                             />
                             <ErrorMessage
-                            name={'slowDownProbability'}
+                            name={'movmentSimulationStrategy.slowDownProbability'}
                             component="div"
                             className="field-error"
                             />
                         </Box>
                     </ElementBox>
               </FormBox>
-        </Form>
-            )}
-    </Formik> 
+        </>
     </div>
   );
 
