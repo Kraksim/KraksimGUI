@@ -6,11 +6,14 @@ import type {
 import type {
   CreateSimulationRequest, SimulateRequest,
 } from './requests';
+import type {
+  StateStatistics,
+} from './statistics/types';
 
 export const simulationApi = createApi({
   reducerPath: 'simulationApi',
   baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL || 'http://localhost:8080/' }),
-  tagTypes: ['Simulation', 'SimplifiedSimulation'],
+  tagTypes: ['Simulation', 'SimplifiedSimulation', 'Statistics'],
   endpoints: (builder) => ({
     getSimulationById: builder.query<Simulation, number>({
       query: (id) => ({ url: `simulation/${id}` }),
@@ -28,7 +31,11 @@ export const simulationApi = createApi({
     simulate: builder.mutation<Simulation, SimulateRequest>({
       query: ({ id, times }) => ({ url: `simulation/simulate?id=${id}&times=${times}`, method: 'POST' }),
       invalidatesTags: (result) => 
-        (result ? [{ id: result.id, type: 'Simulation' as const }, 'Simulation'] : ['Simulation']),
+        (result ? 
+          [{ id: result.id, type: 'Simulation' as const }, 
+            { id: result.id, type: 'Statistics' as const }, 
+            'Simulation', 'Statistics'] : 
+          ['Simulation', 'Statistics']),
     }),
     deleteSimulation: builder.mutation<void, number>({
       query: (id) => ({ url: `simulation/delete/${id}`, method: 'DELETE' }),
@@ -37,6 +44,12 @@ export const simulationApi = createApi({
     populate: builder.mutation<Simulation, void>({
       query: () => ({ url: 'simulation/populate', method: 'POST' }),
       invalidatesTags: ['Simulation', 'SimplifiedSimulation'],
+    }),
+    getStatisticsFromSimulation: builder.query<StateStatistics[], number>({
+      query: (simulationId) => ({ url:`statistics/simulation/${simulationId}` }),
+      providesTags: (result) =>  
+        (result && result.length > 0 ? 
+          [{ id: result[0].simulationId, type: 'Statistics' as const }, 'Statistics'] : ['Statistics']),
     }),
   }),
 });
@@ -49,4 +62,5 @@ export const {
   useSimulateMutation,
   useDeleteSimulationMutation,
   usePopulateMutation,
+  useGetStatisticsFromSimulationQuery,
 } = simulationApi;

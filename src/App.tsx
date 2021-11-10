@@ -4,6 +4,7 @@ import ReactMapGL from 'react-map-gl';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import SimulationPage from './features/simulation/components/SimulationPage';
+import StatisticsPageWrapper from './features/simulation/statistics/StatisticsPageWrapper';
 
 type ViewPort = {
   width: number;
@@ -28,11 +29,14 @@ function App(): JSX.Element {
         <Route path="/simulations">
           <SimulationPage/>
         </Route>
+        <Route path="/statistics">
+          <StatisticsPageWrapper/>
+        </Route>
         <Route path="/">
               <ReactMapGL
           {...viewport}
           onViewportChange={(nextViewport: ViewPort) => setViewport(nextViewport)}
-      />
+        />
         </Route>
       </Switch>
     </BrowserRouter>
