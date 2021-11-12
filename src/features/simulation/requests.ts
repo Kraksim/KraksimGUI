@@ -25,7 +25,7 @@ export interface CreateGeneratorsRequest {
 }
 
 export interface CreateGatewayStateRequest {
-  id: number,
+  gatewayId: number,
   generators: CreateGeneratorsRequest[],
 }
 
@@ -47,7 +47,7 @@ export interface CreateLightPhaseStrategyRequest {
   intersections: number[],
 }
 
-export type CreateExpectedVelocityRequest = Map<number, number>;
+export type CreateExpectedVelocityRequest = { [k: string]: number; };
 
 export interface CreateSimulationRequest {
   name: string,

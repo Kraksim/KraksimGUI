@@ -65,7 +65,11 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     <div>
       {data && (<Formik
         initialValues={initialValues}
-        onSubmit={(values) => createSimulation(parseFormResultToRequest(values, mapId))}
+        onSubmit={(values) => {
+          const request = parseFormResultToRequest(values, mapId);
+          console.log(request);
+          createSimulation(request);
+        }}
         >
         {({ values }) => (
           <Form>

@@ -37,7 +37,7 @@ function parseExpectedVelocitiesToRequest(result: ExpectedVelocityFormResult): C
   result.roadVelocityPairs
     .map(({ roadId, velocity }) => ({ roadId: parseInt(roadId), velocity: parseInt(velocity) }))
     .forEach(({ roadId, velocity }) => ret.set(roadId, velocity));
-  return ret;
+  return Object.fromEntries(ret.entries());
 }
 
 function parseInitialStateToRequest(
@@ -58,7 +58,7 @@ function parseInitialStateToRequest(
           carsToRelease, gpsType, releaseDelay, targetGatewayId, 
         }) => notEmptyString([carsToRelease, gpsType, releaseDelay, targetGatewayId])))
       .map(([key, value]) => ({
-        id: parseInt(key),
+        gatewayId: parseInt(key),
         generators: value.generators, 
       })),
   };
