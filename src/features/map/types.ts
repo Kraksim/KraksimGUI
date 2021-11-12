@@ -8,6 +8,7 @@ interface Lane {
   startingPoint: number,
   endingPoint: number,
   indexFromLeft: number,
+  name: string,
 }
 
 
@@ -15,6 +16,7 @@ export interface Road {
   length: number, 
   lanes: Lane[],
   id: number,
+  name: string,
 }
 
 interface TurnDirection {
@@ -29,6 +31,7 @@ export interface RoadNode {
   endingRoads: Road[],
   startingRoads: Road[],
   turnDirections?: TurnDirection[],
+  name: string,
 }
 
 export type MapType = 'MAP' | 'NO_MAP';
@@ -38,4 +41,11 @@ export interface SimulationMap {
   roadNodes: RoadNode[],
   roads: Road[],
   id: number,
+  name: string,
+}
+
+export interface BasicMapInfo {
+  type: MapType,
+  id: number,
+  name: string,
 }

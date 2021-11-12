@@ -9,9 +9,10 @@ import {
 import {
   FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
 } from './common';
+import { NameId } from './util';
 
 interface Props {
-  allowedIntersectionIds: number[];
+  allowedIntersections: NameId[];
   values: InitialValues;
 }
 
@@ -29,10 +30,10 @@ export const lightPhaseStrategiesInitialValues: InitialValues = [
   },
 ];
 
-export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds, values }: Props): JSX.Element {
+export function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props): JSX.Element {
 
   return (
-    (allowedIntersectionIds.length > 0 && values.length > 0) ? (<div>
+    (allowedIntersections.length > 0 && values.length > 0) ? (<div>
       <h1>Light Phase Strategies</h1>
       <>
           <FieldArray name="lightPhaseStrategies">
@@ -73,12 +74,12 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds, values
                       <Box>
                         <InputLabel 
                         htmlFor={`lightPhaseStrategies.${index}.intersections`}>
-                            Intersections IDs
+                            Intersections
                         </InputLabel>
                                 <FormSelect 
                                 renderValue={(selected: string[]) => selected.join(', ')} 
-                                multiple value={allowedIntersectionIds}>
-                                    {allowedIntersectionIds.map((id) => (
+                                multiple value={allowedIntersections.map(({ name }) => name)}>
+                                    {allowedIntersections.map(({ id, name }) => (
                                     <MenuItem key={id} value={id}>
                                       <FastField type="checkbox" 
                                       name={`lightPhaseStrategies.${index}.intersections`}
@@ -86,7 +87,7 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersectionIds, values
                                       as={Checkbox} 
                                       checked={
                                           values[index].intersections.indexOf(id.toString()) > -1
-                                        }/>
+                                        }>{name}</FastField>
                                       <ListItemText primary={id} />
                                     </MenuItem>
                                     ))}

@@ -9,9 +9,10 @@ import {
 import {
   FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
 } from './common';
+import { NameId } from './util';
 
 interface Props {
-  allowedRoadIds: number[],
+  allowedRoads: NameId[],
   values: typeof expectedVelocityInitialValues,
 }
 
@@ -24,7 +25,7 @@ export const expectedVelocityInitialValues = {
   ],
 };
 
-export function CreateExpectedVelocityMapForm( { allowedRoadIds, values }: Props): JSX.Element {
+export function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props): JSX.Element {
 
   return (
     <div>
@@ -68,13 +69,13 @@ export function CreateExpectedVelocityMapForm( { allowedRoadIds, values }: Props
                       </Box>
                       <Box>
                         <InputLabel 
-                        htmlFor={`expectedVelocity.roadVelocityPairs.${index}.roadId`}>Road ID</InputLabel>
+                        htmlFor={`expectedVelocity.roadVelocityPairs.${index}.roadId`}>Road</InputLabel>
                         <Field
                           name={`expectedVelocity.roadVelocityPairs.${index}.roadId`}
                           type="number"
                           as={FormSelect}
                         >
-                            {allowedRoadIds.map(roadId => <MenuItem key={roadId} value={roadId}>{roadId}</MenuItem>)}
+                            {allowedRoads.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
                         </Field>    
                         <ErrorMessage
                           name={`expectedVelocity.roadVelocityPairs.${index}.roadId`}

@@ -31,7 +31,7 @@ export const AddedElementListBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'left',
   flexDirection: 'column',
-  maxWidth: '500px',
+  maxWidth: '600px',
 }));
 
 export const ElementBox = styled(Box)(() => ({

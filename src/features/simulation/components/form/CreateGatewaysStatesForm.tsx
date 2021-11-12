@@ -11,9 +11,10 @@ import { CreateGeneratorsRequest } from '../../requests';
 import {
   FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, FormInpiutField, 
 } from './common';
+import { NameId } from './util';
 
 interface Props {
-  allowedGatewayIds: number[],
+  allowedGateways: NameId[],
   values: InitialValues,
 }
 
@@ -37,9 +38,9 @@ export function getGatewaysStatesInitialValues(gatewayIds: number[]): InitialVal
 }
 
 
-export function CreateGatewaysStatesForm( { allowedGatewayIds, values }: Props): JSX.Element {
+export function CreateGatewaysStatesForm( { allowedGateways, values }: Props): JSX.Element {
 
-  const [currentId, setCurrentId] = useState<number>(allowedGatewayIds[0]);
+  const [currentId, setCurrentId] = useState<number>(allowedGateways[0].id);
 
   return (
     <div>
@@ -52,12 +53,12 @@ export function CreateGatewaysStatesForm( { allowedGatewayIds, values }: Props):
                 <FormSelect
                     name={'gatewayId'}
                     type="number"
-                    placeholder="Select Gateway ID"
+                    placeholder="Select Gateway"
                     value={currentId}
                     onChange={(e) => setCurrentId(parseInt(e.target.value as string))}
                 >
-                {allowedGatewayIds
-                  .map(gatewayId => <MenuItem key={gatewayId} value={gatewayId}>{gatewayId}</MenuItem>)}
+                {allowedGateways
+                  .map(({ name, id }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
                 </FormSelect>
                 <ControlButton
                   type="button"
@@ -98,16 +99,16 @@ export function CreateGatewaysStatesForm( { allowedGatewayIds, values }: Props):
                       <Box>
                         <InputLabel 
                         htmlFor={`gatewaysStates.${currentId}.generators.${index}.targetGatewayId`}>
-                          Target Gateway ID
+                          Target Gateway
                         </InputLabel>
                         <FastField
                           name={`gatewaysStates.${currentId}.generators.${index}.targetGatewayId`}
                           type="number"
                           >
                              {({ field }: FieldProps) => (
-                                <FormSelect {...field} label="Target Gateway ID">
-                                {allowedGatewayIds
-                                  .map(gatewayId => <MenuItem key={gatewayId} value={gatewayId}>{gatewayId}</MenuItem>)}
+                                <FormSelect {...field} label="Target Gateway">
+                                {allowedGateways
+                                  .map(({ name, id }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
                                 </FormSelect>
                              )}
                         </FastField>    

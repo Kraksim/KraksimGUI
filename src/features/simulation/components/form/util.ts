@@ -32,6 +32,11 @@ interface FormValues {
   gatewaysStates: GatewaysStatesFormResult,
 }
 
+export interface NameId {
+  name: string,
+  id: number,
+}
+
 function parseExpectedVelocitiesToRequest(result: ExpectedVelocityFormResult): CreateExpectedVelocityRequest{
   const ret = new Map<number, number>();
   result.roadVelocityPairs
