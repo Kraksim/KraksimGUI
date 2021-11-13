@@ -1,21 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { CreateMapRequest } from './requests';
-import { SimulationMap } from './types';
+import { BasicMapInfo, SimulationMap } from './types';
 
 export const mapApi = createApi({
   reducerPath: 'mapApi',
   baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL || 'http://localhost:8080/' }),
-  tagTypes: ['Map', 'Id'],
+  tagTypes: ['Map', 'BasicMap'],
   endpoints: (builder) => ({
     getMapById: builder.query<SimulationMap, number>({
       query: (id) => ({ url: `map/${id}` }),
       providesTags: (result) => 
         (result ? [{ type: 'Map', id: result.id }, 'Map'] : ['Map']),
     }),
-    getAllMapIds: builder.query<number[], void>({
+    getAllMapsBasicInfo: builder.query<BasicMapInfo[], void>({
       query: () => ({ url: 'map/all' }),
-      providesTags: ['Id'],
+      providesTags: ['BasicMap'],
     }),
     createMap: builder.mutation<SimulationMap, CreateMapRequest>({
       query: (request) => ({ url: 'map/create', method: 'POST', body: request }),
@@ -28,5 +28,5 @@ export const mapApi = createApi({
 export const {
   useCreateMapMutation,
   useGetMapByIdQuery,
-  useGetAllMapIdsQuery,
+  useGetAllMapsBasicInfoQuery,
 } = mapApi;

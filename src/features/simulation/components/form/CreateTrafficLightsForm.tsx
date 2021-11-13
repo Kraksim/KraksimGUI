@@ -11,10 +11,11 @@ import { CreatePhaseRequest } from '../../requests';
 import {
   FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, 
 } from './common';
+import { NameId } from './util';
 
 interface Props {
-  allowedIntersectionIds: number[],
-  intersectionLanes: Array<{ intersectionId: number, allowedLanesIds: number[] }>,
+  allowedIntersections: NameId[],
+  intersectionLanes: Array<{ intersectionId: number, allowedLanes: NameId[] }>,
   values: InitialValues,
 }
 
@@ -36,12 +37,12 @@ export function getTrafficLightsInitialValues(intersectionIds: number[]): Initia
 }
 
 
-export function CreateTrafficLightsForm( { allowedIntersectionIds, intersectionLanes, values }: Props): JSX.Element {
+export function CreateTrafficLightsForm({ allowedIntersections, intersectionLanes, values }: Props): JSX.Element {
 
-  const [currentId, setCurrentId] = useState<number>(allowedIntersectionIds[0]);
+  const [currentId, setCurrentId] = useState<number>(allowedIntersections[0].id);
 
   return (
-    (allowedIntersectionIds.length > 0 && Object.keys(values).length > 0) ? (<div>
+    (allowedIntersections.length > 0 && Object.keys(values).length > 0) ? (<div>
       <h1>Traffic Lights</h1>
         <>
           <FieldArray name={`trafficLights.${currentId}.phases`}>
@@ -51,13 +52,13 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, intersectionL
                 <FormSelect
                     name={'gatewayId'}
                     type="number"
-                    placeholder="Select Intersection ID"
+                    placeholder="Select Intersection"
                     value={currentId}
                     onChange={(e) => setCurrentId(parseInt(e.target.value as string))}
                 >
-                {allowedIntersectionIds
-                  .map(intersectionId => 
-                  <MenuItem key={intersectionId} value={intersectionId}>{intersectionId}</MenuItem>)}
+                {allowedIntersections
+                  .map(({ id, name }) => 
+                  <MenuItem key={id} value={id}>{name}</MenuItem>)}
                 </FormSelect>
                 <ControlButton
                   type="button"
@@ -93,15 +94,15 @@ export function CreateTrafficLightsForm( { allowedIntersectionIds, intersectionL
                       </Box>  
                       <Box>
                         <InputLabel 
-                        htmlFor={`trafficLights.${currentId}.phases.${index}.laneId`}>Lane ID</InputLabel>
+                        htmlFor={`trafficLights.${currentId}.phases.${index}.laneId`}>Lane</InputLabel>
                         <FastField
                           name={`trafficLights.${currentId}.phases.${index}.laneId`}
                           type="number"
                           >
                              {({ field }: FieldProps) => (
-                                <FormSelect {...field} label="Target Gateway ID">
-                                {(intersectionLanes.find(x => x.intersectionId === currentId)?.allowedLanesIds ?? [])
-                                  .map(laneId => <MenuItem key={laneId} value={laneId}>{laneId}</MenuItem>)}
+                                <FormSelect {...field} label="Target Gateway">
+                                {(intersectionLanes.find(x => x.intersectionId === currentId)?.allowedLanes ?? [])
+                                  .map(({ name, id }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
                                 </FormSelect>
                              )}
                         </FastField>    

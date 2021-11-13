@@ -92,6 +92,8 @@ export type RandomProviderType = 'TRUE';
 
 export type LightAlgorithmType = 'TURN_BASED';
 
+export type ExpectedVewlocity = { [k: string]: number; };
+
 export interface Simulation {
   mapDTO: SimulationMap; 
   simulationStateEntities: SimulationState[],
