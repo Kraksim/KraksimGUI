@@ -6,37 +6,40 @@ import { Series } from './types';
 
 interface Props{
   dropdownValues: number[],
-  barSeriesByEntity: Map<number, Series>,
-  lineSeriesByEntity: Map<number, Series>,
+  barSeriesByEntity: Array<Map<number, Series>>,
+  lineSeriesByEntity: Array<Map<number, Series>>,
   height: number,
   barWidth: number,
+  roadNames: Record<number, string>,
+  title: string,
 }
 
 export default function LineBarChartWithDropdown({
-  dropdownValues, barSeriesByEntity, lineSeriesByEntity, height, barWidth, 
+  dropdownValues, barSeriesByEntity, lineSeriesByEntity, height, barWidth, roadNames, title,
 }: Props,
 ): JSX.Element {
   const [selectedElement, setSelectedElement] = useState('');
 
-  const barSeries = barSeriesByEntity.get(parseInt(selectedElement));
-  const lineSeries = lineSeriesByEntity.get(parseInt(selectedElement));
+  const parsedSelectedElement = parseInt(selectedElement);
+  const barSeries = barSeriesByEntity.filter(map => map.has(parsedSelectedElement))
+    .map(map => map.get(parsedSelectedElement)) as Series[];
+
+  const lineSeries = lineSeriesByEntity.filter(map => map.has(parsedSelectedElement))
+    .map(map => map.get(parsedSelectedElement)) as Series[];
 
   return (
       <div>
           <Select value={selectedElement} onChange={(e) => setSelectedElement(e.target.value)}>
-              {dropdownValues.map(item => <MenuItem key={item} value={item}>{item}</MenuItem>)}
+              {dropdownValues.map(item => <MenuItem key={item} value={item}>{roadNames[item]}</MenuItem>)}
           </Select>
           <div>
-            {
-              (barSeries &&
-              lineSeries) ?
             <LineBarChart 
-            lineSeries={lineSeries ? [lineSeries] : []}
-            barSeries={barSeries ? [barSeries] : []}
+            title={title}
+            lineSeries={lineSeries}
+            barSeries={barSeries}
             height={height} 
             barWidth={barWidth}
-            /> : <div>Select a element to display data</div>
-            }
+            />
           </div>
       </div>
   );

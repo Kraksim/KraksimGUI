@@ -1,18 +1,20 @@
 interface SpeedStatistics {
   wholeMapAverageSpeed: number,
-  roadAverageSpeed: Map<number, number>
+  roadAverageSpeed: IdToValue
 }
 
 interface StatisticsValues {
   speedStatistics: SpeedStatistics,
-  density: Map<number, number>, //roadId, density
-  roadFlowRatio: Map<number, number> //roadId, flowRatio
+  density: IdToValue, //roadId, density
+  roadFlowRatio: IdToValue //roadId, flowRatio
 }
+
+export type IdToValue = Record<number, number>;
 
 export interface StateStatistics {
   simulationId: number,
   turn: number,
   currentStatisticsValues: StatisticsValues,
   totalStatisticsValues: StatisticsValues,
-  entityId: number,
+  roadNames: Record<number, string>,
 }

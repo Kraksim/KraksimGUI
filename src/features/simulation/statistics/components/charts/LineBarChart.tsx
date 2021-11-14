@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import React from 'react';
 import {
   FlexibleWidthXYPlot as XYPlot,
@@ -20,10 +21,11 @@ interface Props {
   lineSeries: Series[]
   height: number,
   barWidth: number,
+  title: string,
 }
 
 export function LineBarChart({
-  barSeries, height, lineSeries, barWidth, 
+  barSeries, height, lineSeries, barWidth, title,
 }: Props): JSX.Element {
   const barDataToPresent = barSeries
     .map(series => series.data.map(entityData => ({ x: entityData.turn, y: entityData.value })));
@@ -35,10 +37,12 @@ export function LineBarChart({
   
   const labels = [...barSeries.map(x => ({ title: x.label })), ...lineSeries.map(x => ({ title: x.label }))];
 
-
-
-  return (
-        <XYPlot xType="ordinal" height={height} xDistance={100}>
+  const render = barDataToPresent.length > 0 || lineDataToPresent.length > 0 ? (
+    <Box>
+      <Typography variant="h4">
+        {title}
+      </Typography>
+        <XYPlot animation dontCheckIfEmpty xType="ordinal" height={height} xDistance={100}>
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis />
@@ -49,5 +53,37 @@ export function LineBarChart({
             <DiscreteColorLegend items={labels} />
           </div>
         </XYPlot>
+    </Box>
+  ) : (
+  <Box position="relative">
+    <Typography variant="h4">
+      {title}
+    </Typography>
+    <Typography sx={{
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: '45%',
+      left: '45%',
+    }}>
+      No data found :(
+    </Typography>
+    <XYPlot
+      animation
+      height={height}
+      xDomain={[0, 10]}
+      yDomain={[0, 10]}
+      xDistance={100}
+      dontCheckIfEmpty
+    >
+      <XAxis/>
+      <YAxis tickFormat={() => ''}/>
+      <HorizontalGridLines/>
+      <VerticalGridLines/>
+    </XYPlot>
+  </Box>
   );
+
+
+  return render;
 }
