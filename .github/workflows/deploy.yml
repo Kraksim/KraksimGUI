@@ -17,4 +17,4 @@ jobs:
         destination-github-username: 'wokstym'
         destination-repository-name: 'kraksimGUI'
         user-email: grzegorz.poreba.73@gmail.com
-        target-branch: test-gui-cebula
+        target-branch: master
