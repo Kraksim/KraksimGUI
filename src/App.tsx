@@ -1,38 +1,32 @@
 import * as React from 'react';
-import { useState } from 'react';
-import ReactMapGL from 'react-map-gl';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
+import HomePage from './features/page/home/HomePage';
+import SimulationList from './features/page/simulation-list/SimulationList';
 import SimulationPage from './features/simulation/components/SimulationPage';
+import CompareSimulationsPageWrapper from './features/simulation/statistics/CompareSimulationsPageWrapper';
+import StatisticsPageWrapper from './features/simulation/statistics/StatisticsPageWrapper';
 
-type ViewPort = {
-  width: number;
-  height: number;
-  latitude: number;
-  longitude: number;
-  zoom: number;
-};
 
 function App(): JSX.Element {
-  const [viewport, setViewport] = useState<ViewPort>({
-    width: 1500,
-    height: 1000,
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8,
-  });
 
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/simulations">
+        <Route path="/simulations/all">
+          <SimulationList />
+        </Route>
+        <Route path="/simulations/create">
           <SimulationPage/>
         </Route>
+        <Route path="/simulations/compare">
+          <CompareSimulationsPageWrapper/>
+        </Route>
+        <Route path="/statistics">
+          <StatisticsPageWrapper/>
+        </Route>
         <Route path="/">
-              <ReactMapGL
-          {...viewport}
-          onViewportChange={(nextViewport: ViewPort) => setViewport(nextViewport)}
-      />
+          <HomePage />
         </Route>
       </Switch>
     </BrowserRouter>
