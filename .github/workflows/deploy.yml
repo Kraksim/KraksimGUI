@@ -17,6 +17,6 @@ jobs:
         with:
           source-directory: '.'
           destination-github-username: 'wokstym'
-          destination-repository-name: 'kraksimGUI'
+          destination-repository-name: 'kraksimGUI-deploy'
           user-email: grzegorz.poreba.73@gmail.com
           target-branch: master
