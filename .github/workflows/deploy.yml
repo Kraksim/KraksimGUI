@@ -1,0 +1,20 @@
+name: Deploy to other free repo
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Push directory to another repository
+      uses: cpina/github-action-push-to-another-repository@v1.3
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: 'output'
+        destination-github-username: 'wokstym'
+        destination-repository-name: 'kraksimGUI'
+        user-email: grzegorz.poreba.73@gmail.com
+        target-branch: ${GITHUB_REF##*/}
