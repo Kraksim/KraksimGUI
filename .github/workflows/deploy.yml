@@ -13,7 +13,7 @@ jobs:
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        source-directory: '.'
+        source-directory: '..'
         destination-github-username: 'wokstym'
         destination-repository-name: 'kraksimGUI'
         user-email: grzegorz.poreba.73@gmail.com
