@@ -12,7 +12,7 @@ import type {
 
 export const simulationApi = createApi({
   reducerPath: 'simulationApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL || 'http://localhost:8080/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8080/' }),
   tagTypes: ['Simulation', 'SimplifiedSimulation', 'Statistics'],
   endpoints: (builder) => ({
     getSimulationById: builder.query<Simulation, number>({
@@ -31,10 +31,10 @@ export const simulationApi = createApi({
     simulate: builder.mutation<Simulation, SimulateRequest>({
       query: ({ id, times }) => ({ url: `simulation/simulate?id=${id}&times=${times}`, method: 'POST' }),
       invalidatesTags: (result) => 
-        (result ? 
-          [{ id: result.id, type: 'Simulation' as const }, 
-            { id: result.id, type: 'Statistics' as const }, 
-            'Simulation', 'Statistics'] : 
+        (result ?
+          [{ id: result.id, type: 'Simulation' as const },
+            { id: result.id, type: 'Statistics' as const },
+            'Simulation', 'Statistics'] :
           ['Simulation', 'Statistics']),
     }),
     deleteSimulation: builder.mutation<void, number>({
@@ -47,8 +47,8 @@ export const simulationApi = createApi({
     }),
     getStatisticsFromSimulation: builder.query<StateStatistics[], number>({
       query: (simulationId) => ({ url:`statistics/simulation/${simulationId}` }),
-      providesTags: (result) =>  
-        (result && result.length > 0 ? 
+      providesTags: (result) =>
+        (result && result.length > 0 ?
           [{ id: result[0].simulationId, type: 'Statistics' as const }, 'Statistics'] : ['Statistics']),
     }),
   }),

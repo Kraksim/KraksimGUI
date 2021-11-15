@@ -5,7 +5,7 @@ import { BasicMapInfo, SimulationMap } from './types';
 
 export const mapApi = createApi({
   reducerPath: 'mapApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL || 'http://localhost:8080/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8080/' }),
   tagTypes: ['Map', 'BasicMap'],
   endpoints: (builder) => ({
     getMapById: builder.query<SimulationMap, number>({
