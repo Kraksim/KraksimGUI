@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: delete current .git
         run: rm -rf .git
+      - name: delete workflows
+        run: rm -rf .github
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.3
         env:
