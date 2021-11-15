@@ -9,7 +9,7 @@ import type {
 
 export const simulationApi = createApi({
   reducerPath: 'simulationApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL || 'http://localhost:8080/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8080/' }),
   tagTypes: ['Simulation', 'SimplifiedSimulation'],
   endpoints: (builder) => ({
     getSimulationById: builder.query<Simulation, number>({
