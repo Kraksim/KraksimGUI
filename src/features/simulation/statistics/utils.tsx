@@ -29,7 +29,7 @@ interface AllStats {
 }
 
 export function getAllStatsFromData(data: StateStatistics[] | undefined) : AllStats{
-  const roadNames = data ? data[0].roadNames : {};
+  const roadNames = data && data.length != 0 ? data[0].roadNames : {};
 
   const currentAverageVelocityByTurn = (data ?? []).map(({ turn, simulationId, currentStatisticsValues }) => 
     ({ turn, entityId: simulationId, value: currentStatisticsValues.speedStatistics.wholeMapAverageSpeed }));
