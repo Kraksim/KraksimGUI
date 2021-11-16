@@ -38,7 +38,7 @@ export function getGatewaysStatesInitialValues(gatewayIds: number[]): InitialVal
 }
 
 
-export function CreateGatewaysStatesForm( { allowedGateways, values }: Props): JSX.Element {
+function CreateGatewaysStatesForm( { allowedGateways, values }: Props): JSX.Element {
 
   const [currentId, setCurrentId] = useState<number>(allowedGateways[0].id);
 
@@ -170,3 +170,5 @@ export function CreateGatewaysStatesForm( { allowedGateways, values }: Props): J
       </div>  
   );
 }
+
+export default React.memo(CreateGatewaysStatesForm);

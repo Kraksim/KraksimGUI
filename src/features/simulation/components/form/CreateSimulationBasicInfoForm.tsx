@@ -15,8 +15,7 @@ export const simulationBasicInfoInitialValues = {
   simulationType: '',
 };
 
-export function CreateSimulationBasicInfoForm(): JSX.Element {
-
+function CreateSimulationBasicInfoForm(): JSX.Element {
   return (
     <div>
       <h1>Simulation Basic Info</h1>
@@ -65,3 +64,5 @@ export function CreateSimulationBasicInfoForm(): JSX.Element {
     </div>
   );
 }
+
+export default React.memo(CreateSimulationBasicInfoForm);

@@ -12,11 +12,6 @@ export interface CreatePhaseRequest {
   state: LightState,
 }
 
-export interface CreateTrafficLightRequest {
-  intersectionId: number,
-  phases: CreatePhaseRequest[],
-}
-
 export interface CreateGeneratorsRequest {
   releaseDelay: number,
   carsToRelease: number,
@@ -30,7 +25,6 @@ export interface CreateGatewayStateRequest {
 }
 
 export interface CreateInitialSimulationStateRequest {
-  trafficLights: CreateTrafficLightRequest[],
   gatewaysStates: CreateGatewayStateRequest[],
 }
 

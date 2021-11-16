@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import HomePage from './features/page/home/HomePage';
 import SimulationList from './features/page/simulation-list/SimulationList';
-import SimulationPage from './features/simulation/components/SimulationPage';
+import CreateSimulationPage from './features/simulation/components/CreateSimulationPage';
 import CompareSimulationsPageWrapper from './features/simulation/statistics/CompareSimulationsPageWrapper';
 import StatisticsPageWrapper from './features/simulation/statistics/StatisticsPageWrapper';
 
@@ -17,7 +17,7 @@ function App(): JSX.Element {
           <SimulationList />
         </Route>
         <Route path="/simulations/create">
-          <SimulationPage/>
+          <CreateSimulationPage/>
         </Route>
         <Route path="/simulations/compare">
           <CompareSimulationsPageWrapper/>
