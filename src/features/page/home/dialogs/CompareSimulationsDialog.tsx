@@ -63,7 +63,8 @@ export default function CompareSimulationsDialog({ open, onClose }: DialogProps)
                 onChange={(e) => setFirstSimulationId(e.target.value)}
             >
             {simiulationData
-              ?.filter((simulation) => simulation.mapId === parseInt(mapId))
+              ?.filter((simulation) => simulation.mapId === parseInt(mapId) &&
+               simulation.id !== parseInt(secondSimulationId))
               .map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
             </Select>
             <InputLabel htmlFor="second-simulation">
@@ -77,7 +78,8 @@ export default function CompareSimulationsDialog({ open, onClose }: DialogProps)
                 onChange={(e) => setSecondSimulationId(e.target.value)}
             >
             {simiulationData
-              ?.filter((simulation) => simulation.mapId === parseInt(mapId))
+              ?.filter((simulation) => simulation.mapId === parseInt(mapId) &&
+               simulation.id !== parseInt(firstSimulationId))
               .map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
             </Select>
         </DialogContent>
