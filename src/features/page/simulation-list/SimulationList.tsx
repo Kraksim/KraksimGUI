@@ -63,7 +63,7 @@ export default function SimulationList() : JSX.Element {
     <TableContainer component={Paper}>
         <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={result.isSuccess ? 'success' : 'error' } sx={{ width: '100%' }}>
-                {result.isSuccess ? 'Simulated successfully' : 'Error!'}
+                {result.isSuccess ? 'Simulated successfully' : 'Something went wrong: ' + (result.error as any)?.data}
             </Alert>
         </Snackbar>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
