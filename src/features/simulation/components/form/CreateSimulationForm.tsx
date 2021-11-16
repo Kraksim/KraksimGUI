@@ -84,7 +84,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
 
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
-          {result.isError ? 'Something went wrong...' : 'Simulation created successfully!'}
+          {result.isError ? 'Something went wrong: ' + (result.error as any)?.data : 'Simulation created successfully!'}
         </Alert>
       </Snackbar>
     </div>
