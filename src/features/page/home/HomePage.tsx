@@ -57,7 +57,7 @@ export default function HomePage(): JSX.Element{
                   onClose={() => setNewSimulationDialogOpened(false)} 
                 />
                 <ActionButton variant='contained' onClick={onViewSimulationsClicked}>
-                    View simulation statistics
+                    View simulation list
                 </ActionButton>
                 <ActionButton variant='contained' onClick={() => setCompareSimulationsDialogOpened(true)}>
                     Compare simulations
