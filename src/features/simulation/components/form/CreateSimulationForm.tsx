@@ -1,5 +1,6 @@
+import { Alert, Snackbar } from '@mui/material';
 import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useGetMapByIdQuery } from '../../../map/mapApi';
 import { useCreateSimulationMutation } from '../../simulationApi';
@@ -26,10 +27,15 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   const { data } = useGetMapByIdQuery(mapId);
   const [ createSimulation, result ] = useCreateSimulationMutation();
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+    
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   useEffect(() => {
-    if (result.data && !result.error){
-      alert('Simulation created successfully!!');
-      console.log(result.data);
+    if (result.isError || result.isSuccess){
+      setSnackbarOpen(true);
     }
   }, [result]);
 
@@ -75,6 +81,12 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
           </Form>
         )}
       </Formik>)}
+
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
+          {result.isError ? 'Something went wrong...' : 'Simulation created successfully!'}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
