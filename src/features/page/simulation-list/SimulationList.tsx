@@ -12,6 +12,7 @@ import MuiAlert from '@mui/material/Alert';
 import {
   useGetAllSimulationsQuery, useSimulateMutation,
 } from '../../simulation/simulationApi';
+import { SimulateRequest } from '../../simulation/requests';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -39,9 +40,17 @@ const SmallTextField = styled(TextField)(() => ({
 export default function SimulationList() : JSX.Element {
 
   const { data } = useGetAllSimulationsQuery();
+  const [ simulate, result ]: any = useSimulateMutation();
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackBarMessage, setSnackBarMessage] = useState('Default message');
-  const [snackIsSuccess, setSuccess] = useState(true);
+
+  useEffect(() => {
+    console.log(result);
+    if (result.status != 'fulfilled') {
+      return;
+    }
+    setOpenSnackbar(true);
+  }, [result]);
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
@@ -53,8 +62,8 @@ export default function SimulationList() : JSX.Element {
   return (
     <TableContainer component={Paper}>
         <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={snackIsSuccess ? 'success' : 'error' } sx={{ width: '100%' }}>
-                {snackBarMessage}
+            <Alert onClose={handleClose} severity={result.isSuccess ? 'success' : 'error' } sx={{ width: '100%' }}>
+                {result.isSuccess ? 'Simulated successfully' : 'Error!'}
             </Alert>
         </Snackbar>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -80,9 +89,8 @@ export default function SimulationList() : JSX.Element {
                 <CenterTableCell>
                   { <SimulationActions
                       id={row.id}
-                      setOpenSnackbar={setOpenSnackbar}
-                      setSnackBarMessage={setSnackBarMessage}
-                      setSuccess={setSuccess}/>
+                      simulate={simulate}
+                  />
                   }
                 </CenterTableCell>
             </TableRow>
@@ -95,31 +103,15 @@ export default function SimulationList() : JSX.Element {
 
 interface SimulationActionsProps {
   id: number,
-  setOpenSnackbar: ((value: (((prevState: boolean) => boolean) | boolean)) => void),
-  setSnackBarMessage: ((value: (((prevState: string) => string) | string)) => void),
-  setSuccess:  ((value: (((prevState: boolean) => boolean) | boolean)) => void)
+  simulate: ((request: SimulateRequest) => any)
+
 }
 
 function SimulationActions({
-  id, setOpenSnackbar, setSnackBarMessage, setSuccess, 
+  id, simulate,
 }: SimulationActionsProps) : JSX.Element {
   const history = useHistory();
   const [turns, setTurns] = useState('1');
-
-  const [ simulate, result ] = useSimulateMutation();
-
-
-  useEffect(() => {
-    console.log(result);
-    if (result.status != 'fulfilled') {
-      return;
-    }
-    setOpenSnackbar(true);
-    setSuccess(result.isSuccess);
-    const message = result.isSuccess ? 'Simulated successfully' : 'Error!';
-    setSnackBarMessage(message);
-  }, [result]);
-
 
   return (
       <CenterHorizontal>
