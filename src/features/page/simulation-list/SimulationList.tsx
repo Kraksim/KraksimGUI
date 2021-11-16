@@ -40,7 +40,7 @@ const SmallTextField = styled(TextField)(() => ({
 export default function SimulationList() : JSX.Element {
 
   const { data } = useGetAllSimulationsQuery();
-  const [ simulate, result ]: any = useSimulateMutation();
+  const [ simulate, result ] = useSimulateMutation();
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
