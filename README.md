@@ -11,7 +11,7 @@ In order to view mapbox content, set environmental variable REACT_APP_MAPBOX_ACC
 
 Use `nvm` for managing node versions (https://tecadmin.net/install-nvm-macos-with-homebrew/) no idea if it works on windows tho
 
-run `nvm install` before running `npm install`
+run `nvm install`
 
 ## Available Scripts
 
