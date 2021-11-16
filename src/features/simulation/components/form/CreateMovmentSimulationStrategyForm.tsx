@@ -17,7 +17,7 @@ export const movmentSimulationStrategyInitialValues = {
   maxVelocity: '',
 };
 
-export function CreateMovmentSimulationStrategyForm(): JSX.Element {
+function CreateMovmentSimulationStrategyForm(): JSX.Element {
 
   return (
     <div>
@@ -106,3 +106,6 @@ export function CreateMovmentSimulationStrategyForm(): JSX.Element {
   );
 
 }
+
+
+export default React.memo(CreateMovmentSimulationStrategyForm);

@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  Field, ErrorMessage, FieldArray, 
+  FastField as Field, ErrorMessage, FieldArray, 
 } from 'formik';
 import {
-  Box, InputLabel, MenuItem, 
+  Box, InputLabel, MenuItem, Checkbox, ListItemText,
 } from '@mui/material';
 
 import {
@@ -13,25 +13,29 @@ import { NameId } from './util';
 
 interface Props {
   allowedRoads: NameId[],
-  values: typeof expectedVelocityInitialValues,
+  values: InitialValues,
 }
 
-export const expectedVelocityInitialValues = {
-  roadVelocityPairs: [
+type InitialValues = {
+  roadsVelocityPairs: Array<{ velocity: string, roadIds: string[] }>;
+};
+
+export const expectedVelocityInitialValues: InitialValues = {
+  roadsVelocityPairs: [
     {
-      roadId: '',
       velocity: '',
+      roadIds: [],
     },
   ],
 };
 
-export function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props): JSX.Element {
+function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props): JSX.Element {
 
   return (
     <div>
       <h1>Expected Velocities map</h1>
         <>
-          <FieldArray name="expectedVelocity.roadVelocityPairs">
+          <FieldArray name="expectedVelocity.roadsVelocityPairs">
             {({ remove, push }) => (
               <FormBox>
                 <ControlContainer>
@@ -39,8 +43,8 @@ export function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props):
                   type="button"
                   variant="contained"
                   onClick={() => push({
-                    roadId: '',
-                    velocity: '',
+                    roadIds: '',
+                    velocity: [],
                   })}
                 >
                   Add new entry
@@ -48,37 +52,47 @@ export function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props):
                 </ControlContainer>
                 <ScrollbarBox>
                 <AddedElementListBox>
-                {values.roadVelocityPairs.length > 0 &&
-                  values.roadVelocityPairs.map((roadVelocityPair, index) => (
+                {values.roadsVelocityPairs.length > 0 &&
+                  values.roadsVelocityPairs.map((roadsVelocityPair, index) => (
                     <ElementBox key={index}>
                       <Box>
                         <InputLabel 
-                        htmlFor={`expectedVelocity.roadVelocityPairs.${index}.velocity`}>
+                        htmlFor={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}>
                           Velocity
                         </InputLabel>
                         <Field
-                          name={`expectedVelocity.roadVelocityPairs.${index}.velocity`}
+                          name={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}
                           type="number"
                           placeholder="Velocity"
                           as={FormInpiutField}
                         />
                         <ErrorMessage
-                          name={`expectedVelocity.roadVelocityPairs.${index}.velocity`}
+                          name={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}
                           component="div"
                         />
                       </Box>
                       <Box>
                         <InputLabel 
-                        htmlFor={`expectedVelocity.roadVelocityPairs.${index}.roadId`}>Road</InputLabel>
-                        <Field
-                          name={`expectedVelocity.roadVelocityPairs.${index}.roadId`}
-                          type="number"
-                          as={FormSelect}
-                        >
-                            {allowedRoads.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
-                        </Field>    
+                        htmlFor={`expectedVelocity.roadsVelocityPairs.${index}.roadIds`}>Roads</InputLabel>
+                              <FormSelect 
+                                renderValue={() => 'Select roads'} 
+                                multiple 
+                                value={allowedRoads.map(({ name }) => name)}>
+                                    {allowedRoads.map(({ id, name }) => (
+                                    <MenuItem key={id} value={id}>
+                                      <Field type="checkbox" 
+                                      name={`expectedVelocity.roadsVelocityPairs.${index}.roadIds`}
+                                      value={id} 
+                                      as={Checkbox} 
+                                      checked={
+                                          values.roadsVelocityPairs[index].roadIds.indexOf(id.toString()) > -1
+                                        }>{name}</Field>
+                                      <ListItemText primary={name} />
+                                    </MenuItem>
+                                    ))}
+                              </FormSelect>    
                         <ErrorMessage
-                          name={`expectedVelocity.roadVelocityPairs.${index}.roadId`}
+                          name={`expectedVelocity.roadsVelocityPairs.${index}.roadId`}
                           component="div"
                         />
                       </Box>
@@ -102,3 +116,5 @@ export function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props):
   );
 
 }
+
+export default React.memo(CreateExpectedVelocityMapForm);

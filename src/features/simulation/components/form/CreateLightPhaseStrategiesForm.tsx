@@ -30,7 +30,7 @@ export const lightPhaseStrategiesInitialValues: InitialValues = [
   },
 ];
 
-export function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props): JSX.Element {
+function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props): JSX.Element {
 
   return (
     (allowedIntersections.length > 0 && values.length > 0) ? (<div>
@@ -76,7 +76,7 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersections, values }
                         htmlFor={`lightPhaseStrategies.${index}.intersections`}>
                             Intersections
                         </InputLabel>
-                                <FormSelect 
+                              <FormSelect 
                                 renderValue={(selected: string[]) => selected.join(', ')} 
                                 multiple value={allowedIntersections.map(({ name }) => name)}>
                                     {allowedIntersections.map(({ id, name }) => (
@@ -91,7 +91,7 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersections, values }
                                       <ListItemText primary={id} />
                                     </MenuItem>
                                     ))}
-                                </FormSelect>
+                              </FormSelect>
                       </Box>
                       </ElementBox>
                       <ElementBox>
@@ -128,5 +128,6 @@ export function CreateLightPhaseStrategiesForm( { allowedIntersections, values }
         </>
     </div>) : <div><h1>Couldn't create light phase strategies for this simulation</h1></div>  
   );
-
 }
+
+export default React.memo(CreateLightPhaseStrategiesForm);

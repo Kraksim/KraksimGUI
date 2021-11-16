@@ -13,14 +13,12 @@ import { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
 import { lightPhaseStrategiesInitialValues } from './CreateLightPhaseStrategiesForm';
 import { movmentSimulationStrategyInitialValues } from './CreateMovmentSimulationStrategyForm';
 import { simulationBasicInfoInitialValues } from './CreateSimulationBasicInfoForm';
-import { getTrafficLightsInitialValues } from './CreateTrafficLightsForm';
 import { getGatewaysStatesInitialValues } from './CreateGatewaysStatesForm';
 
 type SimulationBasicInfoFormResult = typeof simulationBasicInfoInitialValues;
 type MovmentSimulationStrategyFormResult = typeof movmentSimulationStrategyInitialValues;
 type ExpectedVelocityFormResult = typeof expectedVelocityInitialValues;
 type LightPhaseStrategiesFormResult = typeof lightPhaseStrategiesInitialValues;
-type TrafficLightsFormResult =  ReturnType<typeof getTrafficLightsInitialValues>;
 type GatewaysStatesFormResult = ReturnType<typeof getGatewaysStatesInitialValues>;
 
 interface FormValues {
@@ -28,7 +26,6 @@ interface FormValues {
   movmentSimulationStrategy: MovmentSimulationStrategyFormResult,
   expectedVelocity: ExpectedVelocityFormResult,
   lightPhaseStrategies: LightPhaseStrategiesFormResult,
-  trafficLights: TrafficLightsFormResult,
   gatewaysStates: GatewaysStatesFormResult,
 }
 
@@ -39,23 +36,19 @@ export interface NameId {
 
 function parseExpectedVelocitiesToRequest(result: ExpectedVelocityFormResult): CreateExpectedVelocityRequest{
   const ret = new Map<number, number>();
-  result.roadVelocityPairs
-    .map(({ roadId, velocity }) => ({ roadId: parseInt(roadId), velocity: parseInt(velocity) }))
+  result.roadsVelocityPairs
+    .flatMap(({ roadIds, velocity }) => roadIds.map(
+      (roadId) => ({ roadId: parseInt(roadId), velocity: parseInt(velocity) }),
+    ))
     .forEach(({ roadId, velocity }) => ret.set(roadId, velocity));
   return Object.fromEntries(ret.entries());
 }
 
 function parseInitialStateToRequest(
-  gatewaysResult: GatewaysStatesFormResult, trafficLightResult: TrafficLightsFormResult,
+  gatewaysResult: GatewaysStatesFormResult,
 ): CreateInitialSimulationStateRequest {
   
   return {
-    trafficLights: Object.entries(trafficLightResult)
-      .filter(([, value]) => value.phases.length > 0).map(([key, value]) => ({
-        intersectionId: parseInt(key),
-        phases: value.phases,
-      })),
-
     gatewaysStates: Object
       .entries(gatewaysResult)
       .filter(([, value]) => value.generators
@@ -103,7 +96,7 @@ export function parseFormResultToRequest(result: FormValues, mapId: number): Cre
     name: result.simulationBasicInfo.name,
     simulationType: result.simulationBasicInfo.simulationType as SimulationType,
     expectedVelocity: parseExpectedVelocitiesToRequest(result.expectedVelocity),
-    initialState: parseInitialStateToRequest(result.gatewaysStates, result.trafficLights),
+    initialState: parseInitialStateToRequest(result.gatewaysStates),
     movementSimulationStrategy: parseMovmentSimulationStrategyToRequest(result.movmentSimulationStrategy),
     lightPhaseStrategies: parseLightPhaseStrategiesToRequest(result.lightPhaseStrategies),
   };
