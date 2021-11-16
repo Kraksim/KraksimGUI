@@ -7,7 +7,8 @@ import {
   Button, 
   DialogProps, 
   Select, 
-  MenuItem, 
+  MenuItem,
+  InputLabel, 
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -31,8 +32,11 @@ export default function CreateSimulationDialog({ open, onClose }: DialogProps): 
           <DialogContentText>
             To create a simulation, select a map for it
           </DialogContentText>
+            <InputLabel htmlFor="select-map">
+              Map
+            </InputLabel>
             <Select
-                id="select-map"
+                name="select-map"
                 value={mapId}
                 label="Map"
                 onChange={(e) => setMapId(e.target.value)}
