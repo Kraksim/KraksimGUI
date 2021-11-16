@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 
 
 import CreateSimulationDialog from './dialogs/CreateSimulationDialog';
+import CompareSimulationDialog from './dialogs/CompareSimulationsDialog';
+
 
 const MainContainer = styled(Box)(() => ({
   width: '100%',
@@ -29,6 +31,7 @@ const ActionButton = styled(Button)(() => ({
 export default function HomePage(): JSX.Element{
 
   const [newSimulationDialogOpened, setNewSimulationDialogOpened] = useState(false);
+  const [compareSimulationsDialogOpened, setCompareSimulationsDialogOpened] = useState(false);
   const history = useHistory();
 
   const onViewSimulationsClicked = () => {
@@ -56,9 +59,13 @@ export default function HomePage(): JSX.Element{
                 <ActionButton variant='contained' onClick={onViewSimulationsClicked}>
                     View simulation statistics
                 </ActionButton>
-                <ActionButton variant='contained'>
+                <ActionButton variant='contained' onClick={() => setCompareSimulationsDialogOpened(true)}>
                     Compare simulations
                 </ActionButton>
+                <CompareSimulationDialog 
+                  open={compareSimulationsDialogOpened} 
+                  onClose={() => setCompareSimulationsDialogOpened(false)} 
+                />
             </SectionBox>
         </MainContainer>
   );
