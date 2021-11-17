@@ -1,7 +1,7 @@
 import { SimulationMap } from '../map/types';
 
 interface LightPhaseStrategy {
-  algorithm: 'TURN_BASED',
+  algorithm: LightAlgorithmType,
   turnLength: number,
   intersections: number[],
   id: number,
@@ -49,7 +49,7 @@ interface Generator {
   carsToRelease: number,
   releaseDelay: number,
   targetGatewayId: number,
-  gpsType: 'DIJKSTRA_ROAD_LENGTH',
+  gpsType: GPSType,
   lastCarReleasedTurnsAgo: number,
   id: number,
 }
@@ -86,7 +86,7 @@ export interface SimplifiedSimulation {
 
 export type SimulationType = 'NAGEL_CORE';
 
-export type MovementSimulationStrategyType = 'NAGEL_SCHRECKENBERG';
+export type MovementSimulationStrategyType = 'NAGEL_SCHRECKENBERG' | 'MULTI_LANE_NAGEL_SCHRECKENBERG';
 
 export type RandomProviderType = 'TRUE';
 

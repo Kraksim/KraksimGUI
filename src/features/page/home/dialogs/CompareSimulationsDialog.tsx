@@ -41,13 +41,12 @@ export default function CompareSimulationsDialog({ open, onClose }: DialogProps)
           <DialogContentText>
             To compare simulations, select a map and then 2 simulations which you want to compare
           </DialogContentText>
-            <InputLabel htmlFor="select-map">
+            <InputLabel id="label">
               Map
             </InputLabel>
             <Select
+                labelId="label"
                 value={mapId}
-                label="Map"
-                name="select-map"
                 onChange={(e) => setMapId(e.target.value)}
             >
             {mapData?.map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}

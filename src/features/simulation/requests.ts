@@ -1,15 +1,10 @@
 import {
-  GPSType, LightAlgorithmType, LightState, MovementSimulationStrategyType, RandomProviderType, SimulationType, 
+  GPSType, LightAlgorithmType, MovementSimulationStrategyType, RandomProviderType, SimulationType, 
 } from './types';
 
 export interface SimulateRequest {
   id: number,
   times: number,
-}
-
-export interface CreatePhaseRequest {
-  laneId: number,
-  state: LightState,
 }
 
 export interface CreateGeneratorsRequest {
@@ -37,7 +32,9 @@ export interface CreateMovementSimulationStrategyRequest {
 
 export interface CreateLightPhaseStrategyRequest {
   algorithm: LightAlgorithmType,
-  turnLength: number,
+  turnLength?: number,
+  phiFactor?: number,
+  minPhaseLength?: number,
   intersections: number[],
 }
 
