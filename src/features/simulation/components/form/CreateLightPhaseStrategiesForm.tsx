@@ -18,13 +18,15 @@ interface Props {
 
 type InitialValues = Array<{
   algorithm: string,
-  turnLength: string,
+  turnLength?: string,
+  phiFactor?: string,
+  minPhaseLength?: string,
   intersections: string[]
 }>;
 
 export const lightPhaseStrategiesInitialValues: InitialValues = [
   {
-    algorithm: '',
+    algorithm: 'TURN_BASED',
     turnLength: '',
     intersections: [],
   },
@@ -44,7 +46,7 @@ function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props
                   type="button"
                   variant="contained"
                   onClick={() => push({
-                    algorithm: '',
+                    algorithm: 'TURN_BASED',
                     turnLength: '',
                     intersections: [],
                   })}
@@ -58,18 +60,37 @@ function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props
                   values.map((lightPhaseStrategy, index) => (
                     <>
                     <ElementBox key={index}>
-                      <Box>
-                        <InputLabel htmlFor={`lightPhaseStrategies.${index}.turnLength`}>Turn length</InputLabel>
-                        <FastField
-                          name={`lightPhaseStrategies.${index}.turnLength`}
-                          type="number"
-                          placeholder="Turn length"
-                          as={FormInpiutField}
-                        />
-                        <ErrorMessage
-                          name={`lightPhaseStrategies.${index}.turnLength`}
-                          component="div"
-                        />
+                      <Box>{
+                        values[index].algorithm === 'TURN_BASED' ? 
+                          (<>
+                          <InputLabel htmlFor={`lightPhaseStrategies.${index}.turnLength`}>Turn length</InputLabel>
+                          <FastField
+                            name={`lightPhaseStrategies.${index}.turnLength`}
+                            type="number"
+                            placeholder="Turn length"
+                            as={FormInpiutField}
+                          />
+                          <ErrorMessage
+                            name={`lightPhaseStrategies.${index}.turnLength`}
+                            component="div"
+                          />
+                        </>)
+                          : (
+                        <>
+                        <InputLabel htmlFor={`lightPhaseStrategies.${index}.phiFactor`}>Phi factor</InputLabel>
+                          <FastField
+                            name={`lightPhaseStrategies.${index}.phiFactor`}
+                            type="number"
+                            placeholder="phiFactor"
+                            as={FormInpiutField}
+                          />
+                          <ErrorMessage
+                            name={`lightPhaseStrategies.${index}.phiFactor`}
+                            component="div"
+                          />
+                        </>
+                          )
+                      }
                       </Box>
                       <Box>
                         <InputLabel 
@@ -100,15 +121,35 @@ function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props
                         htmlFor={`lightPhaseStrategies.${index}.algorithm`}>Algorithm</InputLabel>
                         <FastField
                           name={`lightPhaseStrategies.${index}.algorithm`}
+                          value={values[index].algorithm}
                           as={FormSelect}
                         >
                             <MenuItem value={'TURN_BASED'}>Turn based</MenuItem>
+                            <MenuItem value={'SOTL'}>SOTL</MenuItem>
                         </FastField>    
                         <ErrorMessage
                           name={`lightPhaseStrategies.${index}.algorithm`}
                           component="div"
                         />
                       </Box>
+                      {values[index].algorithm === 'SOTL' && (
+                        <Box>
+                          <InputLabel htmlFor={`lightPhaseStrategies.${index}.minPhaseLength`}>
+                            Min Phase Length
+                          </InputLabel>
+                          <FastField
+                            name={`lightPhaseStrategies.${index}.minPhaseLength`}
+                            type="number"
+                            placeholder="minPhaseLength"
+                            as={FormInpiutField}
+                          />
+                          <ErrorMessage
+                            name={`lightPhaseStrategies.${index}.minPhaseLength`}
+                            component="div"
+                          />
+                        </Box>
+                      )
+                      }
                         <ControlButton
                           variant="contained"
                           type="button"

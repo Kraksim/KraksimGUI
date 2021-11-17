@@ -77,16 +77,31 @@ function notEmptyString(objects: any[]): boolean{
   return objects.every(obj => obj !== '');
 }
 
+function hasLengthAndDefined(x: string | undefined){
+  return x && x !== ''; 
+}
+
 function parseLightPhaseStrategiesToRequest(result: LightPhaseStrategiesFormResult): CreateLightPhaseStrategyRequest[] {
   return result
     .filter(
-      ({ algorithm, turnLength, intersections }) => 
-        notEmptyString([algorithm, turnLength]) && intersections.length > 0, 
+      ({
+        algorithm, turnLength, intersections, phiFactor, minPhaseLength,
+      }) => 
+        notEmptyString([algorithm]) && 
+        (notEmptyString([phiFactor, minPhaseLength]) || notEmptyString([turnLength])) && intersections.length > 0, 
     )
-    .map(({ algorithm, turnLength, intersections }) => ({
+    .map(({
+      algorithm, turnLength, intersections, phiFactor, minPhaseLength,
+    }) => ({
       algorithm: algorithm as LightAlgorithmType,
-      turnLength: parseInt(turnLength),
+      turnLength: algorithm === 'TURN_BASED' && 
+        hasLengthAndDefined(turnLength) ? parseInt(turnLength as string) : undefined,
+      phiFactor: algorithm === 'SOTL' && 
+        hasLengthAndDefined(phiFactor) ? parseFloat(phiFactor as string) : undefined,
+      minPhaseLength: algorithm === 'SOTL' && 
+        hasLengthAndDefined(minPhaseLength) ? parseInt(minPhaseLength as string) : undefined,
       intersections: intersections.map(id => parseInt(id)),
+
     }));
 }
 

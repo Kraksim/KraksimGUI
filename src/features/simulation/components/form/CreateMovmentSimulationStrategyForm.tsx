@@ -36,7 +36,8 @@ function CreateMovmentSimulationStrategyForm(): JSX.Element {
                             >
                                 {({ field }: FieldProps) => (
                                     <FormSelect {...field} label="Strategy Type">
-                                        <MenuItem value={'NAGEL_SCHRECKENBERG'}>{'NAGEL_SCHRECKENBERG'}</MenuItem>
+                                        <MenuItem value={'NAGEL_SCHRECKENBERG'}>Nagel Schreckenberg</MenuItem>
+                                        <MenuItem value={'MULTI_LANE_NAGEL_SCHRECKENBERG'}>Multi Lane Nagel</MenuItem>
                                     </FormSelect>
                                 )}
                             </FastField>    
