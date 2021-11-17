@@ -42,7 +42,7 @@ const CenterHorizontal = styled(Box)(() => ({
 
 const CenterTableCell = styled(TableCell)(() => ({
   display: 'flex',
-  'justify-content': 'center',
+  justifyContent: 'center',
 }));
 
 const SmallTextField = styled(TextField)(() => ({
