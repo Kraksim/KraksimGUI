@@ -1,5 +1,15 @@
 import {
-  TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, styled, Box, AlertProps,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Button,
+  styled,
+  Box,
+  AlertProps,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
@@ -8,6 +18,8 @@ import { useHistory } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
+import DoneIcon from '@mui/icons-material/Done';
 
 import {
   useGetAllSimulationsQuery, useSimulateMutation,
@@ -30,10 +42,11 @@ const CenterHorizontal = styled(Box)(() => ({
 
 const CenterTableCell = styled(TableCell)(() => ({
   display: 'flex',
+  'justify-content': 'center',
 }));
 
 const SmallTextField = styled(TextField)(() => ({
-  width: '7ch',
+  width: '9ch',
 }));
 
 
@@ -45,11 +58,9 @@ export default function SimulationList() : JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
-    console.log(result);
-    if (result.status != 'fulfilled') {
-      return;
+    if (result.isError || result.isSuccess) {
+      setOpenSnackbar(true);
     }
-    setOpenSnackbar(true);
   }, [result]);
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -73,6 +84,8 @@ export default function SimulationList() : JSX.Element {
             <TableCell>Name</TableCell>
             <TableCell>Map ID</TableCell>
             <TableCell>Type</TableCell>
+            <TableCell>Turn</TableCell>
+            <TableCell>State</TableCell>
             <TableCell/>
           </TableRow>
         </TableHead>
@@ -86,9 +99,12 @@ export default function SimulationList() : JSX.Element {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.mapId}</TableCell>
               <TableCell>{row.type}</TableCell>
-                <CenterTableCell>
+              <TableCell>{row.turn}</TableCell>
+              <TableCell>{row.isFinished ? <DoneIcon/> : <FastForwardOutlinedIcon/> }</TableCell>
+                <CenterTableCell align={'center'}>
                   { <SimulationActions
                       id={row.id}
+                      finished={row.isFinished}
                       simulate={simulate}
                   />
                   }
@@ -103,12 +119,12 @@ export default function SimulationList() : JSX.Element {
 
 interface SimulationActionsProps {
   id: number,
-  simulate: ((request: SimulateRequest) => any)
-
+  finished: boolean,
+  simulate: ((request: SimulateRequest) => any),
 }
 
 function SimulationActions({
-  id, simulate,
+  id, simulate, finished,
 }: SimulationActionsProps) : JSX.Element {
   const history = useHistory();
   const [turns, setTurns] = useState('1');
@@ -118,10 +134,10 @@ function SimulationActions({
         <IconButton  onClick={() =>  history.push('/statistics?simulationId=' + id)}>
           <QueryStatsIcon/>
         </IconButton>
-          <IconButton onClick={() => simulate({ id: id, times: parseInt(turns) })}>
+        <IconButton disabled={finished} onClick={() => simulate({ id: id, times: parseInt(turns) })}>
           <PlayCircleOutlineIcon/>
         </IconButton>
-        <SmallTextField id="turns" label="Turns" type="number" variant="outlined" defaultValue="1"
+        <SmallTextField disabled={finished} id="turns" label="Turns" type="number" variant="outlined" defaultValue="1"
                    onChange={(e) => setTurns(e.target.value)}/>
       </CenterHorizontal>
   );

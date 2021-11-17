@@ -34,8 +34,9 @@ export const simulationApi = createApi({
         (result ?
           [{ id: result.id, type: 'Simulation' as const },
             { id: result.id, type: 'Statistics' as const },
-            'Simulation', 'Statistics'] :
-          ['Simulation', 'Statistics']),
+            { id: result.id, type: 'SimplifiedSimulation' as const },
+            'Simulation', 'Statistics', 'SimplifiedSimulation'] :
+          ['Simulation', 'Statistics', 'SimplifiedSimulation']),
     }),
     deleteSimulation: builder.mutation<void, number>({
       query: (id) => ({ url: `simulation/delete/${id}`, method: 'DELETE' }),

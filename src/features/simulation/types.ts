@@ -82,6 +82,8 @@ export interface SimplifiedSimulation {
   name: string,
   type: MovementSimulationStrategyType,
   id: number,
+  isFinished: boolean,
+  turn: number
 }
 
 export type SimulationType = 'NAGEL_CORE';
