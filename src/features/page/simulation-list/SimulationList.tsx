@@ -84,6 +84,7 @@ export default function SimulationList() : JSX.Element {
             <TableCell>Name</TableCell>
             <TableCell>Map ID</TableCell>
             <TableCell>Type</TableCell>
+            <TableCell>Movement type</TableCell>
             <TableCell>Turn</TableCell>
             <TableCell>State</TableCell>
             <TableCell/>
@@ -99,6 +100,7 @@ export default function SimulationList() : JSX.Element {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.mapId}</TableCell>
               <TableCell>{row.type}</TableCell>
+              <TableCell>{row.movementSimulationStrategyType}</TableCell>
               <TableCell>{row.turn}</TableCell>
               <TableCell>{row.isFinished ? <DoneIcon/> : <FastForwardOutlinedIcon/> }</TableCell>
                 <CenterTableCell align={'center'}>

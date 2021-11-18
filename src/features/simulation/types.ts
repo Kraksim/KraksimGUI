@@ -80,10 +80,11 @@ interface MovementSimulationStrategy {
 export interface SimplifiedSimulation {
   mapId: number,
   name: string,
-  type: MovementSimulationStrategyType,
+  type: SimulationType,
   id: number,
   isFinished: boolean,
-  turn: number
+  turn: number,
+  movementSimulationStrategyType : MovementSimulationStrategyType
 }
 
 export type SimulationType = 'NAGEL_CORE';
