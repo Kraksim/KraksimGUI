@@ -9,9 +9,9 @@ import { ControlButton } from './common';
 import CreateExpectedVelocityMapForm, { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
 import CreateGatewaysStatesForm, { getGatewaysStatesInitialValues } from './CreateGatewaysStatesForm';
 import CreateLightPhaseStrategiesForm, { lightPhaseStrategiesInitialValues } from './CreateLightPhaseStrategiesForm';
-import CreateMovmentSimulationStrategyForm, { 
-  movmentSimulationStrategyInitialValues, 
-} from './CreateMovmentSimulationStrategyForm';
+import CreateMovementSimulationStrategyForm, { 
+  movementSimulationStrategyInitialValues, 
+} from './CreateMovementSimulationStrategyForm';
 import CreateSimulationBasicInfoForm, { simulationBasicInfoInitialValues } from './CreateSimulationBasicInfoForm';
 import { parseFormResultToRequest } from './util';
 
@@ -51,7 +51,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
 
   const initialValues = {
     simulationBasicInfo: simulationBasicInfoInitialValues,
-    movmentSimulationStrategy: movmentSimulationStrategyInitialValues,
+    movementSimulationStrategy: movementSimulationStrategyInitialValues,
     expectedVelocity: expectedVelocityInitialValues,
     lightPhaseStrategies: lightPhaseStrategiesInitialValues,
     gatewaysStates: getGatewaysStatesInitialValues(gatewaysSimplified.map(({ id }) => id)),
@@ -71,7 +71,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         {({ values }) => (
           <Form>
             <CreateSimulationBasicInfoForm/>
-            <CreateMovmentSimulationStrategyForm />
+            <CreateMovementSimulationStrategyForm compatibleStrategies={data.compatibleWith}/>
             <CreateExpectedVelocityMapForm values={values.expectedVelocity} allowedRoads={roadsSimplified} />
             <CreateGatewaysStatesForm values={values.gatewaysStates} allowedGateways={gatewaysSimplified} />
             <CreateLightPhaseStrategiesForm 

@@ -11,19 +11,19 @@ import {
 
 import { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
 import { lightPhaseStrategiesInitialValues } from './CreateLightPhaseStrategiesForm';
-import { movmentSimulationStrategyInitialValues } from './CreateMovmentSimulationStrategyForm';
+import { movementSimulationStrategyInitialValues } from './CreateMovementSimulationStrategyForm';
 import { simulationBasicInfoInitialValues } from './CreateSimulationBasicInfoForm';
 import { getGatewaysStatesInitialValues } from './CreateGatewaysStatesForm';
 
 type SimulationBasicInfoFormResult = typeof simulationBasicInfoInitialValues;
-type MovmentSimulationStrategyFormResult = typeof movmentSimulationStrategyInitialValues;
+type MovementSimulationStrategyFormResult = typeof movementSimulationStrategyInitialValues;
 type ExpectedVelocityFormResult = typeof expectedVelocityInitialValues;
 type LightPhaseStrategiesFormResult = typeof lightPhaseStrategiesInitialValues;
 type GatewaysStatesFormResult = ReturnType<typeof getGatewaysStatesInitialValues>;
 
 interface FormValues {
   simulationBasicInfo: SimulationBasicInfoFormResult,
-  movmentSimulationStrategy: MovmentSimulationStrategyFormResult,
+  movementSimulationStrategy: MovementSimulationStrategyFormResult,
   expectedVelocity: ExpectedVelocityFormResult,
   lightPhaseStrategies: LightPhaseStrategiesFormResult,
   gatewaysStates: GatewaysStatesFormResult,
@@ -62,8 +62,8 @@ function parseInitialStateToRequest(
   };
 }
 
-function parseMovmentSimulationStrategyToRequest(
-  result: MovmentSimulationStrategyFormResult,
+function parseMovementSimulationStrategyToRequest(
+  result: MovementSimulationStrategyFormResult,
 ): CreateMovementSimulationStrategyRequest{
   return {
     type: result.type as MovementSimulationStrategyType,
@@ -112,7 +112,7 @@ export function parseFormResultToRequest(result: FormValues, mapId: number): Cre
     simulationType: result.simulationBasicInfo.simulationType as SimulationType,
     expectedVelocity: parseExpectedVelocitiesToRequest(result.expectedVelocity),
     initialState: parseInitialStateToRequest(result.gatewaysStates),
-    movementSimulationStrategy: parseMovmentSimulationStrategyToRequest(result.movmentSimulationStrategy),
+    movementSimulationStrategy: parseMovementSimulationStrategyToRequest(result.movementSimulationStrategy),
     lightPhaseStrategies: parseLightPhaseStrategiesToRequest(result.lightPhaseStrategies),
   };
 }

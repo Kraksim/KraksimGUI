@@ -1,19 +1,19 @@
 import {
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogContentText, 
-  DialogActions, 
-  Button, 
-  DialogProps, 
-  Select, 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  DialogProps,
   MenuItem,
-  InputLabel, 
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useGetAllMapsBasicInfoQuery } from '../../../map/mapApi';
+
+import LabeledInput from './LabeledInput';
 
 export default function CreateSimulationDialog({ open, onClose }: DialogProps): JSX.Element{
 
@@ -32,17 +32,9 @@ export default function CreateSimulationDialog({ open, onClose }: DialogProps): 
           <DialogContentText>
             To create a simulation, select a map for it
           </DialogContentText>
-            <InputLabel htmlFor="select-map">
-              Map
-            </InputLabel>
-            <Select
-                name="select-map"
-                value={mapId}
-                label="Map"
-                onChange={(e) => setMapId(e.target.value)}
-            >
+          <LabeledInput label='Map' value={mapId} setValue={setMapId} >
             {data?.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
-            </Select>
+          </LabeledInput>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClick} disabled={mapId.length === 0}>Confirm</Button>
