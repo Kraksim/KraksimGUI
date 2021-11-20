@@ -17,7 +17,7 @@ export const store = configureStore({
       .concat(simulationApi.middleware)
       .concat(mapApi.middleware),
 });
-export type Store = ReturnType<typeof store.getState>; 
+export type Store = ReturnType<typeof store.getState>;
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization

@@ -1,51 +1,55 @@
 import {
-  GPSType, LightAlgorithmType, MovementSimulationStrategyType, RandomProviderType, SimulationType, 
+  GPSType,
+  LightAlgorithmType,
+  MovementSimulationStrategyType,
+  RandomProviderType,
+  SimulationType,
 } from './types';
 
 export interface SimulateRequest {
-  id: number,
-  times: number,
+  id: number;
+  times: number;
 }
 
 export interface CreateGeneratorsRequest {
-  releaseDelay: number,
-  carsToRelease: number,
-  targetGatewayId: number,
-  gpsType: GPSType,
+  releaseDelay: number;
+  carsToRelease: number;
+  targetGatewayId: number;
+  gpsType: GPSType;
 }
 
 export interface CreateGatewayStateRequest {
-  gatewayId: number,
-  generators: CreateGeneratorsRequest[],
+  gatewayId: number;
+  generators: CreateGeneratorsRequest[];
 }
 
 export interface CreateInitialSimulationStateRequest {
-  gatewaysStates: CreateGatewayStateRequest[],
+  gatewaysStates: CreateGatewayStateRequest[];
 }
 
 export interface CreateMovementSimulationStrategyRequest {
-  type: MovementSimulationStrategyType,
-  randomProvider: RandomProviderType,
-  slowDownProbability: number,
-  maxVelocity: number,
+  type: MovementSimulationStrategyType;
+  randomProvider: RandomProviderType;
+  slowDownProbability: number;
+  maxVelocity: number;
 }
 
 export interface CreateLightPhaseStrategyRequest {
-  algorithm: LightAlgorithmType,
-  turnLength?: number,
-  phiFactor?: number,
-  minPhaseLength?: number,
-  intersections: number[],
+  algorithm: LightAlgorithmType;
+  turnLength?: number;
+  phiFactor?: number;
+  minPhaseLength?: number;
+  intersections: number[];
 }
 
-export type CreateExpectedVelocityRequest = { [k: string]: number; };
+export type CreateExpectedVelocityRequest = { [k: string]: number };
 
 export interface CreateSimulationRequest {
-  name: string,
-  mapId: number,
-  simulationType: SimulationType,
-  expectedVelocity: CreateExpectedVelocityRequest,
-  movementSimulationStrategy: CreateMovementSimulationStrategyRequest,
-  lightPhaseStrategies: CreateLightPhaseStrategyRequest[],
-  initialState: CreateInitialSimulationStateRequest,
+  name: string;
+  mapId: number;
+  simulationType: SimulationType;
+  expectedVelocity: CreateExpectedVelocityRequest;
+  movementSimulationStrategy: CreateMovementSimulationStrategyRequest;
+  lightPhaseStrategies: CreateLightPhaseStrategyRequest[];
+  initialState: CreateInitialSimulationStateRequest;
 }
