@@ -23,7 +23,7 @@ export default function CompareSimulationsDialog({ open, onClose }: DialogProps)
 
   const { data: mapData } = useGetAllMapsBasicInfoQuery();
   const { data: simiulationData } = useGetAllSimulationsQuery();
-  const [mapId, setMapId]: [string, ((value: (((prevState: string) => string) | string)) => void)] = useState('');
+  const [mapId, setMapId] = useState('');
   const [firstSimulationId, setFirstSimulationId] = useState('');
   const [secondSimulationId, setSecondSimulationId] = useState('');
   const history = useHistory();
