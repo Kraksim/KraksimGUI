@@ -1,19 +1,29 @@
 import {
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogContentText, 
-  DialogActions, 
-  Button, 
-  DialogProps, 
-  Select, 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  DialogProps,
+  Select,
   MenuItem,
-  InputLabel, 
+  InputLabel, FormControl,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 import { useGetAllMapsBasicInfoQuery } from '../../../map/mapApi';
+
+const FormControlBlock = styled(FormControl)(() => ({
+  display: 'block',
+  marginTop: 30,
+}));
+
+const SizedSelect =  styled(Select)(() => ({
+  minWidth: 200,
+}));
 
 export default function CreateSimulationDialog({ open, onClose }: DialogProps): JSX.Element{
 
@@ -32,17 +42,19 @@ export default function CreateSimulationDialog({ open, onClose }: DialogProps): 
           <DialogContentText>
             To create a simulation, select a map for it
           </DialogContentText>
-            <InputLabel htmlFor="select-map">
+          <FormControlBlock>
+            <InputLabel id="select-map">
               Map
             </InputLabel>
-            <Select
-                name="select-map"
-                value={mapId}
+            <SizedSelect
+                labelId="select-map"
+                value={mapId  === '' ? null : mapId }
                 label="Map"
-                onChange={(e) => setMapId(e.target.value)}
+                onChange={(e) => { if (e.target.value != null) setMapId(e.target.value as string);}}
             >
             {data?.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
-            </Select>
+            </SizedSelect>
+          </FormControlBlock>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClick} disabled={mapId.length === 0}>Confirm</Button>

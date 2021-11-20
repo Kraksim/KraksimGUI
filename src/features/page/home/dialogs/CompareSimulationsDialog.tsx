@@ -1,14 +1,12 @@
 import {
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogContentText, 
-  DialogActions, 
-  Button, 
-  DialogProps, 
-  Select, 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  DialogProps,
   MenuItem,
-  InputLabel, 
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -16,15 +14,16 @@ import { useHistory } from 'react-router-dom';
 import { useGetAllMapsBasicInfoQuery } from '../../../map/mapApi';
 import { useGetAllSimulationsQuery } from '../../../simulation/simulationApi';
 
-function checkIfButtonIsDisabled(strings: string[]){
+import LabeledInput from './LabeledInput';
+
+function checkIfButtonIsDisabled(strings: string[]) {
   return !strings.every(x => x.length > 0);
 }
-
-export default function CompareSimulationsDialog({ open, onClose }: DialogProps): JSX.Element{
+export default function CompareSimulationsDialog({ open, onClose }: DialogProps): JSX.Element {
 
   const { data: mapData } = useGetAllMapsBasicInfoQuery();
   const { data: simiulationData } = useGetAllSimulationsQuery();
-  const [mapId, setMapId] = useState(''); 
+  const [mapId, setMapId]: [string, ((value: (((prevState: string) => string) | string)) => void)] = useState('');
   const [firstSimulationId, setFirstSimulationId] = useState('');
   const [secondSimulationId, setSecondSimulationId] = useState('');
   const history = useHistory();
@@ -33,62 +32,50 @@ export default function CompareSimulationsDialog({ open, onClose }: DialogProps)
     history
       .push(`/simulations/compare?firstSimulationId=${firstSimulationId}&secondSimulationId=${secondSimulationId}`);
   };
-
   return (
     <Dialog open={open} onClose={onClose}>
         <DialogTitle>Select Map</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To compare simulations, select a map and then 2 simulations which you want to compare
-          </DialogContentText>
-            <InputLabel id="label">
-              Map
-            </InputLabel>
-            <Select
-                labelId="label"
+            <DialogContentText>
+                To compare simulations, select a map and then 2 simulations which you want to compare
+            </DialogContentText>
+            <LabeledInput
+                label='Map'
                 value={mapId}
-                onChange={(e) => setMapId(e.target.value)}
+                setValue={setMapId}
             >
-            {mapData?.map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
-            </Select>
-            <InputLabel htmlFor="first-simulation">
-              First Simualation
-            </InputLabel>
-            <Select
+                {mapData?.map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
+            </LabeledInput>
+            <LabeledInput
+                label='First Simulation'
                 value={firstSimulationId}
-                name="first-simulation"
-                label="First Simulation"
+                setValue={setFirstSimulationId}
                 disabled={mapId.length === 0}
-                onChange={(e) => setFirstSimulationId(e.target.value)}
             >
-            {simiulationData
-              ?.filter((simulation) => simulation.mapId === parseInt(mapId) &&
-               simulation.id !== parseInt(secondSimulationId))
-              .map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
-            </Select>
-            <InputLabel htmlFor="second-simulation">
-              First Simualation
-            </InputLabel>
-            <Select
-                name="second-simulation"
+                {simiulationData
+                  ?.filter((simulation) => mapId != null && simulation.mapId === parseInt(mapId) &&
+                    simulation.id !== parseInt(secondSimulationId))
+                  .map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
+            </LabeledInput>
+            <LabeledInput
+                label='Second Simulation'
                 value={secondSimulationId}
-                label="Second Simulation"
+                setValue={setSecondSimulationId}
                 disabled={mapId.length === 0}
-                onChange={(e) => setSecondSimulationId(e.target.value)}
             >
-            {simiulationData
-              ?.filter((simulation) => simulation.mapId === parseInt(mapId) &&
-               simulation.id !== parseInt(firstSimulationId))
-              .map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
-            </Select>
+                {simiulationData
+                  ?.filter((simulation) => mapId != null && simulation.mapId === parseInt(mapId) &&
+                      simulation.id !== parseInt(firstSimulationId))
+                  .map(({ id, name }) => <MenuItem key={id} value={id.toString()}>{name}</MenuItem>)}
+            </LabeledInput>
         </DialogContent>
         <DialogActions>
-          <Button 
-          onClick={handleClick} 
-          disabled={checkIfButtonIsDisabled([mapId, firstSimulationId, secondSimulationId])}
-          >
-              Confirm
-        </Button>
+            <Button
+                onClick={handleClick}
+                disabled={checkIfButtonIsDisabled([mapId, firstSimulationId, secondSimulationId])}
+            >
+                Confirm
+            </Button>
         </DialogActions>
     </Dialog>
   );

@@ -1,3 +1,5 @@
+import { MovementSimulationStrategyType } from '../simulation/types';
+
 interface Position {
   x: number,
   y: number
@@ -42,6 +44,7 @@ export interface SimulationMap {
   roads: Road[],
   id: number,
   name: string,
+  compatibleWith: MovementSimulationStrategyType[],
 }
 
 export interface BasicMapInfo {
