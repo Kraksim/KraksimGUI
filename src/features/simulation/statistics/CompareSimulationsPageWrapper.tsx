@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useUrlParamsQuery } from '../../common/hooks';
 
-import CompareSimulationsPage from './CompareSImulationsPage';
+import CompareSimulationsPage from './CompareSimulationsPage';
 
 export default function CompareSimulationsPageWrapper(): JSX.Element{
 

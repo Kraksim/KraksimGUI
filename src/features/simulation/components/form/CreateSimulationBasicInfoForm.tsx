@@ -12,7 +12,7 @@ import {
 
 export const simulationBasicInfoInitialValues = {
   name: '',
-  simulationType: '',
+  simulationType: 'NAGEL_CORE',
 };
 
 function CreateSimulationBasicInfoForm(): JSX.Element {
@@ -33,7 +33,7 @@ function CreateSimulationBasicInfoForm(): JSX.Element {
                             >
                                 {({ field }: FieldProps) => (
                                     <FormSelect {...field} label="Simulation Type">
-                                        <MenuItem value={'NAGEL_CORE'}>{'NAGEL_CORE'}</MenuItem>
+                                        <MenuItem value={'NAGEL_CORE'}>Nagel Core</MenuItem>
                                     </FormSelect>
                                 )}
                             </FastField>    

@@ -13,8 +13,7 @@ import {
 } from './common';
 
 export const movementSimulationStrategyInitialValues = {
-  type: '',
-  randomProvider: '',
+  type: 'NAGEL_SCHRECKENBERG',
   slowDownProbability: '',
   maxVelocity: '',
 };
@@ -71,26 +70,6 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies }: Props): 
                             name={'movementSimulationStrategy.maxVelocity'}
                             component="div"
                             className="field-error"
-                        />
-                    </Box>
-                </ElementBox>
-                <ElementBox>
-                    <Box>
-                        <InputLabel
-                            htmlFor={'movementSimulationStrategy.randomProvider'}>Random Provider</InputLabel>
-                        <FastField
-                            name={'movementSimulationStrategy.randomProvider'}
-                            type="number"
-                        >
-                            {({ field }: FieldProps) => (
-                                <FormSelect {...field} label="Strategy Type">
-                                    <MenuItem value={'TRUE'}>True Random</MenuItem>
-                                </FormSelect>
-                            )}
-                        </FastField>
-                        <ErrorMessage
-                            name={'SimulationStrategy.randomProvider'}
-                            component="div"
                         />
                     </Box>
                     <Box>
