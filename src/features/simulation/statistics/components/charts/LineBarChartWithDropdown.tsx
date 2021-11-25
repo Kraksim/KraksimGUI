@@ -1,7 +1,9 @@
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import React, { useState } from 'react';
+
+import LabeledInput from '../../../../page/home/dialogs/LabeledInput';
 
 import { LineBarChart } from './LineBarChart';
 import { Series } from './types';
@@ -15,6 +17,7 @@ interface Props {
   roadNames: Record<number, string>;
   title: string;
   isLoading: boolean;
+  dropdownLabel: string;
   error?: FetchBaseQueryError | SerializedError;
   turn: number;
 }
@@ -28,6 +31,7 @@ export default function LineBarChartWithDropdown({
   roadNames,
   title,
   isLoading,
+  dropdownLabel,
   error,
   turn,
 }: Props): JSX.Element {
@@ -49,16 +53,17 @@ export default function LineBarChartWithDropdown({
         <LineBarChart
           turn={turn}
           renderSelect={
-            <Select
+            <LabeledInput
               value={selectedElement}
-              onChange={(e) => setSelectedElement(e.target.value)}
+              setValue={ setSelectedElement }
+              label={dropdownLabel}
             >
               {dropdownValues.map((item) => (
                 <MenuItem key={item} value={item}>
                   {roadNames[item]}
                 </MenuItem>
               ))}
-            </Select>
+            </LabeledInput>
           }
           title={title}
           lineSeries={lineSeries}

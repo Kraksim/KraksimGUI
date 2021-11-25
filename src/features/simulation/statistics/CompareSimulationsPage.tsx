@@ -84,6 +84,7 @@ export default function CompareSimulationsPage({
       roadNames={roadNames}
       height={500}
       barWidth={0.8}
+      dropdownLabel='Road'
       dropdownValues={[...firstSimulationParsedStats.currentFlowMap.keys()]}
       barSeriesByEntity={[
         firstSimulationParsedStats.currentFlowMap,
@@ -105,6 +106,7 @@ export default function CompareSimulationsPage({
       turn={turn}
       height={500}
       barWidth={0.8}
+      dropdownLabel='Road'
       dropdownValues={[...firstSimulationParsedStats.currentDensityMap.keys()]}
       barSeriesByEntity={[
         firstSimulationParsedStats.currentDensityMap,
@@ -126,6 +128,7 @@ export default function CompareSimulationsPage({
       turn={turn}
       height={500}
       barWidth={0.8}
+      dropdownLabel='Road'
       dropdownValues={[
         ...firstSimulationParsedStats.currentRoadAvgVelocityMap.keys(),
       ]}

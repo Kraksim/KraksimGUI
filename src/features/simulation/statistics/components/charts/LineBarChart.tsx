@@ -1,7 +1,9 @@
-import { Box, CircularProgress, Slider, Typography } from '@mui/material';
+import {
+  Box, CircularProgress, Slider, Typography,
+} from '@mui/material';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FlexibleWidthXYPlot as XYPlot,
   XAxis,
@@ -10,10 +12,12 @@ import {
   HorizontalGridLines,
   VerticalBarSeries,
   DiscreteColorLegend,
-  LineSeries,
+  LineSeries, AreaSeries,
 } from 'react-vis';
 
 import 'react-vis/dist/style.css';
+import { maxOrDefault, minOrDefault } from '../../../../common/utils';
+
 import { Series } from './types';
 
 interface Props {
@@ -38,33 +42,39 @@ export function LineBarChart({
   isLoading,
   error,
 }: Props): JSX.Element {
-  const [range, setRange] = React.useState<number[]>([0, 100]);
 
+  const allTurns = lineSeries.flatMap(series=> series.data.map(val=> val.turn));
+  const minTurn = minOrDefault(allTurns, 0);
+  const maxTurn = maxOrDefault(allTurns, 100);
+
+  const [range, setRange] = React.useState<number[]>([minTurn, maxTurn]);
+  useEffect(() =>setRange([minTurn, maxTurn]), [minTurn, maxTurn]);
   const handleChange = (event: Event, newValue: number | number[]) => {
     setRange(newValue as number[]);
   };
+  const turnsDisplayed = range[1] - range[0];
 
-  const barDataToPresent = barSeries
-    .map((series) =>
-      series.data
-        .filter(({ turn }) => turn >= range[0] && turn <= range[1])
-        .map((entityData) => ({
-          x: entityData.turn,
-          y: entityData.value,
-        })),
-    )
-    .filter((x) => x.length > 0);
+  function prepareDataOf(seriesArr: Series[]) {
+    const result = seriesArr
+      .map((series) => {
+        return series.data
+          .filter(({ turn }) => turn >= range[0] && turn <= range[1])
+          .sort((s1, s2) => s1.turn - s2.turn)
+          .map((entityData) => ({
+            x: entityData.turn,
+            y: entityData.value,
+          }));
+      },
+      );
 
-  const lineDataToPresent = lineSeries
-    .map((series) =>
-      series.data
-        .filter(({ turn }) => turn >= range[0] && turn <= range[1])
-        .map((entityData) => ({
-          x: entityData.turn,
-          y: entityData.value,
-        })),
-    )
-    .filter((x) => x.length > 0);
+    if (result.every((x) => x.length == 0)) {
+      return [];
+    }
+    return result;
+  }
+
+  const barDataToPresent = prepareDataOf(barSeries);
+  const lineDataToPresent = prepareDataOf(lineSeries);
 
   const labels = [
     ...barSeries.map((x) => ({ title: x.label })),
@@ -83,7 +93,6 @@ export function LineBarChart({
             }}
           />
           <XYPlot
-            animation
             height={height}
             xDomain={[0, 10]}
             yDomain={[0, 10]}
@@ -103,7 +112,6 @@ export function LineBarChart({
       return barDataToPresent.length > 0 || lineDataToPresent.length > 0 ? (
         <>
           <XYPlot
-            animation
             dontCheckIfEmpty
             xType="ordinal"
             height={height}
@@ -111,9 +119,11 @@ export function LineBarChart({
           >
             <VerticalGridLines />
             <HorizontalGridLines />
-            <XAxis />
+            { turnsDisplayed > 50 ? null : <XAxis />  }
             <YAxis />
             {barDataToPresent.map((series) => (
+              turnsDisplayed > 80 ?
+                  <AreaSeries curve={'curveMonotoneX'} data={series}/> :
               <VerticalBarSeries data={series} barWidth={barWidth} />
             ))}
             {lineDataToPresent.map((series) => (
@@ -165,6 +175,8 @@ export function LineBarChart({
           value={range}
           onChange={handleChange}
           valueLabelDisplay="auto"
+          max={maxTurn}
+          min={minTurn}
         />
       </Box>
     </Box>

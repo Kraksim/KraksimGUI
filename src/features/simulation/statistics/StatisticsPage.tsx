@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React from 'react';
 
 import { useGetStatisticsFromSimulationQuery } from '../simulationApi';
@@ -61,6 +61,7 @@ export default function StatisticsPage({
       turn={turn}
       title={'Flow by road'}
       roadNames={roadNames}
+      dropdownLabel='Road'
       height={500}
       barWidth={0.8}
       dropdownValues={[...currentFlowMap.keys()]}
@@ -76,6 +77,7 @@ export default function StatisticsPage({
       turn={turn}
       title={'Density by road'}
       roadNames={roadNames}
+      dropdownLabel='Road'
       height={500}
       barWidth={0.8}
       dropdownValues={[...currentDensityMap.keys()]}
@@ -91,6 +93,7 @@ export default function StatisticsPage({
       turn={turn}
       title={'Average velocity by road'}
       roadNames={roadNames}
+      dropdownLabel='Road'
       height={500}
       barWidth={0.8}
       dropdownValues={[...currentRoadAvgVelocityMap.keys()]}
@@ -107,14 +110,14 @@ export default function StatisticsPage({
         {`Statistics for simulation ID: ${selectedSimulationId}`}
       </Typography>
       <ChartBox>
-        <div style={{ width: '100%' }}>{averageVelocityChart}</div>
+          <Box width={ '90%' }>{averageVelocityChart}</Box>
       </ChartBox>
       <ChartBox>
-        <div style={{ width: '45%' }}>{flowChart}</div>
-        <div style={{ width: '45%' }}>{densityChart}</div>
+          <Box width={ '45%' }>{flowChart}</Box>
+          <Box width={ '45%' }>{densityChart}</Box>
       </ChartBox>
       <ChartBox>
-        <div style={{ width: '100%' }}>{roadAvgChart}</div>
+          <Box width={ '90%' }>{roadAvgChart}</Box>
       </ChartBox>
     </StatisticsContainer>
   );
