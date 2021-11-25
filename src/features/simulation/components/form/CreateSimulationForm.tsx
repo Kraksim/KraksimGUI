@@ -2,6 +2,7 @@ import { Alert, Snackbar, Box } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
+import MapVisualizer from '../../../map/MapVisualizer';
 import { useGetMapByIdQuery } from '../../../map/mapApi';
 import { useCreateSimulationMutation } from '../../simulationApi';
 
@@ -58,8 +59,11 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   };
 
   return (
-    <Box margin='10px'>
-      {data && (<Formik
+    <Box margin='0 10px' display="flex" justifyContent="stretch">
+      {data && (
+      <>
+      <Box sx={{ overflowY: 'scroll', height: '99vh' }}>
+      <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
           console.log(values);
@@ -81,8 +85,10 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
             <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
           </Form>
         )}
-      </Formik>)}
-
+      </Formik>
+      </Box>
+      <MapVisualizer map={data}/>
+      </>)}
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
           {result.isError ? 'Something went wrong: ' + (result.error as any)?.data : 'Simulation created successfully!'}
