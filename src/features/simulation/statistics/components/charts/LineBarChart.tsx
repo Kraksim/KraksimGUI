@@ -165,7 +165,7 @@ export function LineBarChart({
 
   return (
     <Box position="relative">
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="h4">{title}</Typography>
         {renderSelect}
       </Box>
