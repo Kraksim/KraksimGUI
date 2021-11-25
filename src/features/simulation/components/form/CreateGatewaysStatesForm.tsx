@@ -3,13 +3,13 @@ import {
   FastField, ErrorMessage, FieldArray, FieldProps, 
 } from 'formik';
 import {
-  Box, InputLabel, MenuItem, 
+  Box, Divider, InputLabel, MenuItem, 
 } from '@mui/material';
 
 import { CreateGeneratorsRequest } from '../../requests';
 
 import {
-  FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, FormInpiutField, 
+  FormBox, ControlContainer, ControlButton, DeleteButton, AddedElementListBox, ElementBox, FormSelect, FormInpiutField, 
 } from './common';
 import { NameId } from './util';
 
@@ -30,8 +30,8 @@ export function getGatewaysStatesInitialValues(gatewayIds: number[]): InitialVal
       {
         releaseDelay: '',
         carsToRelease: '',
-        targetGatewayId: '',
-        gpsType: '',
+        targetGatewayId: gatewayIds[0],
+        gpsType: 'DIJKSTRA_ROAD_LENGTH',
       },
     ],
   } }), {});
@@ -73,11 +73,11 @@ function CreateGatewaysStatesForm( { allowedGateways, values }: Props): JSX.Elem
                   Add new entry
                 </ControlButton>
                 </ControlContainer>
-                <ScrollbarBox>
                 <AddedElementListBox>
                 {values[currentId].generators.length > 0 &&
                   values[currentId].generators.map((generator, index) => (
                     <>
+                  <Box margin="10px 0">
                     <ElementBox key={index}>
                       <Box>
                         <InputLabel 
@@ -150,19 +150,20 @@ function CreateGatewaysStatesForm( { allowedGateways, values }: Props): JSX.Elem
                             component="div"
                           />
                         </Box>
-                        <ControlButton
+                        <DeleteButton
                           variant="contained"
                           type="button"
                           color="error"
                           onClick={() => remove(index)}
                         >
                           Delete
-                        </ControlButton>
+                        </DeleteButton>
                     </ElementBox>
-                    </>
+                  </Box>
+                  <Divider/>
+                  </>
                   ))}
                   </AddedElementListBox>
-                  </ScrollbarBox>
               </FormBox>
             )}
           </FieldArray>

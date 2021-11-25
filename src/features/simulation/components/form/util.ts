@@ -6,7 +6,7 @@ import {
   CreateLightPhaseStrategyRequest,
 } from '../../requests';
 import {
-  SimulationType, MovementSimulationStrategyType, RandomProviderType, LightAlgorithmType, 
+  SimulationType, MovementSimulationStrategyType, LightAlgorithmType, 
 } from '../../types';
 
 import { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
@@ -69,7 +69,7 @@ function parseMovementSimulationStrategyToRequest(
     type: result.type as MovementSimulationStrategyType,
     slowDownProbability: parseInt(result.slowDownProbability) / 100,
     maxVelocity: parseInt(result.maxVelocity),
-    randomProvider: result.randomProvider as RandomProviderType,
+    randomProvider: 'TRUE',
   };
 }
 

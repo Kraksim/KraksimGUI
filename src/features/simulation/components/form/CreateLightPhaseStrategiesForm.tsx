@@ -3,11 +3,11 @@ import {
   FastField, ErrorMessage, FieldArray, 
 } from 'formik';
 import {
-  Box, Checkbox, InputLabel, ListItemText, MenuItem, 
+  Box, Checkbox, Chip, Divider, InputLabel, ListItemText, MenuItem, 
 } from '@mui/material';
 
 import {
-  FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
+  FormBox, ControlContainer, ControlButton, DeleteButton, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
 } from './common';
 import { NameId } from './util';
 
@@ -33,7 +33,6 @@ export const lightPhaseStrategiesInitialValues: InitialValues = [
 ];
 
 function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props): JSX.Element {
-
   return (
     (allowedIntersections.length > 0 && values.length > 0) ? (<div>
       <h1>Light Phase Strategies</h1>
@@ -54,12 +53,49 @@ function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props
                   Add new entry
                 </ControlButton>
                 </ControlContainer>
-                <ScrollbarBox>
                 <AddedElementListBox>
                 {values.length > 0 &&
                   values.map((lightPhaseStrategy, index) => (
                     <>
+                    <Box margin="10px 0">
                     <ElementBox key={index}>
+                      <Box>
+                        <InputLabel 
+                        htmlFor="intersections-select"
+                        id="intersections-select-label"
+                        >
+                            Intersections
+                        </InputLabel>
+                              <FormSelect
+                                labelId="intersections-select-label"
+                                id="intersections-select"
+                                label="Intersections"
+                                renderValue={(selected: string[]) => {
+                                  return (selected && selected.length > 0) ? (
+                                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {selected.map((value) => (
+                                      <Chip 
+                                      key={value} 
+                                      label={allowedIntersections.find(x => x.id === parseInt(value))?.name} />
+                                    ))}
+                                  </Box>
+                                  ) : <em>Choose intersections</em>;
+                                }}
+                                multiple value={values[index].intersections}>
+                                    {allowedIntersections.map(({ id, name }) => (
+                                    <MenuItem key={id} value={id}>
+                                      <FastField type="checkbox" 
+                                      name={`lightPhaseStrategies.${index}.intersections`}
+                                      value={id} 
+                                      as={Checkbox} 
+                                      checked={
+                                          values[index].intersections.indexOf(id.toString()) > -1
+                                        }>{name}</FastField>
+                                      <ListItemText primary={id} />
+                                    </MenuItem>
+                                    ))}
+                              </FormSelect>
+                      </Box>
                       <Box>{
                         values[index].algorithm === 'TURN_BASED' ? 
                           (<>
@@ -91,28 +127,6 @@ function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props
                         </>
                           )
                       }
-                      </Box>
-                      <Box>
-                        <InputLabel 
-                        htmlFor={`lightPhaseStrategies.${index}.intersections`}>
-                            Intersections
-                        </InputLabel>
-                              <FormSelect 
-                                renderValue={(selected: string[]) => selected.join(', ')} 
-                                multiple value={allowedIntersections.map(({ name }) => name)}>
-                                    {allowedIntersections.map(({ id, name }) => (
-                                    <MenuItem key={id} value={id}>
-                                      <FastField type="checkbox" 
-                                      name={`lightPhaseStrategies.${index}.intersections`}
-                                      value={id} 
-                                      as={Checkbox} 
-                                      checked={
-                                          values[index].intersections.indexOf(id.toString()) > -1
-                                        }>{name}</FastField>
-                                      <ListItemText primary={id} />
-                                    </MenuItem>
-                                    ))}
-                              </FormSelect>
                       </Box>
                       </ElementBox>
                       <ElementBox>
@@ -150,19 +164,20 @@ function CreateLightPhaseStrategiesForm( { allowedIntersections, values }: Props
                         </Box>
                       )
                       }
-                        <ControlButton
+                        <DeleteButton
                           variant="contained"
                           type="button"
                           color="error"
                           onClick={() => remove(index)}
                         >
                           Delete
-                        </ControlButton>
+                        </DeleteButton>
                     </ElementBox>
+                    </Box>
+                    <Divider />
                     </>
                   ))}
                   </AddedElementListBox>
-                  </ScrollbarBox>
               </FormBox>
             )}
           </FieldArray>

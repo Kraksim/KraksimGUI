@@ -3,11 +3,11 @@ import {
   FastField as Field, ErrorMessage, FieldArray, 
 } from 'formik';
 import {
-  Box, InputLabel, MenuItem, Checkbox, ListItemText,
+  Box, InputLabel, MenuItem, Checkbox, ListItemText, Chip, Divider,
 } from '@mui/material';
 
 import {
-  FormBox, ControlContainer, ControlButton, ScrollbarBox, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
+  FormBox, ControlContainer, ControlButton, DeleteButton, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
 } from './common';
 import { NameId } from './util';
 
@@ -43,41 +43,36 @@ function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props): JSX.El
                   type="button"
                   variant="contained"
                   onClick={() => push({
-                    roadIds: '',
-                    velocity: [],
+                    roadIds: [],
+                    velocity: '',
                   })}
                 >
                   Add new entry
                 </ControlButton>
                 </ControlContainer>
-                <ScrollbarBox>
                 <AddedElementListBox>
                 {values.roadsVelocityPairs.length > 0 &&
                   values.roadsVelocityPairs.map((roadsVelocityPair, index) => (
-                    <ElementBox key={index}>
-                      <Box>
-                        <InputLabel 
-                        htmlFor={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}>
-                          Velocity
-                        </InputLabel>
-                        <Field
-                          name={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}
-                          type="number"
-                          placeholder="Velocity"
-                          as={FormInpiutField}
-                        />
-                        <ErrorMessage
-                          name={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}
-                          component="div"
-                        />
-                      </Box>
+                    <>
+                    <Box key={index} margin="10px 0">
+                    <ElementBox>
                       <Box>
                         <InputLabel 
                         htmlFor={`expectedVelocity.roadsVelocityPairs.${index}.roadIds`}>Roads</InputLabel>
                               <FormSelect 
-                                renderValue={() => 'Select roads'} 
+                              renderValue={(selected: string[]) => {
+                                return (
+                                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {selected.map((value) => (
+                                      <Chip 
+                                      key={value} 
+                                      label={allowedRoads.find(x => x.id === parseInt(value))?.name} />
+                                    ))}
+                                  </Box>
+                                );
+                              }}
                                 multiple 
-                                value={allowedRoads.map(({ name }) => name)}>
+                                value={values.roadsVelocityPairs[index].roadIds}>
                                     {allowedRoads.map(({ id, name }) => (
                                     <MenuItem key={id} value={id}>
                                       <Field type="checkbox" 
@@ -96,18 +91,36 @@ function CreateExpectedVelocityMapForm( { allowedRoads, values }: Props): JSX.El
                           component="div"
                         />
                       </Box>
-                        <ControlButton
+                      <Box>
+                        <InputLabel 
+                        htmlFor={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}>
+                          Velocity
+                        </InputLabel>
+                        <Field
+                          name={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}
+                          type="number"
+                          placeholder="Velocity"
+                          as={FormInpiutField}
+                        />
+                        <ErrorMessage
+                          name={`expectedVelocity.roadsVelocityPairs.${index}.velocity`}
+                          component="div"
+                        />
+                      </Box>
+                        <DeleteButton
                           variant="contained"
                           type="button"
                           color="error"
                           onClick={() => remove(index)}
                         >
                           Delete
-                        </ControlButton>
+                        </DeleteButton>
                     </ElementBox>
+                    </Box>
+                    <Divider/>
+                    </>
                   ))}
                   </AddedElementListBox>
-                  </ScrollbarBox>
               </FormBox>
             )}
           </FieldArray>

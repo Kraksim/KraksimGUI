@@ -1,4 +1,4 @@
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, Box } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
@@ -58,7 +58,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   };
 
   return (
-    <div>
+    <Box margin='10px'>
       {data && (<Formik
         initialValues={initialValues}
         onSubmit={(values) => {
@@ -88,6 +88,6 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
           {result.isError ? 'Something went wrong: ' + (result.error as any)?.data : 'Simulation created successfully!'}
         </Alert>
       </Snackbar>
-    </div>
+    </Box>
   );
 }
