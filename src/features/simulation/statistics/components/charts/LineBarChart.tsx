@@ -48,7 +48,7 @@ export function LineBarChart({
   const maxTurn = maxOrDefault(allTurns, 100);
 
   const [range, setRange] = React.useState<number[]>([minTurn, maxTurn]);
-  useEffect(() =>setRange([minTurn, maxTurn]), [minTurn, maxTurn]);
+  useEffect(() => setRange([minTurn, maxTurn]), [minTurn, maxTurn]);
   const handleChange = (event: Event, newValue: number | number[]) => {
     setRange(newValue as number[]);
   };

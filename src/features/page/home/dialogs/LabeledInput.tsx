@@ -2,11 +2,6 @@ import { FormControl, InputLabel, Select } from '@mui/material';
 import React, { PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
 
-const FormControlBlock = styled(FormControl)(() => ({
-  display: 'block',
-  marginTop: 30,
-}));
-
 const SizedSelect = styled(Select)(() => ({
   minWidth: 200,
 }));
@@ -16,6 +11,7 @@ interface Props {
   value: string;
   setValue: (value: ((prevState: string) => string) | string) => void;
   disabled?: boolean;
+  marginTop?: number;
 }
 
 export default function LabeledInput({
@@ -24,7 +20,14 @@ export default function LabeledInput({
   setValue,
   disabled,
   children,
+  marginTop = 0,
 }: PropsWithChildren<Props>): JSX.Element {
+
+  const FormControlBlock = styled(FormControl)(() => ({
+    display: 'block',
+    marginTop: marginTop,
+  }));
+
   return (
     <FormControlBlock>
       <InputLabel id="label1">{label}</InputLabel>

@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 import { useGetAllMapsBasicInfoQuery } from '../../../map/mapApi';
 import { useGetAllSimulationsQuery } from '../../../simulation/simulationApi';
@@ -19,6 +20,10 @@ import LabeledInput from './LabeledInput';
 function checkIfButtonIsDisabled(strings: string[]) {
   return !strings.every((x) => x.length > 0);
 }
+
+const SpacedInput = styled(LabeledInput)(() => ({
+  paddingTop: 30,
+}));
 export default function CompareSimulationsDialog({
   open,
   onClose,
@@ -43,14 +48,15 @@ export default function CompareSimulationsDialog({
           To compare simulations, select a map and then 2 simulations which you
           want to compare
         </DialogContentText>
-        <LabeledInput label="Map" value={mapId} setValue={setMapId}>
+        <SpacedInput marginTop={30} label="Map" value={mapId} setValue={setMapId}>
           {mapData?.map(({ id, name }) => (
             <MenuItem key={id} value={id.toString()}>
               {name}
             </MenuItem>
           ))}
-        </LabeledInput>
-        <LabeledInput
+        </SpacedInput>
+        <SpacedInput
+          marginTop={30}
           label="First Simulation"
           value={firstSimulationId}
           setValue={setFirstSimulationId}
@@ -68,8 +74,9 @@ export default function CompareSimulationsDialog({
                 {name}
               </MenuItem>
             ))}
-        </LabeledInput>
-        <LabeledInput
+        </SpacedInput>
+        <SpacedInput
+          marginTop={30}
           label="Second Simulation"
           value={secondSimulationId}
           setValue={setSecondSimulationId}
@@ -87,7 +94,7 @@ export default function CompareSimulationsDialog({
                 {name}
               </MenuItem>
             ))}
-        </LabeledInput>
+        </SpacedInput>
       </DialogContent>
       <DialogActions>
         <Button
