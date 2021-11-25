@@ -5,7 +5,6 @@ import { useUrlParamsQuery } from '../../common/hooks';
 import CompareSimulationsPage from './CompareSimulationsPage';
 
 export default function CompareSimulationsPageWrapper(): JSX.Element{
-
   const queryParams = useUrlParamsQuery();
   const firstSimulationId = queryParams.get('firstSimulationId');
   const secondSimulationId = queryParams.get('secondSimulationId');
