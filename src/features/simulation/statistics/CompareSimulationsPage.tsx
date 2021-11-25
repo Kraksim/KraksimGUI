@@ -32,6 +32,11 @@ export default function CompareSimulationsPage({
 
   const roadNames = firstSimulationData ? firstSimulationData[0].roadNames : {};
 
+  const turn = Math.max(
+    firstSimulationData?.length ?? 0,
+    secondSimulationData?.length ?? 0,
+  );
+
   const firstSimulationParsedStats = getAllStatsForLineBar(firstSimulationData);
   const secondSimulationParsedStats =
     getAllStatsForLineBar(secondSimulationData);
@@ -43,6 +48,7 @@ export default function CompareSimulationsPage({
 
   const averageVelocityChart = (
     <LineBarChart
+      turn={turn}
       title={'Average Velocity'}
       barWidth={0.8}
       lineSeries={[
@@ -74,6 +80,7 @@ export default function CompareSimulationsPage({
   const flowChart = (
     <LineBarChartWithDropdown
       title={'Flow by road'}
+      turn={turn}
       roadNames={roadNames}
       height={500}
       barWidth={0.8}
@@ -95,6 +102,7 @@ export default function CompareSimulationsPage({
     <LineBarChartWithDropdown
       title={'Density by road'}
       roadNames={roadNames}
+      turn={turn}
       height={500}
       barWidth={0.8}
       dropdownValues={[...firstSimulationParsedStats.currentDensityMap.keys()]}
@@ -115,6 +123,7 @@ export default function CompareSimulationsPage({
     <LineBarChartWithDropdown
       title={'Average velocity by road'}
       roadNames={roadNames}
+      turn={turn}
       height={500}
       barWidth={0.8}
       dropdownValues={[

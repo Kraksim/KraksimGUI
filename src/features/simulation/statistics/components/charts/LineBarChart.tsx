@@ -25,6 +25,7 @@ interface Props {
   renderSelect?: JSX.Element;
   isLoading: boolean;
   error?: FetchBaseQueryError | SerializedError;
+  turn: number,
 }
 
 export function LineBarChart({

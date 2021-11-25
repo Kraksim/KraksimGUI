@@ -16,6 +16,7 @@ interface Props {
   title: string;
   isLoading: boolean;
   error?: FetchBaseQueryError | SerializedError;
+  turn: number;
 }
 
 export default function LineBarChartWithDropdown({
@@ -28,6 +29,7 @@ export default function LineBarChartWithDropdown({
   title,
   isLoading,
   error,
+  turn,
 }: Props): JSX.Element {
   const [selectedElement, setSelectedElement] = useState('');
 
@@ -45,6 +47,7 @@ export default function LineBarChartWithDropdown({
     <div>
       <div>
         <LineBarChart
+          turn={turn}
           renderSelect={
             <Select
               value={selectedElement}

@@ -20,6 +20,8 @@ export default function StatisticsPage({
 
   const roadNames = data ? data[0].roadNames : {};
 
+  const turn = data?.length ?? 0;
+
   const {
     currentAverageVelocityByTurn,
     totalAverageVelocityByTurn,
@@ -33,6 +35,7 @@ export default function StatisticsPage({
 
   const averageVelocityChart = (
     <LineBarChart
+      turn={turn}
       title={'Average Velocity'}
       barWidth={0.8}
       lineSeries={[
@@ -55,6 +58,7 @@ export default function StatisticsPage({
 
   const flowChart = (
     <LineBarChartWithDropdown
+      turn={turn}
       title={'Flow by road'}
       roadNames={roadNames}
       height={500}
@@ -69,6 +73,7 @@ export default function StatisticsPage({
 
   const densityChart = (
     <LineBarChartWithDropdown
+      turn={turn}
       title={'Density by road'}
       roadNames={roadNames}
       height={500}
@@ -83,6 +88,7 @@ export default function StatisticsPage({
 
   const roadAvgChart = (
     <LineBarChartWithDropdown
+      turn={turn}
       title={'Average velocity by road'}
       roadNames={roadNames}
       height={500}
@@ -96,7 +102,7 @@ export default function StatisticsPage({
   );
 
   return (
-    <StatisticsContainer maxWidth="lg">
+    <StatisticsContainer>
       <Typography sx={{ margin: '10px' }} variant="h3">
         {`Statistics for simulation ID: ${selectedSimulationId}`}
       </Typography>
@@ -104,8 +110,8 @@ export default function StatisticsPage({
         <div style={{ width: '100%' }}>{averageVelocityChart}</div>
       </ChartBox>
       <ChartBox>
-        <div style={{ width: '50%' }}>{flowChart}</div>
-        <div style={{ width: '50%' }}>{densityChart}</div>
+        <div style={{ width: '45%' }}>{flowChart}</div>
+        <div style={{ width: '45%' }}>{densityChart}</div>
       </ChartBox>
       <ChartBox>
         <div style={{ width: '100%' }}>{roadAvgChart}</div>
