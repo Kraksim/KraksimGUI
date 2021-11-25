@@ -7,9 +7,7 @@ import CreateSimulationPage from './features/simulation/components/CreateSimulat
 import CompareSimulationsPageWrapper from './features/simulation/statistics/CompareSimulationsPageWrapper';
 import StatisticsPageWrapper from './features/simulation/statistics/StatisticsPageWrapper';
 
-
 function App(): JSX.Element {
-
   return (
     <BrowserRouter>
       <Switch>
@@ -17,13 +15,13 @@ function App(): JSX.Element {
           <SimulationList />
         </Route>
         <Route path="/simulations/create">
-          <CreateSimulationPage/>
+          <CreateSimulationPage />
         </Route>
         <Route path="/simulations/compare">
-          <CompareSimulationsPageWrapper/>
+          <CompareSimulationsPageWrapper />
         </Route>
         <Route path="/statistics">
-          <StatisticsPageWrapper/>
+          <StatisticsPageWrapper />
         </Route>
         <Route path="/">
           <HomePage />

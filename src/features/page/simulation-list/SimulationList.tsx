@@ -22,7 +22,8 @@ import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
 import DoneIcon from '@mui/icons-material/Done';
 
 import {
-  useGetAllSimulationsQuery, useSimulateMutation,
+  useGetAllSimulationsQuery,
+  useSimulateMutation,
 } from '../../simulation/simulationApi';
 import { SimulateRequest } from '../../simulation/requests';
 
@@ -49,11 +50,9 @@ const SmallTextField = styled(TextField)(() => ({
   width: '9ch',
 }));
 
-
-export default function SimulationList() : JSX.Element {
-
+export default function SimulationList(): JSX.Element {
   const { data } = useGetAllSimulationsQuery();
-  const [ simulate, result ] = useSimulateMutation();
+  const [simulate, result] = useSimulateMutation();
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -72,11 +71,21 @@ export default function SimulationList() : JSX.Element {
 
   return (
     <TableContainer component={Paper}>
-        <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={result.isSuccess ? 'success' : 'error' } sx={{ width: '100%' }}>
-                {result.isSuccess ? 'Simulated successfully' : 'Something went wrong: ' + (result.error as any)?.data}
-            </Alert>
-        </Snackbar>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={result.isSuccess ? 'success' : 'error'}
+          sx={{ width: '100%' }}
+        >
+          {result.isSuccess
+            ? 'Simulated successfully'
+            : 'Something went wrong: ' + (result.error as any)?.data}
+        </Alert>
+      </Snackbar>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -87,7 +96,7 @@ export default function SimulationList() : JSX.Element {
             <TableCell>Movement type</TableCell>
             <TableCell>Turn</TableCell>
             <TableCell>State</TableCell>
-            <TableCell/>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -102,15 +111,18 @@ export default function SimulationList() : JSX.Element {
               <TableCell>{row.type}</TableCell>
               <TableCell>{row.movementSimulationStrategyType}</TableCell>
               <TableCell>{row.turn}</TableCell>
-              <TableCell>{row.isFinished ? <DoneIcon/> : <FastForwardOutlinedIcon/> }</TableCell>
-                <CenterTableCell align={'center'}>
-                  { <SimulationActions
-                      id={row.id}
-                      finished={row.isFinished}
-                      simulate={simulate}
+              <TableCell>
+                {row.isFinished ? <DoneIcon /> : <FastForwardOutlinedIcon />}
+              </TableCell>
+              <CenterTableCell align={'center'}>
+                {
+                  <SimulationActions
+                    id={row.id}
+                    finished={row.isFinished}
+                    simulate={simulate}
                   />
-                  }
-                </CenterTableCell>
+                }
+              </CenterTableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -120,27 +132,41 @@ export default function SimulationList() : JSX.Element {
 }
 
 interface SimulationActionsProps {
-  id: number,
-  finished: boolean,
-  simulate: ((request: SimulateRequest) => any),
+  id: number;
+  finished: boolean;
+  simulate: (request: SimulateRequest) => any;
 }
 
 function SimulationActions({
-  id, simulate, finished,
-}: SimulationActionsProps) : JSX.Element {
+  id,
+  simulate,
+  finished,
+}: SimulationActionsProps): JSX.Element {
   const history = useHistory();
   const [turns, setTurns] = useState('1');
 
   return (
-      <CenterHorizontal>
-        <IconButton  onClick={() =>  history.push('/statistics?simulationId=' + id)}>
-          <QueryStatsIcon/>
-        </IconButton>
-        <IconButton disabled={finished} onClick={() => simulate({ id: id, times: parseInt(turns) })}>
-          <PlayCircleOutlineIcon/>
-        </IconButton>
-        <SmallTextField disabled={finished} id="turns" label="Turns" type="number" variant="outlined" defaultValue="1"
-                   onChange={(e) => setTurns(e.target.value)}/>
-      </CenterHorizontal>
+    <CenterHorizontal>
+      <IconButton
+        onClick={() => history.push('/statistics?simulationId=' + id)}
+      >
+        <QueryStatsIcon />
+      </IconButton>
+      <IconButton
+        disabled={finished}
+        onClick={() => simulate({ id: id, times: parseInt(turns) })}
+      >
+        <PlayCircleOutlineIcon />
+      </IconButton>
+      <SmallTextField
+        disabled={finished}
+        id="turns"
+        label="Turns"
+        type="number"
+        variant="outlined"
+        defaultValue="1"
+        onChange={(e) => setTurns(e.target.value)}
+      />
+    </CenterHorizontal>
   );
 }
