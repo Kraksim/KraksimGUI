@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useUrlParamsQuery } from '../../common/hooks';
 
-import CompareSimulationsPage from './CompareSimulationsPage';
+import CompareSimulationPage from './CompareSimulationPage';
 
 export default function CompareSimulationsPageWrapper(): JSX.Element{
   const queryParams = useUrlParamsQuery();
@@ -12,7 +12,7 @@ export default function CompareSimulationsPageWrapper(): JSX.Element{
   return (
         <div>
             {(firstSimulationId && secondSimulationId) ? 
-            <CompareSimulationsPage 
+            <CompareSimulationPage
             firstSimulationId={parseInt(firstSimulationId)} 
             secondSimulationId={parseInt(secondSimulationId)}/> : 
             <div>firstSimulationId or secondSimulationId not in querystring :(</div>}
