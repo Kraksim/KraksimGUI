@@ -152,8 +152,7 @@ function SimulationActions({
     setClicked(false);
   }
 
-
-  function simulatexd() {
+  function sendSimulate() {
     setClicked(true);
     return simulate({ id: id, times: parseInt(turns) });
   }
@@ -166,8 +165,8 @@ function SimulationActions({
         <QueryStatsIcon />
       </IconButton>
       <IconButton
-        disabled={finished || loading}
-        onClick={ simulatexd}
+        disabled={ finished || loading }
+        onClick={ sendSimulate }
       >
         { !spinnerVisible ? <PlayCircleOutlineIcon /> : <CircularProgress /> }
       </IconButton>
