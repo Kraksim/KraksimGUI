@@ -50,4 +50,20 @@ export interface BasicMapInfo {
   type: MapType;
   id: number;
   name: string;
+  nodes: BasicRoadNodeInfo[];
+  edges: BasicEdgeInfo[];
 }
+
+export interface BasicEdgeInfo {
+  from: number;
+  to: number;
+  roadThickness: number;
+}
+
+export interface BasicRoadNodeInfo {
+  name: string;
+  type: 'INTERSECTION' | 'GATEWAY';
+  position: Position;
+  id: number;
+}
+

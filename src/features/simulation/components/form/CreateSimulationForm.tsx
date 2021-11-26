@@ -2,7 +2,8 @@ import { Alert, Snackbar, Box } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
-import { useGetMapByIdQuery } from '../../../map/mapApi';
+import MapVisualizer from '../../../map/MapVisualizer';
+import { useGetBasicMapByIdQuery, useGetMapByIdQuery } from '../../../map/mapApi';
 import { useCreateSimulationMutation } from '../../simulationApi';
 
 import { ControlButton } from './common';
@@ -25,6 +26,7 @@ interface Props {
 
 export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   const { data } = useGetMapByIdQuery(mapId);
+  const { data: basicMap } = useGetBasicMapByIdQuery(mapId);
   const [ createSimulation, result ] = useCreateSimulationMutation();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -61,8 +63,11 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   const errorMessage = errorData ? 'Something went wrong: ' + errorData :
     'Something went wrong, please check your connection.';
   return (
-    <Box margin='10px'>
-      {data && (<Formik
+    <Box margin='0 10px' display="flex" justifyContent="stretch">
+      {data && basicMap && (
+      <>
+      <Box sx={{ overflowY: 'scroll', height: '99vh' }}>
+      <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
           console.log(values);
@@ -84,8 +89,10 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
             <ControlButton variant="contained" type="submit">Confirm values</ControlButton>
           </Form>
         )}
-      </Formik>)}
-
+      </Formik>
+      </Box>
+      <MapVisualizer map={basicMap}/>
+      </>)}
       <Snackbar open={snackbarOpen} autoHideDuration={result.isError ? 15000 : 3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
           {result.isError ? errorMessage : 'Simulation created successfully!'}

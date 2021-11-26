@@ -28,6 +28,10 @@ export const mapApi = createApi({
       invalidatesTags: (result) =>
         result ? [{ type: 'Map', id: result.id }, 'Map'] : ['Map'],
     }),
+    getBasicMapById: builder.query<BasicMapInfo, number>({
+      query: (id) => ({ url: `map/basic/${id}` }),
+      providesTags: ['BasicMap'],
+    }),
   }),
 });
 
@@ -35,4 +39,5 @@ export const {
   useCreateMapMutation,
   useGetMapByIdQuery,
   useGetAllMapsBasicInfoQuery,
+  useGetBasicMapByIdQuery,
 } = mapApi;
