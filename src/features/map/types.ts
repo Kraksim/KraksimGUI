@@ -57,7 +57,7 @@ export interface BasicMapInfo {
 export interface BasicEdgeInfo {
   from: number;
   to: number;
-  lanesThickness: number;
+  roadThickness: number;
 }
 
 export interface BasicRoadNodeInfo {

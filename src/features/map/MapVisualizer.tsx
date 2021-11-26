@@ -31,11 +31,11 @@ function createGraph(map: BasicMapInfo): GraphData {
         size: NODE_SIZE,
       }));
 
-  const edges = map.edges.map(({ from, to, lanesThickness }) => (
+  const edges = map.edges.map(({ from, to, roadThickness }) => (
     {
       from: from,
       to: to,
-      value: lanesThickness,
+      value: roadThickness,
     }));
 
 
