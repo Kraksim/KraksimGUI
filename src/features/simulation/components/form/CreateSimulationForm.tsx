@@ -57,6 +57,9 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     gatewaysStates: getGatewaysStatesInitialValues(gatewaysSimplified.map(({ id }) => id)),
   };
 
+  const errorData = (result.error as any)?.data;
+  const errorMessage = errorData ? 'Something went wrong: ' + errorData :
+    'Something went wrong, please check your connection.';
   return (
     <Box margin='10px'>
       {data && (<Formik
@@ -83,9 +86,9 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         )}
       </Formik>)}
 
-      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
+      <Snackbar open={snackbarOpen} autoHideDuration={result.isError ? 15000 : 3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
-          {result.isError ? 'Something went wrong: ' + (result.error as any)?.data : 'Simulation created successfully!'}
+          {result.isError ? errorMessage : 'Simulation created successfully!'}
         </Alert>
       </Snackbar>
     </Box>
