@@ -40,7 +40,7 @@ export default function LabeledInput({
     <FormControlBlock error={error}>
       <InputLabel id="input-label">{label}</InputLabel>
       <SizedSelect
-        labelId="label"
+        labelId="input-label"
         label={label}
         value={value == '' ? null : value}
         disabled={disabled}
