@@ -72,7 +72,7 @@ export default function CompareSimulationsPage({
         },
       ]}
       height={500}
-      isLoading={isFirstSimulationLoading && isSecondSimulationLoading}
+      isLoading={isFirstSimulationLoading || isSecondSimulationLoading}
       error={firstSimulationError ?? secondSimulationError}
     />
   );

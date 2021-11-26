@@ -24,19 +24,20 @@ export default function CompareSimulationsDialog({
   open,
   onClose,
 }: DialogProps): JSX.Element {
-  const { data: mapData } = useGetAllMapsBasicInfoQuery();
+  const { data: mapData, isError: connectionError } = useGetAllMapsBasicInfoQuery();
   const { data: simulationData } = useGetAllSimulationsQuery();
   const [mapId, setMapId] = useState('');
   const [firstSimulationId, setFirstSimulationId] = useState('');
   const [secondSimulationId, setSecondSimulationId] = useState('');
   const history = useHistory();
 
+
   const simulationsNr = simulationData
     ?.filter(
       (simulation) =>
         mapId != null &&
               simulation.mapId === parseInt(mapId))?.length ;
-  const isError = mapId.length !== 0 && (simulationsNr === 0 || simulationsNr === 1 );
+  const isTooFewSimulationsToCompare = mapId.length !== 0 && (simulationsNr === 0 || simulationsNr === 1 );
 
   const handleClick = () => {
     history.push(
@@ -57,8 +58,8 @@ export default function CompareSimulationsDialog({
             disabled = { !mapData }
             value={mapId}
             setValue={setMapId}
-            error={isError}
-            helperText={!mapData ? 'Couldn\'t load maps. Check your connection.' :
+            error={isTooFewSimulationsToCompare}
+            helperText={connectionError ? 'Couldn\'t load maps. Check your connection.' :
               'Map has to have at least 2 simulations to compare.'}
         >
           {mapData?.map(({ id, name }) => (
@@ -72,7 +73,7 @@ export default function CompareSimulationsDialog({
           label="First Simulation"
           value={firstSimulationId}
           setValue={setFirstSimulationId}
-          disabled={mapId.length === 0 || isError}
+          disabled={mapId.length === 0 || isTooFewSimulationsToCompare}
           spaceUnder
         >
           {simulationData
@@ -93,7 +94,7 @@ export default function CompareSimulationsDialog({
           label="Second Simulation"
           value={secondSimulationId}
           setValue={setSecondSimulationId}
-          disabled={mapId.length === 0 || isError }
+          disabled={mapId.length === 0 || isTooFewSimulationsToCompare }
         >
           {simulationData
             ?.filter(

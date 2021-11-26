@@ -148,13 +148,16 @@ function SimulationActions({
   const [clicked, setClicked] = useState(false);
 
   const spinnerVisible = clicked && loading;
-  if (!loading && clicked) {
-    setClicked(false);
-  }
+
+  useEffect(()=>{
+    if (!loading && clicked) {
+      setClicked(false);
+    }
+  }, [loading, clicked] );
 
   function sendSimulate() {
     setClicked(true);
-    return simulate({ id: id, times: parseInt(turns) });
+    simulate({ id: id, times: parseInt(turns) });
   }
 
   return (

@@ -34,11 +34,13 @@ export default function LabeledInput({
     marginTop: marginTop,
   }));
 
+  const shouldHideHelperText = !(spaceUnder || helperText);
+  const formHelperText = error || (disabled && helperText) ? helperText : ' ';
   return (
     <FormControlBlock error={error}>
-      <InputLabel id="label1">{label}</InputLabel>
+      <InputLabel id="input-label">{label}</InputLabel>
       <SizedSelect
-        labelId="label1"
+        labelId="label"
         label={label}
         value={value == '' ? null : value}
         disabled={disabled}
@@ -50,8 +52,8 @@ export default function LabeledInput({
         {children}
       </SizedSelect>
       {
-        !(spaceUnder || helperText) ? null :
-            <FormHelperText>{error || (disabled && helperText) ? helperText : ' ' }</FormHelperText>
+        shouldHideHelperText ? null :
+            <FormHelperText>{formHelperText}</FormHelperText>
       }
 
     </FormControlBlock>
