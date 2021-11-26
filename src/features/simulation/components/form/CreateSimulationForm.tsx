@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import MapVisualizer from '../../../map/MapVisualizer';
-import { useGetMapByIdQuery } from '../../../map/mapApi';
+import { useGetBasicMapByIdQuery, useGetMapByIdQuery } from '../../../map/mapApi';
 import { useCreateSimulationMutation } from '../../simulationApi';
 
 import { ControlButton } from './common';
@@ -26,6 +26,7 @@ interface Props {
 
 export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   const { data } = useGetMapByIdQuery(mapId);
+  const { data: basicMap } = useGetBasicMapByIdQuery(mapId);
   const [ createSimulation, result ] = useCreateSimulationMutation();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -60,7 +61,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
 
   return (
     <Box margin='0 10px' display="flex" justifyContent="stretch">
-      {data && (
+      {data && basicMap && (
       <>
       <Box sx={{ overflowY: 'scroll', height: '99vh' }}>
       <Formik
@@ -87,7 +88,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         )}
       </Formik>
       </Box>
-      <MapVisualizer map={data}/>
+      <MapVisualizer map={basicMap}/>
       </>)}
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
