@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from '@emotion/styled';
 
 import { useGetAllMapsBasicInfoQuery } from '../../../map/mapApi';
 import { useGetAllSimulationsQuery } from '../../../simulation/simulationApi';
@@ -21,19 +20,23 @@ function checkIfButtonIsDisabled(strings: string[]) {
   return !strings.every((x) => x.length > 0);
 }
 
-const SpacedInput = styled(LabeledInput)(() => ({
-  paddingTop: 30,
-}));
 export default function CompareSimulationsDialog({
   open,
   onClose,
 }: DialogProps): JSX.Element {
   const { data: mapData } = useGetAllMapsBasicInfoQuery();
-  const { data: simiulationData } = useGetAllSimulationsQuery();
+  const { data: simulationData } = useGetAllSimulationsQuery();
   const [mapId, setMapId] = useState('');
   const [firstSimulationId, setFirstSimulationId] = useState('');
   const [secondSimulationId, setSecondSimulationId] = useState('');
   const history = useHistory();
+
+  const simulationsNr = simulationData
+    ?.filter(
+      (simulation) =>
+        mapId != null &&
+              simulation.mapId === parseInt(mapId))?.length ;
+  const isError = mapId.length !== 0 && (simulationsNr === 0 || simulationsNr === 1 );
 
   const handleClick = () => {
     history.push(
@@ -48,21 +51,29 @@ export default function CompareSimulationsDialog({
           To compare simulations, select a map and then 2 simulations which you
           want to compare
         </DialogContentText>
-        <SpacedInput marginTop={30} label="Map" value={mapId} setValue={setMapId}>
+        <LabeledInput
+            marginTop={30}
+            label="Map"
+            value={mapId}
+            setValue={setMapId}
+            error={isError}
+            helperText='Map has to have at least 2 simulations to compare.'
+        >
           {mapData?.map(({ id, name }) => (
             <MenuItem key={id} value={id.toString()}>
               {name}
             </MenuItem>
           ))}
-        </SpacedInput>
-        <SpacedInput
-          marginTop={30}
+        </LabeledInput>
+        <LabeledInput
+          marginTop={10}
           label="First Simulation"
           value={firstSimulationId}
           setValue={setFirstSimulationId}
-          disabled={mapId.length === 0}
+          disabled={mapId.length === 0 || isError}
+          spaceUnder
         >
-          {simiulationData
+          {simulationData
             ?.filter(
               (simulation) =>
                 mapId != null &&
@@ -74,15 +85,15 @@ export default function CompareSimulationsDialog({
                 {name}
               </MenuItem>
             ))}
-        </SpacedInput>
-        <SpacedInput
-          marginTop={30}
+        </LabeledInput>
+        <LabeledInput
+          marginTop={10}
           label="Second Simulation"
           value={secondSimulationId}
           setValue={setSecondSimulationId}
-          disabled={mapId.length === 0}
+          disabled={mapId.length === 0 || isError }
         >
-          {simiulationData
+          {simulationData
             ?.filter(
               (simulation) =>
                 mapId != null &&
@@ -94,7 +105,7 @@ export default function CompareSimulationsDialog({
                 {name}
               </MenuItem>
             ))}
-        </SpacedInput>
+        </LabeledInput>
       </DialogContent>
       <DialogActions>
         <Button
