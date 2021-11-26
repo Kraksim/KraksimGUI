@@ -34,7 +34,13 @@ export default function CreateSimulationDialog({
         <DialogContentText>
           To create a simulation, select a map for it
         </DialogContentText>
-        <LabeledInput marginTop={30} label="Map" value={mapId} setValue={setMapId}>
+        <LabeledInput
+            marginTop={30}
+            label="Map"
+            value={mapId}
+            helperText={'Couldn\'t load maps. Check your connection.'}
+            disabled = { !data }
+            setValue={setMapId}>
           {data?.map(({ id, name }) => (
             <MenuItem key={id} value={id}>
               {name}

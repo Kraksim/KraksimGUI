@@ -49,8 +49,11 @@ export default function LabeledInput({
       >
         {children}
       </SizedSelect>
-        {error ? <FormHelperText>{helperText}</FormHelperText> :
-          (spaceUnder || helperText) ? <FormHelperText>{' '}</FormHelperText> : null}
+      {
+        !(spaceUnder || helperText) ? null :
+            <FormHelperText>{error || (disabled && helperText) ? helperText : ' ' }</FormHelperText>
+      }
+
     </FormControlBlock>
   );
 }

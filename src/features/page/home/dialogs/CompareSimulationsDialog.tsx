@@ -54,10 +54,12 @@ export default function CompareSimulationsDialog({
         <LabeledInput
             marginTop={30}
             label="Map"
+            disabled = { !mapData }
             value={mapId}
             setValue={setMapId}
             error={isError}
-            helperText='Map has to have at least 2 simulations to compare.'
+            helperText={!mapData ? 'Couldn\'t load maps. Check your connection.' :
+              'Map has to have at least 2 simulations to compare.'}
         >
           {mapData?.map(({ id, name }) => (
             <MenuItem key={id} value={id.toString()}>
