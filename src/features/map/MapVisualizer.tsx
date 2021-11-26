@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Graph from 'react-graph-vis';
 
 import { BasicMapInfo } from './types';
@@ -43,10 +43,11 @@ function createGraph(map: BasicMapInfo): GraphData {
 }
 
 export default function MapVisualizer({ map }: Props): JSX.Element {
+  const memoizedCreateGraph = useMemo(() => createGraph(map), [map]);
   return (
     <Box height="100vh" width="100vh">
         <Graph
-            graph={createGraph(map)}
+            graph={memoizedCreateGraph}
             options={
                 {
                   nodes: {
