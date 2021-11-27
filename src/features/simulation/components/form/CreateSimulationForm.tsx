@@ -79,7 +79,8 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         {({ values }) => (
           <Form>
             <CreateSimulationBasicInfoForm/>
-            <CreateMovementSimulationStrategyForm compatibleStrategies={data.compatibleWith}/>
+            <CreateMovementSimulationStrategyForm values={values.movementSimulationStrategy}
+                                                  compatibleStrategies={data.compatibleWith}/>
             <CreateExpectedVelocityMapForm values={values.expectedVelocity} allowedRoads={roadsSimplified} />
             <CreateGatewaysStatesForm values={values.gatewaysStates} allowedGateways={gatewaysSimplified} />
             <CreateLightPhaseStrategiesForm 

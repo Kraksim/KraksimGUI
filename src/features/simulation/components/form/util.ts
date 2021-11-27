@@ -1,12 +1,12 @@
 import {
-  CreateSimulationRequest, 
-  CreateInitialSimulationStateRequest, 
-  CreateExpectedVelocityRequest, 
+  CreateSimulationRequest,
+  CreateInitialSimulationStateRequest,
+  CreateExpectedVelocityRequest,
   CreateMovementSimulationStrategyRequest,
   CreateLightPhaseStrategyRequest,
 } from '../../requests';
 import {
-  SimulationType, MovementSimulationStrategyType, LightAlgorithmType, 
+  SimulationType, MovementSimulationStrategyType, LightAlgorithmType,
 } from '../../types';
 
 import { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
@@ -47,17 +47,17 @@ function parseExpectedVelocitiesToRequest(result: ExpectedVelocityFormResult): C
 function parseInitialStateToRequest(
   gatewaysResult: GatewaysStatesFormResult,
 ): CreateInitialSimulationStateRequest {
-  
+
   return {
     gatewaysStates: Object
       .entries(gatewaysResult)
       .filter(([, value]) => value.generators
         .every(({
-          carsToRelease, gpsType, releaseDelay, targetGatewayId, 
+          carsToRelease, gpsType, releaseDelay, targetGatewayId,
         }) => notEmptyString([carsToRelease, gpsType, releaseDelay, targetGatewayId])))
       .map(([key, value]) => ({
         gatewayId: parseInt(key),
-        generators: value.generators, 
+        generators: value.generators,
       })),
   };
 }
@@ -70,6 +70,12 @@ function parseMovementSimulationStrategyToRequest(
     slowDownProbability: parseInt(result.slowDownProbability) / 100,
     maxVelocity: parseInt(result.maxVelocity),
     randomProvider: 'TRUE',
+    threshold: result.type === 'BRAKE_LIGHT' ?
+      parseInt(result.threshold as string) : undefined,
+    accelerationDelayProbability: result.type === 'BRAKE_LIGHT' ?
+      parseFloat(result.accelerationDelayProbability as string) / 100 : undefined,
+    breakLightReactionProbability: result.type === 'BRAKE_LIGHT' ?
+      parseFloat(result.breakLightReactionProbability as string) / 100 : undefined,
   };
 }
 
@@ -78,7 +84,7 @@ function notEmptyString(objects: any[]): boolean{
 }
 
 function hasLengthAndDefined(x: string | undefined){
-  return x && x !== ''; 
+  return x && x !== '';
 }
 
 function parseLightPhaseStrategiesToRequest(result: LightPhaseStrategiesFormResult): CreateLightPhaseStrategyRequest[] {
@@ -86,19 +92,19 @@ function parseLightPhaseStrategiesToRequest(result: LightPhaseStrategiesFormResu
     .filter(
       ({
         algorithm, turnLength, intersections, phiFactor, minPhaseLength,
-      }) => 
-        notEmptyString([algorithm]) && 
-        (notEmptyString([phiFactor, minPhaseLength]) || notEmptyString([turnLength])) && intersections.length > 0, 
+      }) =>
+        notEmptyString([algorithm]) &&
+        (notEmptyString([phiFactor, minPhaseLength]) || notEmptyString([turnLength])) && intersections.length > 0,
     )
     .map(({
       algorithm, turnLength, intersections, phiFactor, minPhaseLength,
     }) => ({
       algorithm: algorithm as LightAlgorithmType,
-      turnLength: algorithm === 'TURN_BASED' && 
+      turnLength: algorithm === 'TURN_BASED' &&
         hasLengthAndDefined(turnLength) ? parseInt(turnLength as string) : undefined,
-      phiFactor: algorithm === 'SOTL' && 
+      phiFactor: algorithm === 'SOTL' &&
         hasLengthAndDefined(phiFactor) ? parseFloat(phiFactor as string) : undefined,
-      minPhaseLength: algorithm === 'SOTL' && 
+      minPhaseLength: algorithm === 'SOTL' &&
         hasLengthAndDefined(minPhaseLength) ? parseInt(minPhaseLength as string) : undefined,
       intersections: intersections.map(id => parseInt(id)),
 
