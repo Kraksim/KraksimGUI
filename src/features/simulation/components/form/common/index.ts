@@ -11,7 +11,7 @@ export const ControlButton = styled(Button)(() => ({
 
 export const FormInpiutField = styled(TextField)(() => ({
   margin: '5px',
-  width: '130px',
+  width: '150px',
 }));
 
 export const DeleteButton = styled(ControlButton)(() => ({
@@ -20,7 +20,7 @@ export const DeleteButton = styled(ControlButton)(() => ({
 
 export const FormSelect = styled(Select)(() => ({
   margin: '5px',
-  width: '130px',
+  width: '150px',
 }));
 
 export const FormBox = styled(Box)(() => ({

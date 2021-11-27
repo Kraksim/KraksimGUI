@@ -45,7 +45,7 @@ function createGraph(map: BasicMapInfo): GraphData {
 export default function MapVisualizer({ map }: Props): JSX.Element {
   const memoizedCreateGraph = useMemo(() => createGraph(map), [map]);
   return (
-    <Box height="100vh" width="100vh">
+    <Box height="100%" width="100%">
         <Graph
             graph={memoizedCreateGraph}
             options={

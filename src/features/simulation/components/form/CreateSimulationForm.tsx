@@ -66,7 +66,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     <Box margin='0 10px' display="flex" justifyContent="stretch">
       {data && basicMap && (
       <>
-      <Box sx={{ overflowY: 'scroll', height: '99vh' }}>
+      <Box sx={{ overflowY: 'scroll', height: '99vh', width:'45%' }}>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
@@ -91,7 +91,9 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         )}
       </Formik>
       </Box>
-      <MapVisualizer map={basicMap}/>
+      <Box width="100%" height="100vh">
+        <MapVisualizer map={basicMap}/>
+      </Box>
       </>)}
       <Snackbar open={snackbarOpen} autoHideDuration={result.isError ? 15000 : 3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
