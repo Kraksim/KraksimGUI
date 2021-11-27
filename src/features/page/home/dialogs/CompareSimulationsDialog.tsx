@@ -24,13 +24,13 @@ export default function CompareSimulationsDialog({
   open,
   onClose,
 }: DialogProps): JSX.Element {
-  const { data: mapData, isError: connectionError } = useGetAllMapsBasicInfoQuery();
-  const { data: simulationData } = useGetAllSimulationsQuery();
+  const { data: mapData, isError: connectionError1 } = useGetAllMapsBasicInfoQuery();
+  const { data: simulationData, isError: connectionError2  } = useGetAllSimulationsQuery();
   const [mapId, setMapId] = useState('');
   const [firstSimulationId, setFirstSimulationId] = useState('');
   const [secondSimulationId, setSecondSimulationId] = useState('');
   const history = useHistory();
-
+  const totalError = connectionError1 ?? connectionError2;
 
   const simulationsNr = simulationData
     ?.filter(
@@ -59,7 +59,7 @@ export default function CompareSimulationsDialog({
             value={mapId}
             setValue={setMapId}
             error={isTooFewSimulationsToCompare}
-            helperText={connectionError ? 'Couldn\'t load maps. Check your connection.' :
+            helperText={totalError ? 'Couldn\'t load maps. Check your connection.' :
               'Map has to have at least 2 simulations to compare.'}
         >
           {mapData?.map(({ id, name }) => (
