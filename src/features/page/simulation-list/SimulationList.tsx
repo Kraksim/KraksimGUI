@@ -9,7 +9,7 @@ import {
   Button,
   styled,
   Box,
-  AlertProps,
+  AlertProps, CircularProgress,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
@@ -57,9 +57,7 @@ export default function SimulationList(): JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
-    if (result.isError || result.isSuccess) {
-      setOpenSnackbar(true);
-    }
+    setOpenSnackbar(result.isError || result.isSuccess);
   }, [result]);
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -120,6 +118,7 @@ export default function SimulationList(): JSX.Element {
                     id={row.id}
                     finished={row.isFinished}
                     simulate={simulate}
+                    loading={result.isLoading}
                   />
                 }
               </CenterTableCell>
@@ -135,15 +134,31 @@ interface SimulationActionsProps {
   id: number;
   finished: boolean;
   simulate: (request: SimulateRequest) => any;
+  loading: boolean;
 }
 
 function SimulationActions({
   id,
   simulate,
   finished,
+  loading,
 }: SimulationActionsProps): JSX.Element {
   const history = useHistory();
   const [turns, setTurns] = useState('1');
+  const [clicked, setClicked] = useState(false);
+
+  const spinnerVisible = clicked && loading;
+
+  useEffect(()=>{
+    if (!loading && clicked) {
+      setClicked(false);
+    }
+  }, [loading, clicked] );
+
+  function sendSimulate() {
+    setClicked(true);
+    simulate({ id: id, times: parseInt(turns) });
+  }
 
   return (
     <CenterHorizontal>
@@ -153,10 +168,10 @@ function SimulationActions({
         <QueryStatsIcon />
       </IconButton>
       <IconButton
-        disabled={finished}
-        onClick={() => simulate({ id: id, times: parseInt(turns) })}
+        disabled={ finished || loading }
+        onClick={ sendSimulate }
       >
-        <PlayCircleOutlineIcon />
+        { !spinnerVisible ? <PlayCircleOutlineIcon /> : <CircularProgress /> }
       </IconButton>
       <SmallTextField
         disabled={finished}
