@@ -10,6 +10,7 @@ interface Props {
   height: number;
   innerRadius: number;
   data: DonutStats;
+  isLoading: boolean;
 }
 
 export default function DonutChart({
@@ -17,10 +18,11 @@ export default function DonutChart({
   height,
   innerRadius,
   data,
+  isLoading,
 }: Props): JSX.Element {
   const parsedData = [
-    { angle: data.firstSimulationAngle },
-    { angle: data.secondSimulationAngle },
+    { angle: isLoading ? 0 : data.firstSimulationAngle },
+    { angle: isLoading ? 0 : data.secondSimulationAngle },
   ];
 
   return (

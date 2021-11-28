@@ -21,6 +21,7 @@ import MuiAlert from '@mui/material/Alert';
 import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
 import DoneIcon from '@mui/icons-material/Done';
 
+import { useUrlParamsQuery } from '../../common/hooks';
 import {
   useGetAllSimulationsQuery,
   useSimulateMutation,
@@ -54,6 +55,8 @@ const SmallTextField = styled(TextField)(() => ({
 export default function SimulationList(): JSX.Element {
   const { data } = useGetAllSimulationsQuery();
   const [simulate, result] = useSimulateMutation();
+
+  const mapId = useUrlParamsQuery().get('mapId');
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -99,7 +102,9 @@ export default function SimulationList(): JSX.Element {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map((row) => (
+          {data?.filter(row => {
+            return (!mapId || mapId === '') || (row.mapId === parseInt(mapId));
+          }).map((row) => (
             <TableRow
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

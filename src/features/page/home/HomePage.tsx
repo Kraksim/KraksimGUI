@@ -2,7 +2,6 @@ import { Button, Typography, Box, styled } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import CreateSimulationDialog from './dialogs/CreateSimulationDialog';
 import CompareSimulationDialog from './dialogs/CompareSimulationsDialog';
 
 const MainContainer = styled(Box)(() => ({
@@ -25,14 +24,16 @@ const ActionButton = styled(Button)(() => ({
 }));
 
 export default function HomePage(): JSX.Element {
-  const [newSimulationDialogOpened, setNewSimulationDialogOpened] =
-    useState(false);
   const [compareSimulationsDialogOpened, setCompareSimulationsDialogOpened] =
     useState(false);
   const history = useHistory();
 
   const onViewSimulationsClicked = () => {
     history.push('/simulations/all');
+  };
+
+  const onViewMapsClicked = () => {
+    history.push('/maps/all');
   };
 
   return (
@@ -44,16 +45,12 @@ export default function HomePage(): JSX.Element {
       <SectionBox>
         <ActionButton
           variant="contained"
-          onClick={() => setNewSimulationDialogOpened(true)}
+          onClick={onViewMapsClicked}
         >
-          Create new simulation
+          View maps list
         </ActionButton>
-        <CreateSimulationDialog
-          open={newSimulationDialogOpened}
-          onClose={() => setNewSimulationDialogOpened(false)}
-        />
         <ActionButton variant="contained" onClick={onViewSimulationsClicked}>
-          View simulation list
+          View simulations list
         </ActionButton>
         <ActionButton
           variant="contained"
