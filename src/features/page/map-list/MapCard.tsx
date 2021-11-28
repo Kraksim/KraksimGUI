@@ -4,6 +4,7 @@ import {
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { labelMovementStrategy } from '../../common/labels';
 import { Either } from '../../common/types';
 import MapVisualizer from '../../map/MapVisualizer';
 import { BasicMapInfo } from '../../map/types';
@@ -39,11 +40,11 @@ export default function MapCard({ map, loading } : Props): JSX.Element{
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
           {map && map.compatibleWith
-            .map((simulationType, index) => <Chip 
-            sx={{ fontSize: 'simulationType', margin: '4px 4px 4px 0px' }} 
+            .map((movementStrategy, index) => <Chip 
+            sx={{ margin: '4px 4px 4px 0px' }} 
             size="small" 
             key={index} 
-            label={simulationType}/>)}
+            label={labelMovementStrategy(movementStrategy)}/>)}
           {loading && <>
           <Skeleton sx={{ margin: '4px 4px 4px 0px' }} variant="rectangular" width="70%"/>
           <Skeleton sx={{ margin: '4px 4px 4px 0px' }} variant="rectangular" width="70%"/>
