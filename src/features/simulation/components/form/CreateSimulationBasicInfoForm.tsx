@@ -6,9 +6,14 @@ import {
   Box, InputLabel, MenuItem, 
 } from '@mui/material';
 
+import { SimulationType } from '../../types';
+import { labelSimulationType } from '../../../common/labels';
+
 import {
   FormBox, FormInpiutField, ElementBox, FormSelect, 
 } from './common';
+
+const simulationTypes: SimulationType[] = ['NAGEL_CORE'];
 
 export const simulationBasicInfoInitialValues = {
   name: '',
@@ -33,7 +38,9 @@ function CreateSimulationBasicInfoForm(): JSX.Element {
                             >
                                 {({ field }: FieldProps) => (
                                     <FormSelect {...field} label="Simulation Type">
-                                        <MenuItem value={'NAGEL_CORE'}>Nagel Core</MenuItem>
+                                        {simulationTypes.map(type =>
+                                            <MenuItem value={type}>{labelSimulationType(type)}</MenuItem>)}
+
                                     </FormSelect>
                                 )}
                             </FastField>    

@@ -26,6 +26,7 @@ import {
   useSimulateMutation,
 } from '../../simulation/simulationApi';
 import { SimulateRequest } from '../../simulation/requests';
+import { labelMovementStrategy, labelSimulationType } from '../../common/labels';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -106,8 +107,8 @@ export default function SimulationList(): JSX.Element {
               <TableCell>{row.id}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.mapId}</TableCell>
-              <TableCell>{row.type}</TableCell>
-              <TableCell>{row.movementSimulationStrategyType}</TableCell>
+              <TableCell>{labelSimulationType(row.type)}</TableCell>
+              <TableCell>{labelMovementStrategy(row.movementSimulationStrategyType)}</TableCell>
               <TableCell>{row.turn}</TableCell>
               <TableCell>
                 {row.isFinished ? <DoneIcon /> : <FastForwardOutlinedIcon />}

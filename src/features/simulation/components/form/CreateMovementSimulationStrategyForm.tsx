@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 
 import { MovementSimulationStrategyType } from '../../types';
+import { labelMovementStrategy } from '../../../common/labels';
 
 import {
   FormBox, FormInpiutField, ElementBox, FormSelect,
@@ -22,11 +23,6 @@ export const movementSimulationStrategyInitialValues = {
 interface Props {
   compatibleStrategies: MovementSimulationStrategyType[],
 }
-
-const labels: Map<MovementSimulationStrategyType, string> = new Map([
-  ['NAGEL_SCHRECKENBERG', 'Nagel Schreckenberg'],
-  ['MULTI_LANE_NAGEL_SCHRECKENBERG', 'Multi Lane Nagel'],
-]);
 
 function CreateMovementSimulationStrategyForm({ compatibleStrategies }: Props): JSX.Element {
   return (
@@ -46,7 +42,7 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies }: Props): 
                             {({ field }: FieldProps) => (
                                 <FormSelect {...field} label="Strategy Type">
                                     { compatibleStrategies
-                                      .map( type => <MenuItem value={type}>{labels.get(type)}</MenuItem>)}
+                                      .map( type => <MenuItem value={type}>{labelMovementStrategy(type)}</MenuItem>)}
                                 </FormSelect>
                             )}
                         </FastField>
