@@ -36,6 +36,10 @@ export default function HomePage(): JSX.Element {
     history.push('/maps/all');
   };
 
+  const onCreateMapClicked = () => {
+    history.push('/maps/create');
+  };
+
   return (
     <MainContainer>
       <SectionBox>
@@ -48,6 +52,12 @@ export default function HomePage(): JSX.Element {
           onClick={onViewMapsClicked}
         >
           View maps list
+        </ActionButton>
+        <ActionButton
+            variant="contained"
+            onClick={onCreateMapClicked}
+        >
+          Create map
         </ActionButton>
         <ActionButton variant="contained" onClick={onViewSimulationsClicked}>
           View simulations list

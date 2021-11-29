@@ -7,6 +7,7 @@ import SimulationList from './features/page/simulation-list/SimulationList';
 import CreateSimulationPage from './features/simulation/components/CreateSimulationPage';
 import CompareSimulationsPageWrapper from './features/simulation/statistics/CompareSimulationsPageWrapper';
 import StatisticsPageWrapper from './features/simulation/statistics/StatisticsPageWrapper';
+import CreateMapPage from './features/map/components/CreateMapPage';
 
 function App(): JSX.Element {
   return (
@@ -26,6 +27,9 @@ function App(): JSX.Element {
         </Route>
         <Route path="/statistics">
           <StatisticsPageWrapper />
+        </Route>
+        <Route path="/maps/create">
+          <CreateMapPage />
         </Route>
         <Route path="/">
           <HomePage />
