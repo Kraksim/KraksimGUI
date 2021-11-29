@@ -15,3 +15,4 @@ export function labelMovementStrategy(type: MovementSimulationStrategyType): str
 export function labelSimulationType(type: SimulationType): string {
   return simulationTypeLabels.get(type) || type;
 }
+

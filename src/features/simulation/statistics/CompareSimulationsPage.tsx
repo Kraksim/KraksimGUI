@@ -30,6 +30,9 @@ export default function CompareSimulationsPage({
     error: secondSimulationError,
   } = useGetStatisticsFromSimulationQuery(secondSimulationId);
 
+  const isLoading = isFirstSimulationLoading || isSecondSimulationLoading;
+  const error = firstSimulationError ?? secondSimulationError;
+
   const roadNames = firstSimulationData ? firstSimulationData[0].roadNames : {};
 
   const turn = Math.max(
@@ -72,8 +75,8 @@ export default function CompareSimulationsPage({
         },
       ]}
       height={500}
-      isLoading={isFirstSimulationLoading && isSecondSimulationLoading}
-      error={firstSimulationError ?? secondSimulationError}
+      isLoading={isLoading}
+      error={error}
     />
   );
 
@@ -94,8 +97,8 @@ export default function CompareSimulationsPage({
         firstSimulationParsedStats.totalFlowMap,
         secondSimulationParsedStats.totalFlowMap,
       ]}
-      isLoading={isFirstSimulationLoading && isSecondSimulationLoading}
-      error={firstSimulationError ?? secondSimulationError}
+      isLoading={isLoading}
+      error={error}
     />
   );
 
@@ -116,8 +119,8 @@ export default function CompareSimulationsPage({
         firstSimulationParsedStats.totalDensityMap,
         secondSimulationParsedStats.totalDensityMap,
       ]}
-      isLoading={isFirstSimulationLoading && isSecondSimulationLoading}
-      error={firstSimulationError ?? secondSimulationError}
+      isLoading={isLoading}
+      error={error}
     />
   );
 
@@ -140,8 +143,8 @@ export default function CompareSimulationsPage({
         firstSimulationParsedStats.totalRoadAvgVelocityMap,
         secondSimulationParsedStats.totalRoadAvgVelocityMap,
       ]}
-      isLoading={isFirstSimulationLoading && isSecondSimulationLoading}
-      error={firstSimulationError ?? secondSimulationError}
+      isLoading={isLoading}
+      error={error}
     />
   );
 
@@ -156,6 +159,7 @@ export default function CompareSimulationsPage({
           <DonutChart
             height={500}
             data={donutData}
+            isLoading={isFirstSimulationLoading || isSecondSimulationLoading}
             title="Average Velocity - Donut"
             innerRadius={180}
           />

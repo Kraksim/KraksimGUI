@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import HomePage from './features/page/home/HomePage';
+import MapList from './features/page/map-list/MapList';
 import SimulationList from './features/page/simulation-list/SimulationList';
 import CreateSimulationPage from './features/simulation/components/CreateSimulationPage';
 import CompareSimulationsPageWrapper from './features/simulation/statistics/CompareSimulationsPageWrapper';
@@ -13,6 +14,9 @@ function App(): JSX.Element {
       <Switch>
         <Route path="/simulations/all">
           <SimulationList />
+        </Route>
+        <Route path="/maps/all">
+          <MapList />
         </Route>
         <Route path="/simulations/create">
           <CreateSimulationPage />

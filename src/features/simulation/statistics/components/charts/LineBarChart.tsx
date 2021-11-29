@@ -89,7 +89,7 @@ export function LineBarChart({
             sx={{
               position: 'absolute',
               top: '45%',
-              left: '45%',
+              left: '49%',
             }}
           />
           <XYPlot

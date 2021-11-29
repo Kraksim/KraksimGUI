@@ -10,6 +10,7 @@ const DISTANCE_MULTIPLIER = 7;
 
 interface Props {
   map: BasicMapInfo;
+  interactable?: boolean;
 }
 
 interface GraphData {
@@ -42,14 +43,28 @@ function createGraph(map: BasicMapInfo): GraphData {
   return { nodes, edges };
 }
 
-export default function MapVisualizer({ map }: Props): JSX.Element {
+function getStaticMapOptions(){
+  return {
+    interaction: {
+      dragNodes: false,
+      dragView: false,
+      selectable: false,
+      zoomView: false,
+      hover: false,
+    },
+  };
+}
+
+export default function MapVisualizer({ map, interactable = false }: Props): JSX.Element {
   const memoizedCreateGraph = useMemo(() => createGraph(map), [map]);
+  const additionalOptions = interactable ? {} : getStaticMapOptions();
   return (
     <Box height="100%" width="100%">
         <Graph
             graph={memoizedCreateGraph}
             options={
                 {
+                  ...additionalOptions,
                   nodes: {
                     shape: 'dot',
                     scaling: {
