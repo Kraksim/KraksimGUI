@@ -14,8 +14,8 @@ const ActionButton = styled(Button)(() => ({
 }));
 
 const initialSkeleton: CreateMapRequest = {
-  'name': 'TestName',
-  'description': 'Test description',
+  'name': 'Example name',
+  'description': 'Example description describing your awesome map',
   'type': 'MAP',
   'compatibleWith': [
     'NAGEL_SCHRECKENBERG',
