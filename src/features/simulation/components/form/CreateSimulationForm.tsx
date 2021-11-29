@@ -92,7 +92,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
       </Formik>
       </Box>
       <Box width="100%" height="100vh">
-        <MapVisualizer map={basicMap}/>
+        <MapVisualizer map={basicMap} interactable/>
       </Box>
       </>)}
       <Snackbar open={snackbarOpen} autoHideDuration={result.isError ? 15000 : 3000} onClose={handleSnackbarClose}>
