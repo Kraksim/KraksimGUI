@@ -31,7 +31,6 @@ const initialSkeleton: CreateMapRequest = {
       },
       'endingRoadsIds': [],
       'startingRoadsIds': [1],
-      'turnDirections': [],
     },
     {
       'type': 'INTERSECTION',
@@ -54,7 +53,6 @@ const initialSkeleton: CreateMapRequest = {
       },
       'endingRoadsIds': [2],
       'startingRoadsIds': [],
-      'turnDirections': [],
     },
   ],
   'roads': [
