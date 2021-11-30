@@ -144,7 +144,6 @@ export default function CreateMapForm(): JSX.Element {
 
   return (
     <Box margin='0 10px' display="flex" justifyContent="stretch">
-      <>
       <Box sx={{  width:'45%' }}>
         <ActionButton
             variant="contained"
@@ -173,6 +172,5 @@ export default function CreateMapForm(): JSX.Element {
             { createResult.isError ? ('Error: ' + (createResult.error as any)?.data || 'Unknown error.') : 'Success'}
           </Alert>
         </Snackbar>
-      </>
     </Box>);
 }

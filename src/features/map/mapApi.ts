@@ -38,8 +38,6 @@ export const mapApi = createApi({
         method: 'POST',
         body: request,
       }),
-      invalidatesTags: (result) =>
-        result ? [{ type: 'Map', id: result.id }, 'Map'] : ['Map'],
     }),
   }),
 });
