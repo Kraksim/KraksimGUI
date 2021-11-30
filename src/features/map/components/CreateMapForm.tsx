@@ -138,9 +138,11 @@ export default function CreateMapForm(): JSX.Element {
     } catch (e) {
       setError({ isPresent: true, data: 'Invalid json.' });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, 2000), []);
 
-  useMemo(() => validate(initialSkeleton), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { validate(initialSkeleton); }, []);
 
   return (
     <Box margin='0 10px' display="flex" justifyContent="stretch">
