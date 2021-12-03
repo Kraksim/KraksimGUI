@@ -372,7 +372,7 @@ export default function CreateMapForm(): JSX.Element {
         </Box>
         <Box width="100%" height="100vh">
           {editorContentError.isPresent ? (
-              <Alert severity="error" sx={{ position: 'fixed', zIndex: '9999' }}>
+              <Alert severity="error" sx={{ position: 'fixed', zIndex: '999' }}>
                 {editorContentError.data}
               </Alert>
           ) : null}
@@ -398,7 +398,7 @@ export default function CreateMapForm(): JSX.Element {
         >
           <Alert
               severity={createResult.isError ? 'error' : 'success'}
-              sx={{ position: 'fixed', zIndex: '9999' }}
+              sx={{ position: 'fixed', zIndex: '999' }}
           >
             {createResult.isError
               ? 'Error: ' + (createResult.error as any)?.data || 'Unknown error.'

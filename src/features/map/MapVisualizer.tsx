@@ -112,6 +112,8 @@ export default function MapVisualizer({
       const nodeMovedId = event.nodes[0];
       const nodeMoved = mapState.nodes.find((n) => n.id === nodeMovedId);
       if (nodeMoved && onNodeMoved) {
+        // using position of mouse pointer, so some drags can be little bit off,
+        // but I couldn't find exact position where node had moved ;(
         const newX = Math.round(event.pointer.canvas.x / DISTANCE_MULTIPLIER);
         const newY = Math.round(event.pointer.canvas.y / DISTANCE_MULTIPLIER);
 
