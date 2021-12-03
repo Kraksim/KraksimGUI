@@ -1,6 +1,6 @@
 import { MovementSimulationStrategyType } from '../simulation/types';
 
-interface Position {
+export interface Position {
   x: number;
   y: number;
 }
@@ -68,5 +68,16 @@ export interface BasicRoadNodeInfo {
   type: 'INTERSECTION' | 'GATEWAY';
   position: Position;
   id: number;
+}
+
+
+export interface EdgeCreationData {
+  modeOn: boolean,
+  firstNodeName: string | undefined
+}
+
+export interface ErrorState {
+  isPresent: boolean,
+  data: string | undefined
 }
 
