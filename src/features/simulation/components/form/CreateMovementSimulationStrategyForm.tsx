@@ -35,7 +35,7 @@ interface Props {
 
 
 
-function CreateMovementSimulationStrategyForm({ compatibleStrategies }: Props): JSX.Element {
+function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: Props): JSX.Element {
   return (
         <div>
             <h1>Movement Simulation Strategy</h1>
@@ -51,7 +51,7 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies }: Props): 
                             {({ field }: FieldProps) => (
                                 <FormSelect {...field} label="Strategy Type">
                                     { compatibleStrategies
-                                        .map( type => <MenuItem value={type}>{labelMovementStrategy(type)}</MenuItem>)}
+                                      .map( type => <MenuItem value={type}>{labelMovementStrategy(type)}</MenuItem>)}
                                 </FormSelect>
                             )}
                         </FastField>
@@ -94,6 +94,61 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies }: Props): 
                             className="field-error"
                         />
                     </Box>
+                        {values.type === 'BRAKE_LIGHT' &&
+                        (<>
+                            <Box>
+                            <InputLabel
+                                htmlFor={'movementSimulationStrategy.threshold'}>
+                                threshold
+                            </InputLabel>
+                            <FastField
+                                name={'movementSimulationStrategy.threshold'}
+                                type="number"
+                                placeholder="threshold"
+                                as={FormInpiutField}
+                            />
+                            <ErrorMessage
+                                name={'movementSimulationStrategy.threshold'}
+                                component="div"
+                                className="field-error"
+                            />
+                        </Box>
+                            <Box>
+                            <InputLabel
+                                htmlFor={'movementSimulationStrategy.accelerationDelayProbability'}>
+                                Acceleration Delay Probability (%)
+                            </InputLabel>
+                            <FastField
+                                name={'movementSimulationStrategy.accelerationDelayProbability'}
+                                type="number"
+                                placeholder="accelerationDelayProbability"
+                                as={FormInpiutField}
+                            />
+                            <ErrorMessage
+                                name={'movementSimulationStrategy.accelerationDelayProbability'}
+                                component="div"
+                                className="field-error"
+                            />
+                            </Box>
+                            <Box>
+                            <InputLabel
+                                htmlFor={'movementSimulationStrategy.breakLightReactionProbability'}>
+                                Break Light Reaction Probability (%)
+                            </InputLabel>
+                            <FastField
+                                name={'movementSimulationStrategy.breakLightReactionProbability'}
+                                type="number"
+                                placeholder="breakLightReactionProbability"
+                                as={FormInpiutField}
+                            />
+                            <ErrorMessage
+                                name={'movementSimulationStrategy.breakLightReactionProbability'}
+                                component="div"
+                                className="field-error"
+                            />
+                            </Box>
+                        </>)}
+
                 </ElementBox>
             </FormBox>
         </div>
