@@ -1,5 +1,7 @@
 import { MovementSimulationStrategyType } from '../simulation/types';
 
+import { GraphData } from './VisGraph';
+
 export interface Position {
   x: number;
   y: number;
@@ -81,3 +83,4 @@ export interface ErrorState {
   data: string | undefined
 }
 
+export type SetMapStateLambdaType = (value: (((prevState: GraphData) => GraphData) | GraphData)) => void;
