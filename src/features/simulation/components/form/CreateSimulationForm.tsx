@@ -66,7 +66,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     <Box margin='0 10px' display="flex" justifyContent="stretch">
       {data && basicMap && (
       <>
-      <Box sx={{ overflowY: 'scroll', height: '99vh', width:'45%' }}>
+      <Box sx={{ overflowY: 'scroll', height: '99vh', width:'50%' }}>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {

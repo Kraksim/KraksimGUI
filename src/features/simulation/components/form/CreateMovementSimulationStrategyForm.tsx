@@ -10,7 +10,7 @@ import { MovementSimulationStrategyType } from '../../types';
 import { labelMovementStrategy } from '../../../common/labels';
 
 import {
-  FormBox, FormInpiutField, ElementBox, FormSelect,
+  FormBox, MovementFormInputField, ElementBox, MovementFormSelect,
 } from './common';
 
 type InitialValues = {
@@ -34,32 +34,31 @@ interface Props {
 }
 
 
-
 function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: Props): JSX.Element {
   return (
         <div>
             <h1>Movement Simulation Strategy</h1>
             <FormBox>
+                <Box margin={'5px'}>
+                    <InputLabel
+                        htmlFor={'movementSimulationStrategy.type'}>Strategy Type</InputLabel>
+                    <FastField
+                        name={'movementSimulationStrategy.type'}
+                        type="number"
+                    >
+                        {({ field }: FieldProps) => (
+                            <MovementFormSelect {...field} label="Strategy Type">
+                                {compatibleStrategies
+                                  .map(type => <MenuItem value={type}>{labelMovementStrategy(type)}</MenuItem>)}
+                            </MovementFormSelect>
+                        )}
+                    </FastField>
+                    <ErrorMessage
+                        name={'movementSimulationStrategy.type'}
+                        component="div"
+                    />
+                </Box>
                 <ElementBox>
-                    <Box>
-                        <InputLabel
-                            htmlFor={'movementSimulationStrategy.type'}>Strategy Type</InputLabel>
-                        <FastField
-                            name={'movementSimulationStrategy.type'}
-                            type="number"
-                        >
-                            {({ field }: FieldProps) => (
-                                <FormSelect {...field} label="Strategy Type">
-                                    { compatibleStrategies
-                                      .map( type => <MenuItem value={type}>{labelMovementStrategy(type)}</MenuItem>)}
-                                </FormSelect>
-                            )}
-                        </FastField>
-                        <ErrorMessage
-                            name={'movementSimulationStrategy.type'}
-                            component="div"
-                        />
-                    </Box>
                     <Box>
                         <InputLabel
                             htmlFor={'movementSimulationStrategy.maxVelocity'}>
@@ -69,7 +68,7 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: 
                             name={'movementSimulationStrategy.maxVelocity'}
                             type="number"
                             placeholder="Max Velocity"
-                            as={FormInpiutField}
+                            as={MovementFormInputField}
                         />
                         <ErrorMessage
                             name={'movementSimulationStrategy.maxVelocity'}
@@ -85,8 +84,8 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: 
                         <FastField
                             name={'movementSimulationStrategy.slowDownProbability'}
                             type="number"
-                            placeholder="Slow down probability (%)"
-                            as={FormInpiutField}
+                            placeholder="Slow down probability"
+                            as={MovementFormInputField}
                         />
                         <ErrorMessage
                             name={'movementSimulationStrategy.slowDownProbability'}
@@ -94,18 +93,18 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: 
                             className="field-error"
                         />
                     </Box>
-                        {values.type === 'BRAKE_LIGHT' &&
-                        (<>
-                            <Box>
+                    {values.type === 'BRAKE_LIGHT' &&
+                    (<>
+                        <Box>
                             <InputLabel
                                 htmlFor={'movementSimulationStrategy.threshold'}>
-                                threshold
+                                Threshold
                             </InputLabel>
                             <FastField
                                 name={'movementSimulationStrategy.threshold'}
                                 type="number"
-                                placeholder="threshold"
-                                as={FormInpiutField}
+                                placeholder="Threshold"
+                                as={MovementFormInputField}
                             />
                             <ErrorMessage
                                 name={'movementSimulationStrategy.threshold'}
@@ -113,7 +112,7 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: 
                                 className="field-error"
                             />
                         </Box>
-                            <Box>
+                        <Box>
                             <InputLabel
                                 htmlFor={'movementSimulationStrategy.accelerationDelayProbability'}>
                                 Acceleration Delay Probability (%)
@@ -121,16 +120,16 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: 
                             <FastField
                                 name={'movementSimulationStrategy.accelerationDelayProbability'}
                                 type="number"
-                                placeholder="accelerationDelayProbability"
-                                as={FormInpiutField}
+                                placeholder="Acceleration Delay Probability"
+                                as={MovementFormInputField}
                             />
                             <ErrorMessage
                                 name={'movementSimulationStrategy.accelerationDelayProbability'}
                                 component="div"
                                 className="field-error"
                             />
-                            </Box>
-                            <Box>
+                        </Box>
+                        <Box>
                             <InputLabel
                                 htmlFor={'movementSimulationStrategy.breakLightReactionProbability'}>
                                 Break Light Reaction Probability (%)
@@ -138,16 +137,16 @@ function CreateMovementSimulationStrategyForm({ compatibleStrategies, values }: 
                             <FastField
                                 name={'movementSimulationStrategy.breakLightReactionProbability'}
                                 type="number"
-                                placeholder="breakLightReactionProbability"
-                                as={FormInpiutField}
+                                placeholder="Break Light Reaction Probability"
+                                as={MovementFormInputField}
                             />
                             <ErrorMessage
                                 name={'movementSimulationStrategy.breakLightReactionProbability'}
                                 component="div"
                                 className="field-error"
                             />
-                            </Box>
-                        </>)}
+                        </Box>
+                    </>)}
 
                 </ElementBox>
             </FormBox>
