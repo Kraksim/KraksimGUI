@@ -45,6 +45,7 @@ export const AddedElementListBox = styled(Box)(() => ({
 export const ElementBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'left',
+  flexWrap: 'wrap',
   margin: '5px',
 }));
 

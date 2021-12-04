@@ -21,11 +21,13 @@ import MuiAlert from '@mui/material/Alert';
 import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
 import DoneIcon from '@mui/icons-material/Done';
 
+import { useUrlParamsQuery } from '../../common/hooks';
 import {
   useGetAllSimulationsQuery,
   useSimulateMutation,
 } from '../../simulation/simulationApi';
 import { SimulateRequest } from '../../simulation/requests';
+import { labelMovementStrategy, labelSimulationType } from '../../common/labels';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -53,6 +55,8 @@ const SmallTextField = styled(TextField)(() => ({
 export default function SimulationList(): JSX.Element {
   const { data } = useGetAllSimulationsQuery();
   const [simulate, result] = useSimulateMutation();
+
+  const mapId = useUrlParamsQuery().get('mapId');
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -98,7 +102,9 @@ export default function SimulationList(): JSX.Element {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map((row) => (
+          {data?.filter(row => {
+            return (!mapId || mapId === '') || (row.mapId === parseInt(mapId));
+          }).map((row) => (
             <TableRow
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -106,8 +112,8 @@ export default function SimulationList(): JSX.Element {
               <TableCell>{row.id}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.mapId}</TableCell>
-              <TableCell>{row.type}</TableCell>
-              <TableCell>{row.movementSimulationStrategyType}</TableCell>
+              <TableCell>{labelSimulationType(row.type)}</TableCell>
+              <TableCell>{labelMovementStrategy(row.movementSimulationStrategyType)}</TableCell>
               <TableCell>{row.turn}</TableCell>
               <TableCell>
                 {row.isFinished ? <DoneIcon /> : <FastForwardOutlinedIcon />}

@@ -44,6 +44,7 @@ export interface SimulationMap {
   id: number;
   name: string;
   compatibleWith: MovementSimulationStrategyType[];
+  description: string;
 }
 
 export interface BasicMapInfo {
@@ -52,6 +53,8 @@ export interface BasicMapInfo {
   name: string;
   nodes: BasicRoadNodeInfo[];
   edges: BasicEdgeInfo[];
+  compatibleWith: MovementSimulationStrategyType[];
+  description: string;
 }
 
 export interface BasicEdgeInfo {
