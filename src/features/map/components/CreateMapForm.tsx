@@ -12,6 +12,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import { random } from 'lodash';
+import { isDesktop } from 'react-device-detect';
 
 import {
   CreateMapRequest,
@@ -126,9 +127,13 @@ function setCursorAtString(
     const cursorPosition = editorObj
       .getModel()
       ?.getPositionAt(editorObj.getValue().indexOf(input));
-    if (cursorPosition)
+    if (cursorPosition) {
       editorObj.setPosition(cursorPosition);
-    editorObj.focus();
+      editorObj.revealLineInCenter(cursorPosition?.lineNumber);
+    }
+    if (isDesktop) {
+      editorObj.focus();
+    }
   }
 }
 
@@ -246,7 +251,7 @@ export default function CreateMapForm(): JSX.Element {
 
         setMap(newMap);
         updateEditorContent(newMap, roadName);
-        setEdgeCreationMode({ modeOn: true, firstNodeName: undefined });
+        setEdgeCreationMode({ modeOn: true, firstNodeName: clickedNodeName });
       }
     }
   }
@@ -256,6 +261,7 @@ export default function CreateMapForm(): JSX.Element {
       handleCreateEdge(clickedNodeName);
     } else {
       setCursorAtString(editorRef.current, `"${clickedNodeName}"`);
+      setEdgeCreationMode({ modeOn: false, firstNodeName: clickedNodeName });
     }
   }
 
@@ -345,9 +351,9 @@ export default function CreateMapForm(): JSX.Element {
                     checked={edgeCreationMode.modeOn}
                     onChange={() => {
                       if (edgeCreationMode.modeOn) {
-                        setEdgeCreationMode({ modeOn: false, firstNodeName: undefined });
+                        setEdgeCreationMode({ modeOn: false, firstNodeName: edgeCreationMode.firstNodeName });
                       } else {
-                        setEdgeCreationMode({ modeOn: true, firstNodeName: undefined });
+                        setEdgeCreationMode({ modeOn: true, firstNodeName: edgeCreationMode.firstNodeName });
                       }
                     }}
                 />
