@@ -1,6 +1,8 @@
 import { MovementSimulationStrategyType } from '../simulation/types';
 
-interface Position {
+import { GraphData } from './VisGraph';
+
+export interface Position {
   x: number;
   y: number;
 }
@@ -70,3 +72,15 @@ export interface BasicRoadNodeInfo {
   id: number;
 }
 
+
+export interface EdgeCreationData {
+  modeOn: boolean,
+  firstNodeName: string | undefined
+}
+
+export interface ErrorState {
+  isPresent: boolean,
+  data: string | undefined
+}
+
+export type SetMapStateLambdaType = (value: (((prevState: GraphData) => GraphData) | GraphData)) => void;
