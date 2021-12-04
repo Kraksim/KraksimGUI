@@ -71,7 +71,7 @@ export default function MapVisualizer({
   const [mapState, setMapState] = useState(createGraph(map));
   const additionalOptions = interactable ? {} : getStaticMapOptions();
 
-  const selectHandler = createSelectHandler?.call( undefined,  mapState, setMapState);
+  const selectHandler = createSelectHandler?.call( undefined, mapState, setMapState);
   const doubleClickHandler = createDoubleClickHandler?.call(undefined, setMapState);
   const dragEndHandler = createNodeMovedHandler?.call(undefined, mapState);
   const deselectNodeHandler = createNodeDeselectedHandler?.call(undefined);
