@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 
 import CompareSimulationDialog from '../home/dialogs/CompareSimulationsDialog';
 
-const COLLAPSED_WIDTH = '66px'; 
 const EXPANDED_WIDTH = '250px';
 
 const ItemText = styled(ListItemText)(() => ({
@@ -20,8 +19,6 @@ const ItemText = styled(ListItemText)(() => ({
 
 export default function PageMenu(): JSX.Element{
   const [compareSimulationsDialogOpened, setCompareSimulationsDialogOpened] = useState(false);
-
-  const [expanded, setExpanded] = useState(false);
 
   const history = useHistory();
 
@@ -43,13 +40,8 @@ export default function PageMenu(): JSX.Element{
 
   return (
     <>
-    <Drawer variant="persistent" sx={{ width: expanded ? EXPANDED_WIDTH : COLLAPSED_WIDTH, 
-      flexShrink: 0,
-      transition: 'width 0.3s' }} open={true}
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
-      >
-        <Box width={expanded ? EXPANDED_WIDTH : COLLAPSED_WIDTH} role="presentation" sx={{ transition: 'width 0.3s' }}>
+    <Drawer variant="permanent" sx={{ width: EXPANDED_WIDTH }}>
+        <Box width={EXPANDED_WIDTH}>
             <Box>
             <IconButton onClick={onLogoClick}>
                 <img alt="kraksim-logo" 

@@ -157,7 +157,7 @@ export default function CompareSimulationsPage({
         <Box width={'45%'}>{averageVelocityChart}</Box>
         <Box width={'45%'}>
           <DonutChart
-            height={500}
+            height={450}
             data={donutData}
             isLoading={isFirstSimulationLoading || isSecondSimulationLoading}
             title="Average Velocity - Donut"
