@@ -37,14 +37,21 @@ export default function PageMenu(): JSX.Element{
     history.push('/maps/create');
   };
 
+  const onLogoClick = () => {
+    history.push('/');
+  };
+
   return (
     <>
     <Drawer variant="persistent" sx={{ width: expanded ? EXPANDED_WIDTH : COLLAPSED_WIDTH, 
       flexShrink: 0,
-      transition: 'width 0.3s' }} open={true}>
+      transition: 'width 0.3s' }} open={true}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
+      >
         <Box width={expanded ? EXPANDED_WIDTH : COLLAPSED_WIDTH} role="presentation" sx={{ transition: 'width 0.3s' }}>
             <Box>
-            <IconButton onClick={() => setExpanded(prevState => !prevState)}>
+            <IconButton onClick={onLogoClick}>
                 <img alt="kraksim-logo" 
                 style={{ width: '50px', height: '50px' }} 
                 src={'/logo192.png'} 
@@ -82,6 +89,7 @@ export default function PageMenu(): JSX.Element{
         </Box>
     </Drawer>
     <CompareSimulationDialog
+        afterConfirm={() => setCompareSimulationsDialogOpened(false)}
         open={compareSimulationsDialogOpened}
         onClose={() => setCompareSimulationsDialogOpened(false)}
     />
