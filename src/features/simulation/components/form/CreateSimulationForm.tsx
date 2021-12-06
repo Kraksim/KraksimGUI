@@ -173,7 +173,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
                 />
               </FormStep>
             </Stepper>
-            <ControlButton variant="contained"  onClick={handleReset}>Reset form</ControlButton>
+            <ControlButton variant="contained" type="reset" onClick={handleReset}>Reset form</ControlButton>
           </Form>
         )}
       </Formik>
