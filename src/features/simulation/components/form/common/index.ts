@@ -25,7 +25,7 @@ export const DeleteButton = styled(ControlButton)(() => ({
 
 export const FormSelect = styled(Select)(() => ({
   margin: '5px',
-  width: '170px',
+  width: '230px',
 }));
 
 export const MovementFormSelect = styled(Select)(() => ({
