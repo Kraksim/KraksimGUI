@@ -69,6 +69,7 @@ export default function HomePage(): JSX.Element {
           Compare simulations
         </ActionButton>
         <CompareSimulationDialog
+          afterConfirm={() => setCompareSimulationsDialogOpened(false)}
           open={compareSimulationsDialogOpened}
           onClose={() => setCompareSimulationsDialogOpened(false)}
         />

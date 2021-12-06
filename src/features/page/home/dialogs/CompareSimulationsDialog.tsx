@@ -20,10 +20,15 @@ function checkIfButtonIsDisabled(strings: string[]) {
   return !strings.every((x) => x.length > 0);
 }
 
+type Props = DialogProps & {
+  afterConfirm: () => void,
+};
+
 export default function CompareSimulationsDialog({
   open,
   onClose,
-}: DialogProps): JSX.Element {
+  afterConfirm,
+}: Props): JSX.Element {
   const { data: mapData, isError: connectionError1 } = useGetAllMapsBasicInfoQuery();
   const { data: simulationData, isError: connectionError2  } = useGetAllSimulationsQuery();
   const [mapId, setMapId] = useState('');
@@ -40,6 +45,7 @@ export default function CompareSimulationsDialog({
   const isTooFewSimulationsToCompare = mapId.length !== 0 && (simulationsNr === 0 || simulationsNr === 1 );
 
   const handleClick = () => {
+    afterConfirm();
     history.push(
       `/simulations/compare?firstSimulationId=${firstSimulationId}&secondSimulationId=${secondSimulationId}`,
     );

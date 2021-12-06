@@ -106,6 +106,29 @@ const defaultOptions = {
     },
   },
 };
+
+function useResizeObserver(
+  ref: React.MutableRefObject<HTMLElement | null>,
+  callback: ResizeObserverCallback,
+): void {
+  //const debouncedCallback = useMemo(() => debounce(callback, 300), [callback]);
+  useEffect(() => {
+    // Create an observer instance linked to the callback function
+    if (ref.current) {
+      const observer = new ResizeObserver(callback);
+
+      // Start observing the target node for configured mutations
+      observer.observe(ref.current);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+    return;
+  }, [callback, ref]);
+}
+
+
 /**
  * Conversion of https://github.com/crubier/react-graph-vis/blob/master/src/index.js to a function component
  */
@@ -201,6 +224,26 @@ NetworkGraphProps & HTMLAttributes<HTMLDivElement>
       newNetwork.destroy();
     };
   }, [edges, initialOptions, nodes]);
+
+  //resize network on window resize
+  /*useEffect(() => {
+    const onResize = () => {
+      console.log(network);
+      network?.fit();
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  });
+  */
+
+  function onContainerResize(){
+    console.log('fire');
+    if (network){
+      network.redraw();
+    }
+  }
+
+  useResizeObserver(container, onContainerResize);
 
   return <div style={ { width: '100%', height: '100%' }} ref={container} {...props} />;
 });
