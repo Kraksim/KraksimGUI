@@ -16,7 +16,7 @@ import {
 } from 'react-vis';
 
 import 'react-vis/dist/style.css';
-import { maxOrDefault, minOrDefault } from '../../../../common/mathUtils';
+import { maxOrDefault, minOrDefault } from '../../../../common/utils';
 
 import { Series } from './types';
 

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { CreateMapRequest } from './requests';
-import { BasicMapInfo, SimulationMap } from './types';
+import { BasicMapInfo, ErrorWrapper, SimulationMap } from './types';
 
 export const mapApi = createApi({
   reducerPath: 'mapApi',
@@ -32,7 +32,7 @@ export const mapApi = createApi({
       query: (id) => ({ url: `map/basic/${id}` }),
       providesTags: ['BasicMap'],
     }),
-    validateMap: builder.mutation<BasicMapInfo, CreateMapRequest>({
+    validateMap: builder.mutation<ErrorWrapper<BasicMapInfo>, CreateMapRequest>({
       query: (request) => ({
         url: 'map/validate',
         method: 'POST',
