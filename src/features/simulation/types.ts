@@ -91,7 +91,8 @@ export type SimulationType = 'NAGEL_CORE';
 
 export type MovementSimulationStrategyType =
   | 'NAGEL_SCHRECKENBERG'
-  | 'MULTI_LANE_NAGEL_SCHRECKENBERG';
+  | 'MULTI_LANE_NAGEL_SCHRECKENBERG'
+  | 'BRAKE_LIGHT';
 
 export type RandomProviderType = 'TRUE';
 

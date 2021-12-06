@@ -32,6 +32,9 @@ export interface CreateMovementSimulationStrategyRequest {
   randomProvider: RandomProviderType;
   slowDownProbability: number;
   maxVelocity: number;
+  threshold?: number;
+  accelerationDelayProbability?: number;
+  breakLightReactionProbability?: number;
 }
 
 export interface CreateLightPhaseStrategyRequest {

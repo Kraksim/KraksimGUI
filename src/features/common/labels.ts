@@ -3,6 +3,7 @@ import { MovementSimulationStrategyType, SimulationType } from '../simulation/ty
 const movementLabels: Map<MovementSimulationStrategyType, string> = new Map([
   ['NAGEL_SCHRECKENBERG', 'Nagel Schreckenberg'],
   ['MULTI_LANE_NAGEL_SCHRECKENBERG', 'Multi Lane Nagel'],
+  ['BRAKE_LIGHT', 'Brake Light'],
 ]);
 
 const simulationTypeLabels: Map<SimulationType, string> = new Map([

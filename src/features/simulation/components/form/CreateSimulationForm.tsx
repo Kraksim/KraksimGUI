@@ -66,7 +66,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     <Box margin='0 10px' display="flex" justifyContent="stretch">
       {data && basicMap && (
       <>
-      <Box sx={{ overflowY: 'scroll', height: '99vh', width:'45%' }}>
+      <Box sx={{ overflowY: 'scroll', height: '99vh', width:'50%' }}>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
@@ -79,7 +79,8 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         {({ values }) => (
           <Form>
             <CreateSimulationBasicInfoForm/>
-            <CreateMovementSimulationStrategyForm compatibleStrategies={data.compatibleWith}/>
+            <CreateMovementSimulationStrategyForm values={values.movementSimulationStrategy}
+                                                  compatibleStrategies={data.compatibleWith}/>
             <CreateExpectedVelocityMapForm values={values.expectedVelocity} allowedRoads={roadsSimplified} />
             <CreateGatewaysStatesForm values={values.gatewaysStates} allowedGateways={gatewaysSimplified} />
             <CreateLightPhaseStrategiesForm 
