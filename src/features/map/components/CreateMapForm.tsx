@@ -26,7 +26,7 @@ import MapVisualizer, {
   DISTANCE_MULTIPLIER,
 } from '../MapVisualizer';
 import { EdgeCreationData, ErrorState, SetMapStateLambdaType } from '../types';
-import { arraysIntersect } from '../../common/mathUtils';
+import { arraysIntersect, isBlank } from '../../common/utils';
 import { GraphData, Node } from '../VisGraph';
 
 import TrafficToggle from './TrafficToggle';
@@ -157,9 +157,8 @@ export default function CreateMapForm(): JSX.Element {
     isPresent: false,
     data: undefined,
   });
-  const [editorContentValidated, setEditorContentValidated] = useState(false);
   const [map, setMap] = useState(initialSkeleton);
-  const [snackbarOpen, setSnackbarOpen] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [edgeCreationMode, setEdgeCreationMode] = useState<EdgeCreationData>({
     modeOn: false,
     firstNodeName: undefined,
@@ -176,10 +175,9 @@ export default function CreateMapForm(): JSX.Element {
 
   useEffect(() => {
     setEditorContentError({
-      isPresent: validateResult.isError,
-      data: (validateResult.error as any)?.data || 'Unknown error.',
+      isPresent: validateResult.isError || !isBlank(validateResult?.data?.errorMessage),
+      data: (validateResult.error as any)?.data || validateResult?.data?.errorMessage || 'Unknown error.',
     });
-    setEditorContentValidated(!validateResult.isError);
   }, [validateResult]);
 
   const handleInputChange = useMemo(
@@ -188,15 +186,14 @@ export default function CreateMapForm(): JSX.Element {
         try {
           const mapRequest: CreateMapRequest = JSON.parse(content);
           setMap(mapRequest);
-          setEditorContentError({ isPresent: false, data: undefined });
+          if (editorContentError.data === 'Invalid json.') {
+            setEditorContentError({ isPresent: false, data: undefined });
+          }
         } catch (e) {
           setEditorContentError({ isPresent: true, data: 'Invalid json.' });
         }
-        setEditorContentValidated(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, 2000),
-    [],
-  );
+      }, 2000), []);
 
   useEffect(() => {
     validate(initialSkeleton);
@@ -415,7 +412,7 @@ export default function CreateMapForm(): JSX.Element {
           <ActionButton
               variant="contained"
               onClick={() => create(map)}
-              disabled={!editorContentValidated}
+              disabled={editorContentError.data === 'Invalid json.'}
           >
             Create
           </ActionButton>
@@ -471,7 +468,7 @@ export default function CreateMapForm(): JSX.Element {
           ) : null}
           {validateResult.isSuccess ? (
               <MapVisualizer
-                  map={validateResult.data}
+                  map={validateResult.data.result}
                   createSelectHandler={createSelectHandler}
                   createDoubleClickHandler={createDoubleClickHandler}
                   createNodeMovedHandler={createNodeMovedHandler}

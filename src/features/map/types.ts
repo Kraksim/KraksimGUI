@@ -59,6 +59,11 @@ export interface BasicMapInfo {
   description: string;
 }
 
+export interface ErrorWrapper<T> {
+  result: T;
+  errorMessage: string;
+}
+
 export interface BasicEdgeInfo {
   from: number;
   to: number;

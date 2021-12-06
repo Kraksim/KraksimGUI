@@ -15,3 +15,7 @@ export function maxOrDefault(values: number[], defaultVal: number):number {
 export function arraysIntersect<T>(first:T[], second:T[]): boolean {
   return first.filter(value => second.includes(value)).length > 0;
 }
+
+export function isBlank(str: string | undefined): boolean {
+  return (!str || /^\s*$/.test(str));
+}
