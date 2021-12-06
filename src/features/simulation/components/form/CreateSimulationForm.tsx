@@ -1,5 +1,5 @@
 import {
-  Alert, Snackbar, Box, StepContent, Button, Step, Stepper, StepLabel, StepperProps,
+  Alert, Snackbar, Box, StepContent, Button, Step, Stepper, StepLabel, StepperProps, SnackbarCloseReason,
 } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
@@ -92,7 +92,13 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     setActiveStep(0);
   };
 
-  const handleSnackbarClose = () => {
+  const handleSnackbarClose = (_: any, reason: SnackbarCloseReason) => {
+    if (reason !== 'clickaway'){
+      setSnackbarOpen(false);
+    }
+  };
+
+  const handleAlertClose = () => {
     setSnackbarOpen(false);
   };
 
@@ -177,7 +183,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
       </Box>
       </>)}
       <Snackbar open={snackbarOpen} autoHideDuration={result.isError ? 15000 : 3000} onClose={handleSnackbarClose}>
-        <Alert onClose={handleSnackbarClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
+        <Alert onClose={handleAlertClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
           {result.isError ? errorMessage : 'Simulation created successfully!'}
         </Alert>
       </Snackbar>
