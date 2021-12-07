@@ -26,7 +26,9 @@ export const mapApi = createApi({
         body: request,
       }),
       invalidatesTags: (result) =>
-        result ? [{ type: 'Map', id: result.id }, 'Map'] : ['Map'],
+        result ? [{ type: 'Map', id: result.id }, 'Map',
+          { type: 'BasicMap', id: result.id }, 'BasicMap',
+        ] : ['Map', 'BasicMap'],
     }),
     getBasicMapById: builder.query<BasicMapInfo, number>({
       query: (id) => ({ url: `map/basic/${id}` }),

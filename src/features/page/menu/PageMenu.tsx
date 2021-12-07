@@ -77,7 +77,6 @@ export default function PageMenu(): JSX.Element{
                     <ItemText primary="Map creator"/>
                 </ListItem>
             </List>
-            <Divider />
         </Box>
     </Drawer>
     <CompareSimulationDialog

@@ -100,7 +100,7 @@ export default function SimulationList(): JSX.Element {
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer sx={{ margin: '16px' }} component={Paper}>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}

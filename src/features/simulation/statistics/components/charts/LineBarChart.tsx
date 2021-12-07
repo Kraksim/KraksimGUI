@@ -12,7 +12,7 @@ import {
   HorizontalGridLines,
   VerticalBarSeries,
   DiscreteColorLegend,
-  LineSeries, AreaSeries,
+  LineSeries, AreaSeries, GradientDefs,
 } from 'react-vis';
 
 import 'react-vis/dist/style.css';
@@ -117,14 +117,27 @@ export function LineBarChart({
             height={height}
             xDistance={100}
           >
-            <VerticalGridLines />
             <HorizontalGridLines />
+              <GradientDefs>
+                  <linearGradient id="gradient0" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#6AB2C4" stopOpacity={0.7}/>
+                      <stop offset="100%" stopColor="#337180" stopOpacity={0.3} />
+                  </linearGradient>
+                  <linearGradient id="gradient1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#18A0FB" stopOpacity={0.7}/>
+                      <stop offset="100%" stopColor="#18A0FB" stopOpacity={0.3} />
+                  </linearGradient>
+              </GradientDefs>
             { turnsDisplayed > 50 ? null : <XAxis />  }
-            <YAxis />
-            {barDataToPresent.map((series) => (
+            <YAxis/>
+            {barDataToPresent.map((series, index) => (
               turnsDisplayed > 80 ?
-                  <AreaSeries curve={'curveMonotoneX'} data={series}/> :
-              <VerticalBarSeries data={series} barWidth={barWidth} />
+                  <AreaSeries
+                      color={`url(#gradient${index})`}
+                      curve={'curveMonotoneX'} data={series}/> :
+              <VerticalBarSeries
+                  color={`url(#gradient${index})`}
+                  data={series} barWidth={barWidth} />
             ))}
             {lineDataToPresent.map((series) => (
               <LineSeries data={series} />
@@ -165,8 +178,8 @@ export function LineBarChart({
 
   return (
     <Box position="relative">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h4">{title}</Typography>
+      <Box  display="flex" justifyContent="space-between" alignItems="center">
+        <Typography sx={{ fontWeight: 'bold' }} variant="h4">{title}</Typography>
         {renderSelect}
       </Box>
       {chart}

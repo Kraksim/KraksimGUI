@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react';
 
 import ErrorPage from '../../common/components/ErrorPage';
@@ -6,7 +6,7 @@ import { useGetStatisticsFromSimulationQuery } from '../simulationApi';
 
 import { LineBarChart } from './components/charts/LineBarChart';
 import LineBarChartWithDropdown from './components/charts/LineBarChartWithDropdown';
-import { ChartBox, StatisticsContainer } from './components/style';
+import { Card, ChartBox, StatisticsContainer } from './components/style';
 import { getAllStatsForLineBar } from './utils';
 
 interface Props {
@@ -115,14 +115,14 @@ export default function StatisticsPage({
         {`Statistics for simulation ID: ${selectedSimulationId}`}
       </Typography>
       <ChartBox>
-          <Box width={ '90%' }>{averageVelocityChart}</Box>
+          <Card width={ '90%' }>{averageVelocityChart}</Card>
       </ChartBox>
       <ChartBox>
-          <Box width={ '45%' }>{flowChart}</Box>
-          <Box width={ '45%' }>{densityChart}</Box>
+          <Card width={ '45%' }>{flowChart}</Card>
+          <Card width={ '45%' }>{densityChart}</Card>
       </ChartBox>
       <ChartBox>
-          <Box width={ '90%' }>{roadAvgChart}</Box>
+          <Card width={ '90%' }>{roadAvgChart}</Card>
       </ChartBox>
     </StatisticsContainer>
   );
