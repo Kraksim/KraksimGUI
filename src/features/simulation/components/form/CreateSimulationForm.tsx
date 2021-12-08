@@ -48,10 +48,16 @@ interface FormStepProps {
 const formLoader = (
 <Box>
   <FormSkeleton height="60px" width="250px" variant='rectangular' />
-  <FormSkeleton width="100px" variant="text" />
-  <FormSkeleton height="60px" variant='rectangular' />
-  <FormSkeleton width="100px" variant="text" />
-  <FormSkeleton height="60px" variant='rectangular' />
+  <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+    <Box>
+      <FormSkeleton width="100px" variant="text" />
+      <FormSkeleton height="60px" variant='rectangular' />
+    </Box>
+    <Box>
+      <FormSkeleton width="100px" variant="text" />
+      <FormSkeleton height="60px" variant='rectangular' />
+    </Box>
+  </Box>
 </Box>);
 
 const mapLoader = (
