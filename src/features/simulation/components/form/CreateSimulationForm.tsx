@@ -1,5 +1,15 @@
 import {
-  Alert, Snackbar, Box, StepContent, Button, Step, Stepper, StepLabel, StepperProps, SnackbarCloseReason,
+  Alert, 
+  Snackbar, 
+  Box, 
+  StepContent, 
+  Button, 
+  Step, 
+  Stepper, 
+  StepLabel, 
+  StepperProps, 
+  SnackbarCloseReason, 
+  CircularProgress,
 } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
@@ -16,7 +26,7 @@ import CreateMovementSimulationStrategyForm, {
 } from './CreateMovementSimulationStrategyForm';
 import CreateSimulationBasicInfoForm, { simulationBasicInfoInitialValues } from './CreateSimulationBasicInfoForm';
 import { parseFormResultToRequest } from './util';
-import { ControlButton } from './common';
+import { ControlButton, FormSkeleton } from './common';
 
 export interface InitialValues<T> {
   values: T
@@ -31,18 +41,34 @@ interface FormStepProps {
   handleBack: () => void,
   isLast?: boolean,
   isFirst?: boolean,
+  isLoading?: boolean,
   label: string,
 }
 
+const formLoader = (
+<Box>
+  <FormSkeleton height="60px" width="250px" variant='rectangular' />
+  <FormSkeleton width="100px" variant="text" />
+  <FormSkeleton height="60px" variant='rectangular' />
+  <FormSkeleton width="100px" variant="text" />
+  <FormSkeleton height="60px" variant='rectangular' />
+</Box>);
+
+const mapLoader = (
+  <Box height="100%" width="100%" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <CircularProgress size="100px"/>
+  </Box>
+);
+
 function FormStep({
-  handleNext, handleBack, isLast = false, isFirst = false, children, label, ...rest
+  handleNext, handleBack, isLast = false, isFirst = false, isLoading = false, children, label, ...rest
 }: PropsWithChildren<FormStepProps & StepperProps>): JSX.Element {
   return (
             <Step {...rest}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
                   <>
-                  {children}
+                  {isLoading ? formLoader : children}
                   </>
                   <Box sx={{ mb: 2 }}>
                     <div>
@@ -52,6 +78,7 @@ function FormStep({
                           if (isLast) return;
                           handleNext();
                         }}
+                        disabled={isLoading}
                         type={isLast ? 'submit' : 'button'}
                         sx={{ mt: 1, mr: 1 }}
                       >
@@ -72,8 +99,8 @@ function FormStep({
 }
 
 export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
-  const { data } = useGetMapByIdQuery(mapId);
-  const { data: basicMap } = useGetBasicMapByIdQuery(mapId);
+  const { data: map, isLoading: isMapLoading } = useGetMapByIdQuery(mapId);
+  const { data: basicMap, isLoading: isBasicMapLoading  } = useGetBasicMapByIdQuery(mapId);
   const [ createSimulation, result ] = useCreateSimulationMutation();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -116,15 +143,15 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     }
   }, [result]);
 
-  const intersectionsSimplified = data?.roadNodes
+  const intersectionsSimplified = map?.roadNodes
     .filter(roadNode => roadNode.type === 'INTERSECTION')
     .map(({ name, id }) => ({ name, id })) ?? [];
   
-  const gatewaysSimplified = data?.roadNodes
+  const gatewaysSimplified = map?.roadNodes
     .filter(roadNode => roadNode.type === 'GATEWAY')
     .map(({ name, id }) => ({ name, id })) ?? [];
   
-  const roadsSimplified = data?.roads.map(({ name, id }) => ({ name, id })) ?? [];
+  const roadsSimplified = map?.roads.map(({ name, id }) => ({ name, id })) ?? [];
 
   const initialValues = {
     simulationBasicInfo: simulationBasicInfoInitialValues,
@@ -139,7 +166,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     'Something went wrong, please check your connection.';
   return (
     <Box margin='0 10px' display="flex" justifyContent="stretch">
-      {data && basicMap && (
+      {(
       <>
       <Box sx={{ overflowY: 'scroll', height: '99vh', width:'50%' }}>
       <Formik
@@ -154,12 +181,16 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         {({ values }) => (
           <Form>
             <Stepper activeStep={activeStep} orientation="vertical">
-              <FormStep isFirst handleBack={handleBack} handleNext={handleNext} label="Basic info">
-                <CreateSimulationBasicInfoForm />
+              <FormStep isLoading={isMapLoading} 
+              isFirst 
+              handleBack={handleBack} 
+              handleNext={handleNext} 
+              label="Basic info">
+                {<CreateSimulationBasicInfoForm />}
               </FormStep>
               <FormStep handleBack={handleBack} handleNext={handleNext} label="Movement simulation strategy">
                   <CreateMovementSimulationStrategyForm values={values.movementSimulationStrategy} 
-                  compatibleStrategies={data.compatibleWith}/>              
+                  compatibleStrategies={map?.compatibleWith ?? []}/>              
               </FormStep>
               <FormStep handleBack={handleBack} handleNext={handleNext} label="Expected velocities">
                 <CreateExpectedVelocityMapForm values={values.expectedVelocity} allowedRoads={roadsSimplified} />
@@ -178,10 +209,12 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         )}
       </Formik>
       </Box>
-      <Box width="100%" height="100vh">
-        <MapVisualizer map={basicMap} interactable/>
-      </Box>
       </>)}
+      <Box width="100%" height="100vh">
+        {(isBasicMapLoading || !basicMap) ? mapLoader :  
+        <MapVisualizer map={basicMap} interactable/>
+        }
+      </Box>
       <Snackbar open={snackbarOpen} autoHideDuration={result.isError ? 15000 : 3000} onClose={handleSnackbarClose}>
         <Alert onClose={handleAlertClose} severity={result.isError ? 'error' : 'success'} sx={{ width: '100%' }}>
           {result.isError ? errorMessage : 'Simulation created successfully!'}
