@@ -37,11 +37,10 @@ interface Props {
 }
 
 interface FormStepProps {
-  handleNext: () => void,
-  handleBack: () => void,
+  handleNext?: () => void,
+  handleBack?: () => void,
   isLast?: boolean,
   isFirst?: boolean,
-  isLoading?: boolean,
   label: string,
 }
 
@@ -67,14 +66,14 @@ const mapLoader = (
 );
 
 function FormStep({
-  handleNext, handleBack, isLast = false, isFirst = false, isLoading = false, children, label, ...rest
+  handleNext, handleBack, isLast = false, isFirst = false, children, label, ...rest
 }: PropsWithChildren<FormStepProps & StepperProps>): JSX.Element {
   return (
             <Step {...rest}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
                   <>
-                  {isLoading ? formLoader : children}
+                  {children}
                   </>
                   <Box sx={{ mb: 2 }}>
                     <div>
@@ -82,9 +81,9 @@ function FormStep({
                         variant="contained"
                         onClick={() => {
                           if (isLast) return;
-                          handleNext();
+                          handleNext?.();
                         }}
-                        disabled={isLoading}
+                        disabled={handleNext === undefined}
                         type={isLast ? 'submit' : 'button'}
                         sx={{ mt: 1, mr: 1 }}
                       >
@@ -103,6 +102,29 @@ function FormStep({
             </Step>
   );
 }
+
+const labels = [
+  'Basic info',
+  'Movement simulation strategy',
+  'Expected velocities',
+  'Gateways states',
+  'Light phase strategies',
+];
+
+const stepperPlaceholder = (
+          <Stepper activeStep={0} orientation="vertical">
+            {labels.map((label, index) => 
+            <FormStep 
+            isFirst={index === 0} 
+            isLast={index === labels.length - 1}
+            key={label}
+            label={label}
+            >
+              {formLoader}
+            </FormStep>,
+            )}
+        </Stepper>
+);
 
 export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
   const { data: map, isLoading: isMapLoading } = useGetMapByIdQuery(mapId);
@@ -167,6 +189,8 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     gatewaysStates: getGatewaysStatesInitialValues(gatewaysSimplified.map(({ id }) => id)),
   };
 
+  console.log(initialValues);
+
   const errorData = (result.error as any)?.data;
   const errorMessage = errorData ? 'Something went wrong: ' + errorData :
     'Something went wrong, please check your connection.';
@@ -175,7 +199,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
       {(
       <>
       <Box sx={{ overflowY: 'scroll', height: '99vh', width:'50%' }}>
-      <Formik
+      {map && !isMapLoading ? <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
           console.log(values);
@@ -187,12 +211,12 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
         {({ values }) => (
           <Form>
             <Stepper activeStep={activeStep} orientation="vertical">
-              <FormStep isLoading={isMapLoading} 
+              <FormStep
               isFirst 
               handleBack={handleBack} 
               handleNext={handleNext} 
               label="Basic info">
-                {<CreateSimulationBasicInfoForm />}
+                <CreateSimulationBasicInfoForm />
               </FormStep>
               <FormStep handleBack={handleBack} handleNext={handleNext} label="Movement simulation strategy">
                   <CreateMovementSimulationStrategyForm values={values.movementSimulationStrategy} 
@@ -213,7 +237,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
             <ControlButton variant="contained" type="reset" onClick={handleReset}>Reset form</ControlButton>
           </Form>
         )}
-      </Formik>
+      </Formik> : stepperPlaceholder}
       </Box>
       </>)}
       <Box width="100%" height="100vh">
