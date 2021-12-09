@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import {
-  Button, Box, TextField, Select, 
+  Button, Box, TextField, Select, Skeleton,
 } from '@mui/material';
 
 export const ControlButton = styled(Button)(() => ({
@@ -62,4 +62,9 @@ export const ElementBox = styled(Box)(() => ({
 export const ScrollbarBox = styled(Box)(() => ({
   maxHeight: '200px',
   overflow: 'scroll',
+}));
+
+export const FormSkeleton = styled(Skeleton)(() => ({
+  margin: '10px',
+  width: '200px',
 }));

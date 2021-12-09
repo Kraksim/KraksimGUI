@@ -13,7 +13,7 @@ interface Props {
   createSelectHandler?: (mapState: GraphData, setMapState: SetMapStateLambdaType) => ((
     event: any,
   ) => void);
-  createDoubleClickHandler?: (setMapState: SetMapStateLambdaType) => ((event: any,)=>void)  ;
+  createDoubleClickHandler?: (setMapState: SetMapStateLambdaType) => ((event: any,)=>void);
   createNodeMovedHandler?:(mapState: GraphData)=> ((event: any,) => void);
   createNodeDeselectedHandler?: () => (()=> void);
 }
