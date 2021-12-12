@@ -40,7 +40,7 @@ export default function CompareSimulationsPage({
     return <ErrorPage/>;
   }
 
-  const roadNames = firstSimulationData ? firstSimulationData[0].roadNames : {};
+  const roadNames = firstSimulationData && firstSimulationData.length > 0 ? firstSimulationData[0].roadNames : {};
 
   const turn = Math.max(
     firstSimulationData?.length ?? 0,

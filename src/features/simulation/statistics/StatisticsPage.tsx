@@ -19,7 +19,7 @@ export default function StatisticsPage({
   const { data, isLoading, error } =
     useGetStatisticsFromSimulationQuery(selectedSimulationId);
 
-  const roadNames = data ? data[0].roadNames : {};
+  const roadNames = data && data.length > 0 ? data[0].roadNames : {};
 
   const turn = data?.length ?? 0;
 
