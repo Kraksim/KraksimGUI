@@ -8,10 +8,12 @@ import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CreateIcon from '@mui/icons-material/Create';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { isMobile } from 'react-device-detect';
 
 import CompareSimulationDialog from '../home/dialogs/CompareSimulationsDialog';
 
 const EXPANDED_WIDTH = '250px';
+const COLLAPSED_WIDTH = '66px';
 
 const ItemText = styled(ListItemText)(() => ({
   whiteSpace: 'nowrap',
@@ -40,8 +42,8 @@ export default function PageMenu(): JSX.Element{
 
   return (
     <>
-    <Drawer variant="permanent" sx={{ width: EXPANDED_WIDTH }}>
-        <Box width={EXPANDED_WIDTH}>
+    <Drawer variant="permanent" sx={{ width: isMobile ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}>
+        <Box width={ isMobile ? COLLAPSED_WIDTH : EXPANDED_WIDTH }>
             <Box>
             <IconButton onClick={onLogoClick}>
                 <img alt="kraksim-logo" 
