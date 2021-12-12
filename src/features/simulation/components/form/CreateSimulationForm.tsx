@@ -17,6 +17,7 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 import MapVisualizer from '../../../map/MapVisualizer';
 import { useGetBasicMapByIdQuery, useGetMapByIdQuery } from '../../../map/mapApi';
 import { useCreateSimulationMutation } from '../../simulationApi';
+import ErrorPage from '../../../common/components/ErrorPage';
 
 import CreateExpectedVelocityMapForm, { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
 import CreateGatewaysStatesForm, { getGatewaysStatesInitialValues } from './CreateGatewaysStatesForm';
@@ -127,8 +128,8 @@ const stepperPlaceholder = (
 );
 
 export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
-  const { data: map, isLoading: isMapLoading } = useGetMapByIdQuery(mapId);
-  const { data: basicMap, isLoading: isBasicMapLoading  } = useGetBasicMapByIdQuery(mapId);
+  const { data: map, isLoading: isMapLoading, error: mapError } = useGetMapByIdQuery(mapId);
+  const { data: basicMap, isLoading: isBasicMapLoading, error: basicMapError } = useGetBasicMapByIdQuery(mapId);
   const [ createSimulation, result ] = useCreateSimulationMutation();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -189,11 +190,14 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
     gatewaysStates: getGatewaysStatesInitialValues(gatewaysSimplified.map(({ id }) => id)),
   };
 
-  console.log(initialValues);
-
   const errorData = (result.error as any)?.data;
   const errorMessage = errorData ? 'Something went wrong: ' + errorData :
     'Something went wrong, please check your connection.';
+
+  if (mapError || basicMapError){
+    return <ErrorPage/>;
+  }
+
   return (
     <Box margin='0 10px' display="flex" justifyContent="stretch">
       {(

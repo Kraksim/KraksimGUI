@@ -2,6 +2,8 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 
 import { useGetStatisticsFromSimulationQuery } from '../simulationApi';
+import ErrorPage from '../../common/components/ErrorPage';
+
 
 import DonutChart from './components/charts/DonutChart';
 import { LineBarChart } from './components/charts/LineBarChart';
@@ -32,6 +34,11 @@ export default function CompareSimulationsPage({
 
   const isLoading = isFirstSimulationLoading || isSecondSimulationLoading;
   const error = firstSimulationError ?? secondSimulationError;
+
+  
+  if (error){
+    return <ErrorPage/>;
+  }
 
   const roadNames = firstSimulationData ? firstSimulationData[0].roadNames : {};
 
