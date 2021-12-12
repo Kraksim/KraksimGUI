@@ -100,7 +100,8 @@ export default function SimulationList(): JSX.Element {
   }
 
   return (
-    <TableContainer sx={{ margin: '16px' }} component={Paper}>
+    <Box sx={{ margin: '32px' }}>
+    <TableContainer component={Paper}>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
@@ -161,6 +162,7 @@ export default function SimulationList(): JSX.Element {
         </TableBody>
       </Table>
     </TableContainer>
+    </Box>
   );
 }
 

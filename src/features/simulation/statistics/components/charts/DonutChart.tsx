@@ -27,7 +27,9 @@ export default function DonutChart({
 
   return (
     <Box>
-      <Typography sx={{ fontWeight: 'bold' }} variant="h4">{title}</Typography>
+      <Box sx={{ minHeight: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Typography sx={{ fontWeight: 'bold' }} variant="h4">{title}</Typography>
+      </Box>
       <FlexibleRadialChart
         animation
         data={parsedData}

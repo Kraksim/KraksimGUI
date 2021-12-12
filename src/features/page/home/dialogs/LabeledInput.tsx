@@ -27,6 +27,7 @@ export default function LabeledInput({
   helperText,
   spaceUnder = false,
   children,
+
 }: PropsWithChildren<Props>): JSX.Element {
 
   const FormControlBlock = styled(FormControl)(() => ({
@@ -40,6 +41,7 @@ export default function LabeledInput({
     <FormControlBlock error={error}>
       <InputLabel id="input-label">{label}</InputLabel>
       <SizedSelect
+        sx={{}}
         labelId="input-label"
         label={label}
         value={value == '' ? null : value}

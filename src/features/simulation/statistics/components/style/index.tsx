@@ -10,11 +10,11 @@ export const ChartBox = styled(Box)(() => ({
 
 export const StatisticsContainer = styled(Box)(() => ({
   padding: '32px',
-  background: '#F4F7FE',
 }));
 
 export const Card = styled(Box)(() => ({
   padding: '32px',
+  paddingTop: '10px',
   marginTop: '23px',
   background: '#FFFFFF',
   borderRadius: '20px',

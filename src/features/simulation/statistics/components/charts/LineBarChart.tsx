@@ -128,7 +128,7 @@ export function LineBarChart({
                       <stop offset="100%" stopColor="#18A0FB" stopOpacity={0.3} />
                   </linearGradient>
               </GradientDefs>
-            { turnsDisplayed > 50 ? null : <XAxis />  }
+            {turnsDisplayed > 50 ? null : <XAxis />}
             <YAxis/>
             {barDataToPresent.map((series, index) => (
               turnsDisplayed > 80 ?
@@ -178,7 +178,7 @@ export function LineBarChart({
 
   return (
     <Box position="relative">
-      <Box  display="flex" justifyContent="space-between" alignItems="center">
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ minHeight: '100px' }}>
         <Typography sx={{ fontWeight: 'bold' }} variant="h4">{title}</Typography>
         {renderSelect}
       </Box>

@@ -16,7 +16,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Box display="flex">
       <PageMenu />
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, overflow: 'auto', background: '#F4F7FE' }}>
           <Switch>
             <Route path="/simulations/all">
               <SimulationList />

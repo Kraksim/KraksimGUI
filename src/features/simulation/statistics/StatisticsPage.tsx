@@ -115,14 +115,14 @@ export default function StatisticsPage({
         {`Statistics for simulation ID: ${selectedSimulationId}`}
       </Typography>
       <ChartBox>
-          <Card width={ '90%' }>{averageVelocityChart}</Card>
+          <Card width={ '100%' }>{averageVelocityChart}</Card>
       </ChartBox>
-      <ChartBox>
+      <ChartBox sx={{ gap: '10px' }}>
           <Card width={ '45%' }>{flowChart}</Card>
           <Card width={ '45%' }>{densityChart}</Card>
       </ChartBox>
       <ChartBox>
-          <Card width={ '90%' }>{roadAvgChart}</Card>
+          <Card width={ '100%' }>{roadAvgChart}</Card>
       </ChartBox>
     </StatisticsContainer>
   );

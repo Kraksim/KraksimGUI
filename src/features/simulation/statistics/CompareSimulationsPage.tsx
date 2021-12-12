@@ -160,7 +160,7 @@ export default function CompareSimulationsPage({
       <Typography sx={{ margin: '10px', fontWeight: 'bold' }} variant="h3">
         {`Statistics comparison for simulation ID: ${firstSimulationId} and ${secondSimulationId}`}
       </Typography>
-      <ChartBox>
+      <ChartBox sx={{ gap: '10px' }}>
         <Card width={'45%'}>{averageVelocityChart}</Card>
         <Card width={'45%'}>
           <DonutChart
@@ -172,7 +172,7 @@ export default function CompareSimulationsPage({
           />
         </Card>
       </ChartBox>
-      <ChartBox>
+      <ChartBox sx={{ gap: '10px' }}>
         <Card width={'45%'}>{flowChart}</Card>
         <Card width={'45%'}>{densityChart}</Card>
       </ChartBox>
