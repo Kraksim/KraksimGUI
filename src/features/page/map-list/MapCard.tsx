@@ -24,7 +24,7 @@ export default function MapCard({ map, loading } : Props): JSX.Element{
   };
 
   return (
-    <Card sx={{ width: 345, margin: '10px' }}>
+    <Card sx={{ width: 320, margin: '10px' }}>
       <CardMedia sx={{ height: '140px' }}>
         {map && <MapVisualizer map={map} />}
         {loading && <Skeleton variant="rectangular" width={345} height={140} />}

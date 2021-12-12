@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 
+import ErrorPage from '../../common/components/ErrorPage';
 import { useGetStatisticsFromSimulationQuery } from '../simulationApi';
 
 import { LineBarChart } from './components/charts/LineBarChart';
@@ -21,6 +22,10 @@ export default function StatisticsPage({
   const roadNames = data ? data[0].roadNames : {};
 
   const turn = data?.length ?? 0;
+
+  if (error){
+    return <ErrorPage/>;
+  }
 
   const {
     currentAverageVelocityByTurn,

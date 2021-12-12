@@ -9,7 +9,7 @@ import {
   Button,
   styled,
   Box,
-  AlertProps, CircularProgress,
+  AlertProps, CircularProgress, Skeleton,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
@@ -28,6 +28,7 @@ import {
 } from '../../simulation/simulationApi';
 import { SimulateRequest } from '../../simulation/requests';
 import { labelMovementStrategy, labelSimulationType } from '../../common/labels';
+import ErrorPage from '../../../features/common/components/ErrorPage';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -52,8 +53,31 @@ const SmallTextField = styled(TextField)(() => ({
   width: '9ch',
 }));
 
+function renderLoadingRows(amount: number){
+  const ret = [];
+  for (let i = 0; i < amount; i++){
+    ret.push(
+      <TableRow>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <TableCell><Skeleton variant='text' /></TableCell>
+        <CenterTableCell align={'center'} sx={{ gap: '5px' }}>
+          <Skeleton height={40} width={40} variant='rectangular' />
+          <Skeleton height={40} width={40} variant='rectangular' />
+          <Skeleton height={40} width={40} variant='rectangular' />
+        </CenterTableCell>
+      </TableRow>,
+    );
+  }
+  return ret;
+}
+
 export default function SimulationList(): JSX.Element {
-  const { data } = useGetAllSimulationsQuery();
+  const { data, isLoading, error } = useGetAllSimulationsQuery();
   const [simulate, result] = useSimulateMutation();
 
   const mapId = useUrlParamsQuery().get('mapId');
@@ -70,6 +94,10 @@ export default function SimulationList(): JSX.Element {
     }
     setOpenSnackbar(false);
   };
+
+  if (error) {
+    return <ErrorPage />;
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -102,7 +130,7 @@ export default function SimulationList(): JSX.Element {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.filter(row => {
+          {isLoading ? renderLoadingRows(20) : data?.filter(row => {
             return (!mapId || mapId === '') || (row.mapId === parseInt(mapId));
           }).map((row) => (
             <TableRow
