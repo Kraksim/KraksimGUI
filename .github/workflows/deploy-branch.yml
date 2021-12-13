@@ -12,6 +12,10 @@ jobs:
         run: rm -rf .git
       - name: delete workflows
         run: rm -rf .github
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
+        id: extract_branch
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.3
         env:
@@ -21,10 +25,8 @@ jobs:
           destination-github-username: 'wokstym'
           destination-repository-name: 'kraksimGUI-deploy'
           user-email: grzegorz.poreba.73@gmail.com
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
-        id: extract_branch
+          target-branch: ${{ steps.extract_branch.outputs.branch }}
+
       - name: Comment deploy link
         uses: unsplash/comment-on-pr@master
         env:
