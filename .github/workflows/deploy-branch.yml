@@ -17,7 +17,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
         id: extract_branch
       - name: Push directory to another repository
-        uses: plocket/push-generated-file@v1.1
+        uses: plocket/push-generated-file@master
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
