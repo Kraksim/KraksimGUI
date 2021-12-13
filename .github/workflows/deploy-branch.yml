@@ -12,9 +12,9 @@ jobs:
         run: rm -rf .git
       - name: delete workflows
         run: rm -rf .github
-      - name: Extract branch name
+      - name: Extract branch name with replaced underscores
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF//[_]/}"
         id: extract_branch
       - name: Push directory to another repository
         uses: wokstym/github-action-push-to-another-repository@main
@@ -31,5 +31,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: running on branch ${{ steps.extract_branch.outputs.branch }}
+          msg: running on branch https://kraksim-git-${{ steps.extract_branch.outputs.branch }}-wokstym.vercel.app/
           check_for_duplicate_msg: false
