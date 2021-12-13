@@ -31,4 +31,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: running on branch https://kraksim-git-${{ steps.extract_branch.outputs.branch }}-wokstym.vercel.app/
+          msg: Deploy link https://kraksim-git-${{ steps.extract_branch.outputs.branch }}-wokstym.vercel.app/
+          check_for_duplicate_msg: true
