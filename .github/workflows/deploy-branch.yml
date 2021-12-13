@@ -21,10 +21,14 @@ jobs:
           destination-github-username: 'wokstym'
           destination-repository-name: 'kraksimGUI-deploy'
           user-email: grzegorz.poreba.73@gmail.com
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: Comment deploy link
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: ${GIT HUB_REF##*/}
+          msg: running on branch ${{ steps.extract_branch.outputs.branch }}
           check_for_duplicate_msg: false
