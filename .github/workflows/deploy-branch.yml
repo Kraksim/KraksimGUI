@@ -14,7 +14,7 @@ jobs:
         run: rm -rf .github
       - name: Extract branch name with replaced underscores
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF//[_]/}"
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF//[_]/})"
         id: extract_branch
       - name: Push directory to another repository
         uses: wokstym/github-action-push-to-another-repository@main
