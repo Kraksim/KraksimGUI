@@ -17,7 +17,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
         id: extract_branch
       - name: Push directory to another repository
-        uses: cpina/github-action-push-to-another-repository@v1.3
+        uses: plocket/push-generated-file@v1.1
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
@@ -26,7 +26,6 @@ jobs:
           destination-repository-name: 'kraksimGUI-deploy'
           user-email: grzegorz.poreba.73@gmail.com
           target-branch: ${{ steps.extract_branch.outputs.branch }}
-
       - name: Comment deploy link
         uses: unsplash/comment-on-pr@master
         env:
