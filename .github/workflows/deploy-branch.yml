@@ -26,5 +26,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: "${GIT HUB_REF##*/}"
+          msg: ${GIT HUB_REF##*/}
           check_for_duplicate_msg: false
