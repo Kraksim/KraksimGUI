@@ -100,6 +100,7 @@ export default function SimulationList(): JSX.Element {
   }
 
   return (
+    <Box sx={{ margin: '32px' }}>
     <TableContainer component={Paper}>
       <Snackbar
         open={openSnackbar}
@@ -161,6 +162,7 @@ export default function SimulationList(): JSX.Element {
         </TableBody>
       </Table>
     </TableContainer>
+    </Box>
   );
 }
 

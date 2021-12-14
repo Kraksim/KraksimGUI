@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react';
 
 import { useGetStatisticsFromSimulationQuery } from '../simulationApi';
@@ -8,7 +8,7 @@ import ErrorPage from '../../common/components/ErrorPage';
 import DonutChart from './components/charts/DonutChart';
 import { LineBarChart } from './components/charts/LineBarChart';
 import LineBarChartWithDropdown from './components/charts/LineBarChartWithDropdown';
-import { ChartBox, StatisticsContainer } from './components/style';
+import { Card, ChartBox, StatisticsContainer } from './components/style';
 import { getAllStatsForDonut, getAllStatsForLineBar } from './utils';
 
 interface Props {
@@ -40,7 +40,7 @@ export default function CompareSimulationsPage({
     return <ErrorPage/>;
   }
 
-  const roadNames = firstSimulationData ? firstSimulationData[0].roadNames : {};
+  const roadNames = firstSimulationData && firstSimulationData.length > 0 ? firstSimulationData[0].roadNames : {};
 
   const turn = Math.max(
     firstSimulationData?.length ?? 0,
@@ -157,12 +157,12 @@ export default function CompareSimulationsPage({
 
   return (
     <StatisticsContainer>
-      <Typography sx={{ margin: '10px' }} variant="h3">
+      <Typography sx={{ margin: '10px', fontWeight: 'bold' }} variant="h3">
         {`Statistics comparison for simulation ID: ${firstSimulationId} and ${secondSimulationId}`}
       </Typography>
-      <ChartBox>
-        <Box width={'45%'}>{averageVelocityChart}</Box>
-        <Box width={'45%'}>
+      <ChartBox sx={{ gap: '10px' }}>
+        <Card width={'45%'}>{averageVelocityChart}</Card>
+        <Card width={'45%'}>
           <DonutChart
             height={450}
             data={donutData}
@@ -170,14 +170,14 @@ export default function CompareSimulationsPage({
             title="Average Velocity - Donut"
             innerRadius={180}
           />
-        </Box>
+        </Card>
+      </ChartBox>
+      <ChartBox sx={{ gap: '10px' }}>
+        <Card width={'45%'}>{flowChart}</Card>
+        <Card width={'45%'}>{densityChart}</Card>
       </ChartBox>
       <ChartBox>
-        <Box width={'45%'}>{flowChart}</Box>
-        <Box width={'45%'}>{densityChart}</Box>
-      </ChartBox>
-      <ChartBox>
-        <Box width={'100%'}>{roadAvgChart}</Box>
+        <Card width={'100%'}>{roadAvgChart}</Card>
       </ChartBox>
     </StatisticsContainer>
   );
