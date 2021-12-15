@@ -50,6 +50,17 @@ export default function MapCard({ map, loading } : Props): JSX.Element{
           <Skeleton sx={{ margin: '4px 4px 4px 0px' }} variant="rectangular" width="70%"/>
           </>}
         </Box>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+              {map && <Chip
+                      sx={{ margin: '4px 4px 4px 0px' }}
+                      size="small"
+                      key={map.id}
+                      style={{ backgroundColor:'rgba(135, 193, 207, 0.31)' }}
+                      label={`Simulations: ${map.simulationsCount}`}/>}
+              {loading && <>
+                  <Skeleton sx={{ margin: '4px 4px 4px 0px' }} variant="rectangular" width="70%"/>
+              </>}
+          </Box>
         {map && <Typography variant="body2" color="text.secondary">
           {map.description}
         </Typography>}

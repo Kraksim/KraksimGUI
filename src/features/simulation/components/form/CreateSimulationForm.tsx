@@ -8,8 +8,7 @@ import {
   Stepper, 
   StepLabel, 
   StepperProps, 
-  SnackbarCloseReason, 
-  CircularProgress,
+  SnackbarCloseReason,
 } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
@@ -18,6 +17,7 @@ import MapVisualizer from '../../../map/MapVisualizer';
 import { useGetBasicMapByIdQuery, useGetMapByIdQuery } from '../../../map/mapApi';
 import { useCreateSimulationMutation } from '../../simulationApi';
 import ErrorPage from '../../../common/components/ErrorPage';
+import { MapLoader } from '../../../map/MapVisualizerWrapper';
 
 import CreateExpectedVelocityMapForm, { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
 import CreateGatewaysStatesForm, { getGatewaysStatesInitialValues } from './CreateGatewaysStatesForm';
@@ -59,12 +59,6 @@ const formLoader = (
     </Box>
   </Box>
 </Box>);
-
-const mapLoader = (
-  <Box height="100%" width="100%" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <CircularProgress size="100px"/>
-  </Box>
-);
 
 function FormStep({
   handleNext, handleBack, isLast = false, isFirst = false, children, label, ...rest
@@ -249,7 +243,7 @@ export default function CreateSimulationForm({ mapId }: Props): JSX.Element {
       </Box>
       </>)}
       <Box width="100%" height="100vh">
-        {(isBasicMapLoading || !basicMap) ? mapLoader :  
+        {(isBasicMapLoading || !basicMap) ? <MapLoader/> :
         <MapVisualizer map={basicMap} interactable/>
         }
       </Box>

@@ -57,6 +57,7 @@ export interface BasicMapInfo {
   edges: BasicEdgeInfo[];
   compatibleWith: MovementSimulationStrategyType[];
   description: string;
+  simulationsCount: number
 }
 
 export interface ErrorWrapper<T> {

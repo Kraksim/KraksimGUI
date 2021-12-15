@@ -8,12 +8,13 @@ import {
   FlexibleWidthXYPlot as XYPlot,
   XAxis,
   YAxis,
-  VerticalGridLines,
   HorizontalGridLines,
   VerticalBarSeries,
   DiscreteColorLegend,
   LineSeries, AreaSeries, GradientDefs,
 } from 'react-vis';
+import ErrorIcon from '@mui/icons-material/Error';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 import 'react-vis/dist/style.css';
 import { maxOrDefault, minOrDefault } from '../../../../common/utils';
@@ -73,8 +74,13 @@ export function LineBarChart({
     return result;
   }
 
-  const barDataToPresent = prepareDataOf(barSeries);
+  const barDataToPresent: Array<Array<{ x: number; y: number }>> = prepareDataOf(barSeries);
   const lineDataToPresent = prepareDataOf(lineSeries);
+
+  const onlyZeros = [...barDataToPresent, ...lineDataToPresent]
+    .find((series) => {
+      return series.find((cord) => cord.y > 0) !== undefined;
+    }) === undefined;
 
   const labels = [
     ...barSeries.map((x) => ({ title: x.label })),
@@ -99,15 +105,13 @@ export function LineBarChart({
             xDistance={100}
             dontCheckIfEmpty
           >
-            <XAxis />
             <YAxis tickFormat={() => ''} />
             <HorizontalGridLines />
-            <VerticalGridLines />
           </XYPlot>
         </>
       );
     } else if (error) {
-      return <div>Something went wrong :(</div>;
+      return <div>Something went wrong <ErrorIcon/></div>;
     } else {
       return barDataToPresent.length > 0 || lineDataToPresent.length > 0 ? (
         <>
@@ -116,6 +120,7 @@ export function LineBarChart({
             xType="ordinal"
             height={height}
             xDistance={100}
+            yDomain={onlyZeros ?  [0, 1] : null}
           >
             <HorizontalGridLines />
               <GradientDefs>
@@ -152,11 +157,11 @@ export function LineBarChart({
           <Typography
             sx={{
               position: 'absolute',
-              top: '45%',
-              left: '45%',
+              top: '50%',
+              left: '50%',
             }}
           >
-            No data found :(
+               <SearchOffIcon sx={{ color:'rgba(239, 83, 80, 0.7)', height:'75px', width: '100%' }} />
           </Typography>
           <XYPlot
             animation
@@ -166,10 +171,8 @@ export function LineBarChart({
             xDistance={100}
             dontCheckIfEmpty
           >
-            <XAxis />
             <YAxis tickFormat={() => ''} />
             <HorizontalGridLines />
-            <VerticalGridLines />
           </XYPlot>
         </>
       );
