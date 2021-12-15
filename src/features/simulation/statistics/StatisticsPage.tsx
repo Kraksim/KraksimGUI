@@ -1,8 +1,9 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React from 'react';
 
 import ErrorPage from '../../common/components/ErrorPage';
-import { useGetStatisticsFromSimulationQuery } from '../simulationApi';
+import { useGetSimulationBasicInfoQuery, useGetStatisticsFromSimulationQuery } from '../simulationApi';
+import MapVisualizerWrapper, { MapLoader } from '../../map/MapVisualizerWrapper';
 
 import { LineBarChart } from './components/charts/LineBarChart';
 import LineBarChartWithDropdown from './components/charts/LineBarChartWithDropdown';
@@ -18,6 +19,11 @@ export default function StatisticsPage({
 }: Props): JSX.Element {
   const { data, isLoading, error } =
     useGetStatisticsFromSimulationQuery(selectedSimulationId);
+
+  const {
+    data: simulationsBasicData,
+  } = useGetSimulationBasicInfoQuery([selectedSimulationId]);
+
 
   const roadNames = data && data.length > 0 ? data[0].roadNames : {};
 
@@ -109,20 +115,28 @@ export default function StatisticsPage({
     />
   );
 
+  const mapGraphVis = simulationsBasicData && simulationsBasicData.length > 0 ?
+        <Box width="100%" height="100%">
+            <MapVisualizerWrapper mapId={simulationsBasicData[0].mapId}/>
+        </Box> : <MapLoader/>;
+
   return (
     <StatisticsContainer>
       <Typography sx={{ margin: '10px' }} variant="h3">
         {`Statistics for simulation ID: ${selectedSimulationId}`}
       </Typography>
       <ChartBox>
-          <Card width={ '100%' }>{averageVelocityChart}</Card>
+          <Card width={ '95%' }>{averageVelocityChart}</Card>
       </ChartBox>
       <ChartBox sx={{ gap: '10px' }}>
-          <Card width={ '45%' }>{flowChart}</Card>
-          <Card width={ '45%' }>{densityChart}</Card>
+          <Card height={'635px'} width={'38%'}>
+              {mapGraphVis}
+          </Card>
+          <Card width={ '52%' }>{flowChart}</Card>
       </ChartBox>
-      <ChartBox>
-          <Card width={ '100%' }>{roadAvgChart}</Card>
+      <ChartBox sx={{ gap: '10px' }}>
+          <Card width={ '52%' }>{densityChart}</Card>
+          <Card width={ '38%' }>{roadAvgChart}</Card>
       </ChartBox>
     </StatisticsContainer>
   );
