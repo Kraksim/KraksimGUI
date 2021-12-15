@@ -237,7 +237,6 @@ NetworkGraphProps & HTMLAttributes<HTMLDivElement>
   */
 
   function onContainerResize(){
-    console.log('fire');
     if (network){
       network.redraw();
     }

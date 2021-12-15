@@ -8,7 +8,8 @@ import {
 
 import {
   FormBox, ControlContainer, ControlButton, DeleteButton, AddedElementListBox, ElementBox, FormSelect, FormInpiutField,
-} from './common';
+} from '../../../common/form';
+
 import { NameId } from './util';
 
 interface Props {

@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 
 import { CreateGeneratorsRequest } from '../../requests';
-
 import {
   FormBox, ControlContainer, ControlButton, DeleteButton, AddedElementListBox, ElementBox, FormSelect, FormInpiutField, 
-} from './common';
+} from '../../../common/form';
+
 import { NameId } from './util';
 
 interface Props {
@@ -63,7 +63,7 @@ function CreateGatewaysStatesForm( { allowedGateways, values }: Props): JSX.Elem
                 <ControlButton
                   type="button"
                   variant="contained"
-                  onClick={() => push(    {
+                  onClick={() => push({
                     releaseDelay: '',
                     carsToRelease: '',
                     targetGatewayId: '',
