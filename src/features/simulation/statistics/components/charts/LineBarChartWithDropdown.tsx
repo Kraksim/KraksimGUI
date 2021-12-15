@@ -1,7 +1,8 @@
 import { MenuItem } from '@mui/material';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toString } from 'lodash';
 
 import LabeledInput from '../../../../page/home/dialogs/LabeledInput';
 
@@ -37,6 +38,11 @@ export default function LineBarChartWithDropdown({
 }: Props): JSX.Element {
   const [selectedElement, setSelectedElement] = useState('');
 
+  useEffect(() => {
+    if (dropdownValues.length > 0) {
+      setSelectedElement(toString(dropdownValues[0]));
+    }
+  }, [dropdownValues]);
   const parsedSelectedElement = parseInt(selectedElement);
 
   const barSeries = barSeriesByEntity

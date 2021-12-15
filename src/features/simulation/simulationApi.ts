@@ -22,6 +22,9 @@ export const simulationApi = createApi({
       query: () => ({ url: 'simulation/all' }),
       providesTags: ['SimplifiedSimulation'],
     }),
+    getSimulationBasicInfo: builder.query<SimplifiedSimulation[], number[]>({
+      query: (ids) => ({ url: 'simulation/basic' + (ids.length > 0 ? '?' + ids.map(id => `id=${id}`).join('&') : '') }),
+    }),
     createSimulation: builder.mutation<Simulation, CreateSimulationRequest>({
       query: (request) => ({
         url: 'simulation/create',
@@ -77,5 +80,6 @@ export const {
   useSimulateMutation,
   useDeleteSimulationMutation,
   usePopulateMutation,
+  useGetSimulationBasicInfoQuery,
   useGetStatisticsFromSimulationQuery,
 } = simulationApi;

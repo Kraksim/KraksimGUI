@@ -7,7 +7,7 @@ import VisGraph, { GraphData, Node } from './VisGraph';
 const NODE_SIZE = 50;
 export const DISTANCE_MULTIPLIER = 7;
 
-interface Props {
+interface MapProps {
   map: BasicMapInfo;
   interactable?: boolean;
   createSelectHandler?: (mapState: GraphData, setMapState: SetMapStateLambdaType) => ((
@@ -67,7 +67,7 @@ export default function MapVisualizer({
   createDoubleClickHandler,
   createNodeMovedHandler,
   createNodeDeselectedHandler,
-}: Props): JSX.Element {
+}: MapProps): JSX.Element {
   const [mapState, setMapState] = useState(createGraph(map));
   const additionalOptions = interactable ? {} : getStaticMapOptions();
 
