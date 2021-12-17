@@ -300,7 +300,11 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
   
   return (
       <Box margin="0 10px" display="flex" justifyContent="stretch">
-        <Box sx={{ width: '45%' }}>
+        <Box sx={{
+          overflowY: 'scroll', 
+          height: '90vh', 
+          width:'50%', backgroundColor: 'white', borderRadius: '20px', padding: '16px', margin: '16px', 
+        }}>
           <FormControlLabel
               control={
                 <Switch
