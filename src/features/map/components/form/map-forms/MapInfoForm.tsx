@@ -46,6 +46,7 @@ export default function MapForm({ values }: Props): JSX.Element{
                                 Map description
                             </InputLabel>
                             <FastField
+                            multiline
                             name={'description'}
                             placeholder="Map description"
                             as={FormInpiutField}
