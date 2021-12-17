@@ -4,7 +4,6 @@ import {
 } from 'formik';
 import React from 'react';
 
-//import { idGenerator } from '../../../../common/utils';
 import {
   FormBox, ElementBox, FormInpiutField, AddedElementListBox, ControlButton, DeleteButton, FormSelect, 
 } from '../../../../common/form';

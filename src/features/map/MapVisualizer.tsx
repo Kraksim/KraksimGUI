@@ -1,5 +1,7 @@
-import { Box } from '@mui/material';
-import React from 'react';
+import { Box, IconButton } from '@mui/material';
+import React, { useRef } from 'react';
+import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
+import { Network } from 'vis-network';
 
 import { BasicMapInfo, Position, RoadNodeType } from './types';
 import VisGraph, { GraphData, Node } from './VisGraph';
@@ -48,13 +50,13 @@ function createGraph(map: BasicMapInfo): GraphData {
   );
 
   const edges = map.edges.map(({
-    from, to, roadThickness, id, name,
+    from, to, roadThickness, id, roadName,
   }) => ({
     from: from,
     to: to,
     value: roadThickness,
     id: id,
-    label: name,
+    title: roadName,
   }));
 
   return { nodes, edges };
@@ -76,6 +78,9 @@ function getDynamicMapOptions(){
   return {
     interaction: {
       selectConnectedEdges: false,
+      hover: true,
+      hoverConnectedEdges: false,
+      tooltipDelay: 100,
     },
   };
 }
@@ -92,6 +97,7 @@ export default function MapVisualizer({
 }: MapProps): JSX.Element {
   const mapState = createGraph(map);
   const additionalOptions = interactable ? getDynamicMapOptions() : getStaticMapOptions();
+  const networkRef = useRef<Network | null>(null);
 
   const selectHandler = createSelectHandler?.(mapState);
   const doubleClickHandler = createDoubleClickHandler?.();
@@ -101,8 +107,17 @@ export default function MapVisualizer({
   const deselectEdgeHandler = createEdgeDeselectedHandler?.();
 
   return (
-    <Box height="100%" width="100%">
+    <Box height="100%" width="100%" position="relative">
+      {interactable && 
+      <Box sx={{ position: 'absolute', top: '4px', right: '4px', zIndex: 1000 }}>
+      <IconButton 
+      onClick={() => networkRef?.current?.fit()}>
+        <CenterFocusWeakIcon />
+      </IconButton>
+      </Box>
+      }
         <VisGraph
+            ref={networkRef}
             graph={mapState}
             options={{
               ...additionalOptions,

@@ -72,7 +72,7 @@ export interface BasicEdgeInfo {
   to: number;
   roadThickness: number;
   id?: number;
-  name: string;
+  roadName: string;
 }
 
 export interface BasicRoadNodeInfo {

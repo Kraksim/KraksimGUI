@@ -18,7 +18,7 @@ export const initialSkeleton: CreateMapRequest = {
       },
       id: 10,
       endingRoadsIds: [],
-      startingRoadsIds: [1020],
+      startingRoadsIds: [1],
     },
     {
       type: 'INTERSECTION',
@@ -28,8 +28,8 @@ export const initialSkeleton: CreateMapRequest = {
         y: 40,
       },
       id: 20,
-      endingRoadsIds: [1020],
-      startingRoadsIds: [2030],
+      endingRoadsIds: [1],
+      startingRoadsIds: [2],
       overrideTurnDirectionsTurnEverywhere: true,
     },
     {
@@ -40,7 +40,7 @@ export const initialSkeleton: CreateMapRequest = {
         x: 0,
         y: 80,
       },
-      endingRoadsIds: [2030],
+      endingRoadsIds: [2],
       startingRoadsIds: [],
     },
   ],
@@ -62,7 +62,7 @@ export const initialSkeleton: CreateMapRequest = {
           id: 1,
         },
       ],
-      id: 1020,
+      id: 1,
     },
     {
       length: 60,
@@ -81,7 +81,7 @@ export const initialSkeleton: CreateMapRequest = {
           id: 3,
         },
       ],
-      id: 2030,
+      id: 2,
     },
   ],
 };
@@ -130,7 +130,7 @@ function calculateEdges(formValues: InitialMapFormValues): BasicEdgeInfo[]{
     from: fromMap.get(parseInt(key))?.id as number,
     to: toMap.get(parseInt(key))?.id as number,
     roadThickness: value.lanes.length,
-    name: value.name,
+    roadName: value.name,
     id: value.id,
   }));
 }

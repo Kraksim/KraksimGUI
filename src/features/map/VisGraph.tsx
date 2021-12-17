@@ -26,6 +26,8 @@ import {
   cloneDeep,
 } from 'lodash';
 
+import 'vis-network/styles/vis-network.css';
+
 export type {
   Network, Edge, Node, Options, NetworkEvents, IdType, 
 };

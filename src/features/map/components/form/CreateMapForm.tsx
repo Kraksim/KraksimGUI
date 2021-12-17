@@ -94,8 +94,8 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
     }
   }, [isError, isSuccess]);
 
-  function handleCreateEdgeExistAlready() {
-    setEdgeCreationMode({ modeOn: false, firstNodeId: undefined });
+  function handleCreateEdgeExistAlready(node: PartialGateway | PartialIntersection) {
+    setEdgeCreationMode({ modeOn: false, firstNodeId: node.id });
   }
   
   function calculateDistance(a: Position, b: Position): number{
@@ -114,7 +114,7 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
       const second = findNodeInFormikValues(clickedNode.id as number);
       if (first && second) {
         if (arraysIntersect(first.startingRoadsIds, second.endingRoadsIds)) {
-          handleCreateEdgeExistAlready();
+          handleCreateEdgeExistAlready(second);
         } else {
           const roadName = `${first.name}->${second.name}`;
           const roadId = idGenerator.getId();
@@ -212,7 +212,7 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
         y: Math.round(event.pointer.canvas.y / DISTANCE_MULTIPLIER),
       };
       const newId = idGenerator.getId();
-      const newNodeName = 'New node ' + newId;
+      const newNodeName = newId.toString();
       const newNodeBase = {
         type: roadNodeType,
         name: newNodeName,
