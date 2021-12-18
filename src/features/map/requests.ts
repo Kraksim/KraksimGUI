@@ -15,6 +15,7 @@ export type RoadNodeType = 'INTERSECTION' | 'GATEWAY';
 
 export interface CreateRoadNodeRequest {
   type: RoadNodeType;
+  id?: number,
   position: CreatePositionRequest;
   endingRoadsIds: number[];
   startingRoadsIds: number[];

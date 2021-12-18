@@ -8,10 +8,9 @@ import {
 
 import { MovementSimulationStrategyType } from '../../types';
 import { labelMovementStrategy } from '../../../common/labels';
-
 import {
   FormBox, MovementFormInputField, ElementBox, MovementFormSelect,
-} from './common';
+} from '../../../common/form';
 
 type InitialValues = {
   type: string,

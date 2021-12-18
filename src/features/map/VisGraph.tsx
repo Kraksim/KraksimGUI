@@ -26,6 +26,8 @@ import {
   cloneDeep,
 } from 'lodash';
 
+import 'vis-network/styles/vis-network.css';
+
 export type {
   Network, Edge, Node, Options, NetworkEvents, IdType, 
 };
@@ -237,7 +239,6 @@ NetworkGraphProps & HTMLAttributes<HTMLDivElement>
   */
 
   function onContainerResize(){
-    console.log('fire');
     if (network){
       network.redraw();
     }

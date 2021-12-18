@@ -27,9 +27,11 @@ interface TurnDirection {
   destinationRoad: Road;
 }
 
+export type RoadNodeType = 'INTERSECTION' | 'GATEWAY';
+
 export interface RoadNode {
   id: number;
-  type: 'INTERSECTION' | 'GATEWAY';
+  type: RoadNodeType;
   position: Position;
   endingRoads: Road[];
   startingRoads: Road[];
@@ -57,7 +59,7 @@ export interface BasicMapInfo {
   edges: BasicEdgeInfo[];
   compatibleWith: MovementSimulationStrategyType[];
   description: string;
-  simulationsCount: number
+  simulationsCount?: number
 }
 
 export interface ErrorWrapper<T> {
@@ -69,11 +71,13 @@ export interface BasicEdgeInfo {
   from: number;
   to: number;
   roadThickness: number;
+  id?: number;
+  roadName: string;
 }
 
 export interface BasicRoadNodeInfo {
   name: string;
-  type: 'INTERSECTION' | 'GATEWAY';
+  type: RoadNodeType;
   position: Position;
   id: number;
 }
@@ -81,7 +85,7 @@ export interface BasicRoadNodeInfo {
 
 export interface EdgeCreationData {
   modeOn: boolean,
-  firstNodeName: string | undefined
+  firstNodeId: number | undefined
 }
 
 export interface ErrorState {

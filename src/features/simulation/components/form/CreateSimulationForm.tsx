@@ -18,6 +18,7 @@ import { useGetBasicMapByIdQuery, useGetMapByIdQuery } from '../../../map/mapApi
 import { useCreateSimulationMutation } from '../../simulationApi';
 import ErrorPage from '../../../common/components/ErrorPage';
 import { MapLoader } from '../../../map/MapVisualizerWrapper';
+import { ControlButton, FormSkeleton } from '../../../common/form';
 
 import CreateExpectedVelocityMapForm, { expectedVelocityInitialValues } from './CreateExpectedVelocityMapForm';
 import CreateGatewaysStatesForm, { getGatewaysStatesInitialValues } from './CreateGatewaysStatesForm';
@@ -27,7 +28,6 @@ import CreateMovementSimulationStrategyForm, {
 } from './CreateMovementSimulationStrategyForm';
 import CreateSimulationBasicInfoForm, { simulationBasicInfoInitialValues } from './CreateSimulationBasicInfoForm';
 import { parseFormResultToRequest } from './util';
-import { ControlButton, FormSkeleton } from './common';
 
 export interface InitialValues<T> {
   values: T

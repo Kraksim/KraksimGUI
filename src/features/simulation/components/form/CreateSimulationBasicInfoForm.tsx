@@ -8,10 +8,9 @@ import {
 
 import { SimulationType } from '../../types';
 import { labelSimulationType } from '../../../common/labels';
-
 import {
   FormBox, FormInpiutField, ElementBox, FormSelect, 
-} from './common';
+} from '../../../common/form';
 
 const simulationTypes: SimulationType[] = ['NAGEL_CORE'];
 

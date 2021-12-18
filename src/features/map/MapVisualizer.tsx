@@ -1,21 +1,27 @@
-import { Box } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, IconButton } from '@mui/material';
+import React, { useRef } from 'react';
+import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
+import { Network } from 'vis-network';
 
-import { BasicMapInfo, Position, SetMapStateLambdaType } from './types';
+import { BasicMapInfo, Position, RoadNodeType } from './types';
 import VisGraph, { GraphData, Node } from './VisGraph';
 
 const NODE_SIZE = 50;
 export const DISTANCE_MULTIPLIER = 7;
+const INTERSECTION_COLOR = '#e04141';
+const GATEWAY_COLOR = '#e09c41';
 
 interface MapProps {
   map: BasicMapInfo;
   interactable?: boolean;
-  createSelectHandler?: (mapState: GraphData, setMapState: SetMapStateLambdaType) => ((
+  createSelectHandler?: (mapState: GraphData) => ((
     event: any,
   ) => void);
-  createDoubleClickHandler?: (setMapState: SetMapStateLambdaType) => ((event: any,)=>void);
+  createDoubleClickHandler?: () => ((event: any,)=>void);
   createNodeMovedHandler?:(mapState: GraphData)=> ((event: any,) => void);
-  createNodeDeselectedHandler?: () => (()=> void);
+  createNodeDeselectedHandler?: () => () => void;
+  createEdgeDeselectedHandler?: () => () => void;
+  createEdgeSelectHandler?: (mapState: GraphData) => (event: any) => void;
 }
 
 export function createNode(
@@ -27,11 +33,15 @@ export function createNode(
   return {
     id,
     label: name,
-    color: type === 'INTERSECTION' ? '#e04141' : '#e09c41',
+    color: type === 'INTERSECTION' ? INTERSECTION_COLOR : GATEWAY_COLOR,
     x: position.x * DISTANCE_MULTIPLIER,
     y: position.y * DISTANCE_MULTIPLIER,
     size: NODE_SIZE,
   };
+}
+
+export function getNodeType(node: Node): RoadNodeType {
+  return node.color === INTERSECTION_COLOR ? 'INTERSECTION' : 'GATEWAY';
 }
 
 function createGraph(map: BasicMapInfo): GraphData {
@@ -39,10 +49,14 @@ function createGraph(map: BasicMapInfo): GraphData {
     createNode(id, name, type, position),
   );
 
-  const edges = map.edges.map(({ from, to, roadThickness }) => ({
+  const edges = map.edges.map(({
+    from, to, roadThickness, id, roadName,
+  }) => ({
     from: from,
     to: to,
     value: roadThickness,
+    id: id,
+    title: roadName,
   }));
 
   return { nodes, edges };
@@ -60,6 +74,17 @@ function getStaticMapOptions() {
   };
 }
 
+function getDynamicMapOptions(){
+  return {
+    interaction: {
+      selectConnectedEdges: false,
+      hover: true,
+      hoverConnectedEdges: false,
+      tooltipDelay: 100,
+    },
+  };
+}
+
 export default function MapVisualizer({
   map,
   interactable = false,
@@ -67,18 +92,32 @@ export default function MapVisualizer({
   createDoubleClickHandler,
   createNodeMovedHandler,
   createNodeDeselectedHandler,
+  createEdgeSelectHandler,
+  createEdgeDeselectedHandler,
 }: MapProps): JSX.Element {
-  const [mapState, setMapState] = useState(createGraph(map));
-  const additionalOptions = interactable ? {} : getStaticMapOptions();
+  const mapState = createGraph(map);
+  const additionalOptions = interactable ? getDynamicMapOptions() : getStaticMapOptions();
+  const networkRef = useRef<Network | null>(null);
 
-  const selectHandler = createSelectHandler?.call(undefined, mapState, setMapState);
-  const doubleClickHandler = createDoubleClickHandler?.call(undefined, setMapState);
-  const dragEndHandler = createNodeMovedHandler?.call(undefined, mapState);
-  const deselectNodeHandler = createNodeDeselectedHandler?.call(undefined);
+  const selectHandler = createSelectHandler?.(mapState);
+  const doubleClickHandler = createDoubleClickHandler?.();
+  const dragEndHandler = createNodeMovedHandler?.(mapState);
+  const deselectNodeHandler = createNodeDeselectedHandler?.();
+  const selectEdgeHandler = createEdgeSelectHandler?.(mapState);
+  const deselectEdgeHandler = createEdgeDeselectedHandler?.();
 
   return (
-    <Box height="100%" width="100%">
+    <Box height="100%" width="100%" position="relative">
+      {interactable && 
+      <Box sx={{ position: 'absolute', top: '4px', right: '4px', zIndex: 1000 }}>
+      <IconButton 
+      onClick={() => networkRef?.current?.fit()}>
+        <CenterFocusWeakIcon />
+      </IconButton>
+      </Box>
+      }
         <VisGraph
+            ref={networkRef}
             graph={mapState}
             options={{
               ...additionalOptions,
@@ -94,9 +133,9 @@ export default function MapVisualizer({
               },
               edges: {
                 arrows: {
-                  to: { enabled: false },
+                  to: { enabled: true },
                   from: { enabled: false },
-                  middle: { enabled: true },
+                  middle: { enabled: false },
                 },
                 arrowStrikethrough: true,
                 smooth: {
@@ -111,10 +150,12 @@ export default function MapVisualizer({
               },
             }}
             events={{
-              select: selectHandler,
+              selectNode: selectHandler,
               doubleClick: doubleClickHandler,
               dragEnd: dragEndHandler,
               deselectNode: deselectNodeHandler,
+              selectEdge: selectEdgeHandler,
+              deselectEdge: deselectEdgeHandler,
             }}
         />
     </Box>
