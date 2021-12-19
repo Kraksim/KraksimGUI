@@ -35,38 +35,38 @@ interface Props {
 export function SimulationTable({ data, loading }: Props) : JSX.Element{
   return ( data ?
             <Table sx={{
-              flexGrow: 1, minHeight: 0, overflow: 'scroll', minWidth: 650,
+              flexGrow: 1, minHeight: 0, overflow: 'scroll', minWidth: 550,
             }}
                    aria-label="simple table">
                 <TableHead>
                     <TableRow >
                         <PaddedTableCell >ID</PaddedTableCell>
                         {wrapTableCell(data[0].id, loading)}
-                        {wrapTableCell(data[1].id, loading)}
+                        {data.length > 1 && wrapTableCell(data[1].id, loading)}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
                         <GreyPaddedTableCell>Name</GreyPaddedTableCell>
                         {wrapTableCell(data[0].name, loading)}
-                        {wrapTableCell(data[1].name, loading)}
+                        {data.length > 1 && wrapTableCell(data[1].name, loading)}
                     </TableRow>
                     <TableRow>
                         <GreyPaddedTableCell>Map ID</GreyPaddedTableCell>
                         {wrapTableCell(data[0].mapId, loading)}
-                        {wrapTableCell(data[1].mapId, loading)}
+                        {data.length > 1 && wrapTableCell(data[1].mapId, loading)}
                     </TableRow>
                     <TableRow>
                         <GreyPaddedTableCell>Type</GreyPaddedTableCell>
                         {wrapTableCell(labelSimulationType(data[0].type), loading)}
-                        {wrapTableCell(labelSimulationType(data[1].type), loading)}
+                        {data.length > 1 && wrapTableCell(labelSimulationType(data[1].type), loading)}
                     </TableRow>
                     <TableRow>
                         <GreyPaddedTableCell>Movement type</GreyPaddedTableCell>
                         {wrapTableCell(
                           labelMovementStrategy(data[0].movementSimulationStrategyType,
                           ), loading)}
-                        {wrapTableCell(
+                        {data.length > 1 && wrapTableCell(
                           labelMovementStrategy(data[1].movementSimulationStrategyType,
                           ), loading)}
 
@@ -74,14 +74,14 @@ export function SimulationTable({ data, loading }: Props) : JSX.Element{
                     <TableRow>
                         <GreyPaddedTableCell>Turn</GreyPaddedTableCell>
                         {wrapTableCell(data[0].turn, loading)}
-                        {wrapTableCell(data[1].turn, loading)}
+                        {data.length > 1 && wrapTableCell(data[1].turn, loading)}
                     </TableRow>
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <GreyPaddedTableCell>State</GreyPaddedTableCell>
                         {wrapTableCell(data[0].isFinished ?
                             <DoneIcon /> : <FastForwardOutlinedIcon />, loading)}
-                        {wrapTableCell(data[1].isFinished ?
-                            <DoneIcon /> : <FastForwardOutlinedIcon />, loading)}
+                        {data.length > 1 && (wrapTableCell(data[1].isFinished ?
+                            <DoneIcon /> : <FastForwardOutlinedIcon />, loading))}
                     </TableRow>
                 </TableBody>
 

@@ -1,7 +1,7 @@
 import {
   Drawer, List, ListItem, ListItemIcon, ListItemText, Divider, Box, IconButton, 
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MapIcon from '@mui/icons-material/Map';
 import UpdateIcon from '@mui/icons-material/Update';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
@@ -12,7 +12,7 @@ import { isMobile } from 'react-device-detect';
 
 import CompareSimulationDialog from '../home/dialogs/CompareSimulationsDialog';
 
-const EXPANDED_WIDTH = '250px';
+const EXPANDED_WIDTH = '290px';
 const COLLAPSED_WIDTH = '66px';
 
 const ItemText = styled(ListItemText)(() => ({
@@ -23,6 +23,14 @@ export default function PageMenu(): JSX.Element{
   const [compareSimulationsDialogOpened, setCompareSimulationsDialogOpened] = useState(false);
 
   const history = useHistory();
+  const [currentPath, setCurrentPath] = useState(history.location.pathname);
+
+
+  useEffect(() => {
+    return history.listen((location) => {
+      setCurrentPath(location.pathname);
+    });
+  }, [history]);
 
   const onViewSimulationsClicked = () => {
     history.push('/simulations/all');
@@ -40,11 +48,19 @@ export default function PageMenu(): JSX.Element{
     history.push('/');
   };
 
+  const normalTabStyle = { marginBottom:'16px', color:'#A3AED0', borderRadius: '5px' };
+  const currentTabStyle = { ...normalTabStyle,
+    backgroundColor: '#337180',
+    color: '#FFFFFF',
+    ':hover': {
+      bgcolor: '#337180',
+    } };
+
   return (
     <>
     <Drawer variant="permanent" sx={{ width: isMobile ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}>
         <Box width={ isMobile ? COLLAPSED_WIDTH : EXPANDED_WIDTH }>
-            <Box>
+            <Box sx={{ padding: '18px 0px 22px 30px' }}>
             <IconButton onClick={onLogoClick}>
                 <img alt="kraksim-logo" 
                 style={{ width: '50px', height: '50px' }} 
@@ -53,28 +69,37 @@ export default function PageMenu(): JSX.Element{
             </IconButton>
             </Box>
             <Divider />
-            <List>
-                <ListItem button onClick={onViewMapsClicked}>
+            <List  sx={{ padding: '30px' }}>
+                <ListItem sx = { currentPath === '/maps/all' ? currentTabStyle : normalTabStyle }
+                          button
+                          onClick={onViewMapsClicked}>
                     <ListItemIcon>
-                        <MapIcon/>
+                        <MapIcon sx ={{ color: currentPath === '/maps/all' ? '#FFFFFF' : '#A3AED0' }}/>
                     </ListItemIcon>
                     <ItemText primary="Maps"/>
                 </ListItem>
-                <ListItem button onClick={onViewSimulationsClicked}>
+                <ListItem sx = { currentPath === '/simulations/all' ? currentTabStyle : normalTabStyle }
+                    button
+                    onClick={onViewSimulationsClicked}>
                     <ListItemIcon>
-                        <UpdateIcon/>
+                        <UpdateIcon sx = {{ color: currentPath ===  '/simulations/all' ? '#FFFFFF' : '#A3AED0' }}/>
                     </ListItemIcon>
                     <ItemText primary="Simulations"/>
                 </ListItem>
-                <ListItem button onClick={() => setCompareSimulationsDialogOpened(true)}>
+                <ListItem sx = { currentPath.includes('/simulations/compare') ? currentTabStyle : normalTabStyle }
+                    button
+                    onClick={() => setCompareSimulationsDialogOpened(true)}>
                     <ListItemIcon>
-                        <QueryStatsIcon/>
+                        <QueryStatsIcon
+                            sx = {{ color: currentPath ===  '/simulations/compare' ? '#FFFFFF' : '#A3AED0' }}/>
                     </ListItemIcon>
-                    <ItemText sx={{ whiteSpace: 'nowrap' }} primary="Compare simulations"/>
+                    <ItemText sx={{ whiteSpace: 'nowrap' }} primary="Comparator"/>
                 </ListItem>
-                <ListItem button onClick={onCreateMapClicked}>
+                <ListItem sx = { currentPath === '/maps/create' ? currentTabStyle : normalTabStyle }
+                    button
+                    onClick={onCreateMapClicked}>
                     <ListItemIcon>
-                        <CreateIcon/>
+                        <CreateIcon sx ={{ color: currentPath === '/maps/create' ? '#FFFFFF' : '#A3AED0' }}/>
                     </ListItemIcon>
                     <ItemText primary="Map creator"/>
                 </ListItem>

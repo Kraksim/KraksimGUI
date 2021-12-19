@@ -6,7 +6,9 @@ import React from 'react';
 
 import { labelMovementStrategy } from '../../../../common/labels';
 import { MovementSimulationStrategyType } from '../../../../simulation/types';
-import { FormBox, ElementBox, FormInpiutField, FormSelect } from '../../../../common/form';
+import {
+  FormBox, ElementBox, FormInpiutField, FormSelect, WideFormInputField,
+} from '../../../../common/form';
 import { InitialMapFormValues } from '../types';
 
 interface Props {
@@ -49,7 +51,7 @@ export default function MapForm({ values }: Props): JSX.Element{
                             multiline
                             name={'description'}
                             placeholder="Map description"
-                            as={FormInpiutField}
+                            as={WideFormInputField}
                             />
                             <ErrorMessage
                             name={'description'}

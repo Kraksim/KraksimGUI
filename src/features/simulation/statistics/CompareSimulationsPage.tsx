@@ -165,7 +165,7 @@ export default function CompareSimulationsPage({
 
   const mapGraphVis = simulationsBasicData && simulationsBasicData.length > 0 ?
         <Box width="100%" height="100%">
-            <MapVisualizerWrapper mapId={simulationsBasicData[0].mapId}/>
+            <MapVisualizerWrapper mapId={simulationsBasicData[0].mapId} interactable/>
         </Box> : <MapLoader/>;
 
 

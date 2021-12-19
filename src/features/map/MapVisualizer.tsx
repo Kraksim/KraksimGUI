@@ -14,6 +14,7 @@ const GATEWAY_COLOR = '#e09c41';
 interface MapProps {
   map: BasicMapInfo;
   interactable?: boolean;
+  editable?: boolean;
   createSelectHandler?: (mapState: GraphData) => ((
     event: any,
   ) => void);
@@ -74,9 +75,10 @@ function getStaticMapOptions() {
   };
 }
 
-function getDynamicMapOptions(){
+function getDynamicMapOptions(editable: boolean | undefined){
   return {
     interaction: {
+      dragNodes: editable === true,
       selectConnectedEdges: false,
       hover: true,
       hoverConnectedEdges: false,
@@ -88,6 +90,7 @@ function getDynamicMapOptions(){
 export default function MapVisualizer({
   map,
   interactable = false,
+  editable = false,
   createSelectHandler,
   createDoubleClickHandler,
   createNodeMovedHandler,
@@ -96,7 +99,7 @@ export default function MapVisualizer({
   createEdgeDeselectedHandler,
 }: MapProps): JSX.Element {
   const mapState = createGraph(map);
-  const additionalOptions = interactable ? getDynamicMapOptions() : getStaticMapOptions();
+  const additionalOptions = interactable ? getDynamicMapOptions(editable) : getStaticMapOptions();
   const networkRef = useRef<Network | null>(null);
 
   const selectHandler = createSelectHandler?.(mapState);

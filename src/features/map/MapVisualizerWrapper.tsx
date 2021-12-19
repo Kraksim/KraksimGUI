@@ -6,6 +6,7 @@ import { useGetBasicMapByIdQuery } from './mapApi';
 
 interface Props {
   mapId: number,
+  interactable?: boolean,
 }
 
 export function MapLoader(): JSX.Element {
@@ -17,6 +18,7 @@ export function MapLoader(): JSX.Element {
 
 export default function MapVisualizerWrapper({
   mapId,
+  interactable,
 }: Props): JSX.Element {
 
 
@@ -29,7 +31,7 @@ export default function MapVisualizerWrapper({
   return (<>
         {(isBasicMapLoading || !basicMap) ?
           <MapLoader/> :
-            <MapVisualizer map={basicMap} />
+            <MapVisualizer map={basicMap} interactable={interactable}/>
         }</>
   );
 }

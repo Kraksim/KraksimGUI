@@ -9,6 +9,7 @@ import { LineBarChart } from './components/charts/LineBarChart';
 import LineBarChartWithDropdown from './components/charts/LineBarChartWithDropdown';
 import { Card, ChartBox, StatisticsContainer } from './components/style';
 import { getAllStatsForLineBar } from './utils';
+import { CardTableContainer, SimulationTable } from './components/simulationTable';
 
 interface Props {
   selectedSimulationId: number;
@@ -22,8 +23,8 @@ export default function StatisticsPage({
 
   const {
     data: simulationsBasicData,
+    isLoading: isSimulationsBasicDataLoading,
   } = useGetSimulationBasicInfoQuery([selectedSimulationId]);
-
 
   const roadNames = data && data.length > 0 ? data[0].roadNames : {};
 
@@ -117,7 +118,7 @@ export default function StatisticsPage({
 
   const mapGraphVis = simulationsBasicData && simulationsBasicData.length > 0 ?
         <Box width="100%" height="100%">
-            <MapVisualizerWrapper mapId={simulationsBasicData[0].mapId}/>
+            <MapVisualizerWrapper mapId={simulationsBasicData[0].mapId} interactable/>
         </Box> : <MapLoader/>;
 
   return (
@@ -135,8 +136,13 @@ export default function StatisticsPage({
           <Card width={ '52%' }>{flowChart}</Card>
       </ChartBox>
       <ChartBox sx={{ gap: '10px' }}>
-          <Card width={ '52%' }>{densityChart}</Card>
-          <Card width={ '38%' }>{roadAvgChart}</Card>
+          <Card width={ '48%' }>{densityChart}</Card>
+          <CardTableContainer width={'45%'}>
+              <SimulationTable data={simulationsBasicData} loading={isSimulationsBasicDataLoading}/>
+          </CardTableContainer>
+      </ChartBox>
+      <ChartBox>
+        <Card width={'100%'}>{roadAvgChart}</Card>
       </ChartBox>
     </StatisticsContainer>
   );
