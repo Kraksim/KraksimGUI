@@ -14,6 +14,11 @@ export const FormInpiutField = styled(TextField)(() => ({
   width: '170px',
 }));
 
+export const WideFormInputField = styled(TextField)(() => ({
+  margin: '5px',
+  width: '400px',
+}));
+
 export const MovementFormInputField = styled(TextField)(() => ({
   margin: '5px',
   width: '275px',

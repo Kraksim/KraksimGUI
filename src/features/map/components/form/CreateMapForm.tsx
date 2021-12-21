@@ -358,6 +358,7 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
                   createEdgeDeselectedHandler={createEdgeDeselectedHandler}
                   createEdgeSelectHandler={createEdgeSelectHandler}
                   interactable
+                  editable
               />
           }
         </Box>

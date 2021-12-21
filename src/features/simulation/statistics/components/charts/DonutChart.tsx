@@ -20,9 +20,16 @@ export default function DonutChart({
   data,
   isLoading,
 }: Props): JSX.Element {
+
+  const laneColors = [
+    '#6AB2C4',
+    '#18A0FB',
+  ];
+
+
   const parsedData = [
-    { angle: isLoading ? 0 : data.firstSimulationAngle },
-    { angle: isLoading ? 0 : data.secondSimulationAngle },
+    { angle: isLoading ? 0 : data.firstSimulationAngle, color: laneColors[0] },
+    { angle: isLoading ? 0 : data.secondSimulationAngle,  color: laneColors[1] },
   ];
 
   return (
@@ -33,6 +40,7 @@ export default function DonutChart({
       <FlexibleRadialChart
         animation
         data={parsedData}
+        colorType="literal"
         height={height}
         radius={height / 2}
         innerRadius={innerRadius}
