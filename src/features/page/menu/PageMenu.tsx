@@ -12,14 +12,14 @@ import { isMobile } from 'react-device-detect';
 
 import CompareSimulationDialog from '../home/dialogs/CompareSimulationsDialog';
 
-const EXPANDED_WIDTH = '290px';
+const EXPANDED_WIDTH = '250px';
 const COLLAPSED_WIDTH = '66px';
 
 const ItemText = styled(ListItemText)(() => ({
   whiteSpace: 'nowrap',
 }));
 
-export default function PageMenu(): JSX.Element{
+export default function PageMenu(): JSX.Element{ // todo make it look good on phones
   const [compareSimulationsDialogOpened, setCompareSimulationsDialogOpened] = useState(false);
 
   const history = useHistory();

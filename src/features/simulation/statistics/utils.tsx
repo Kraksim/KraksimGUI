@@ -21,7 +21,7 @@ function getAngles(
   firstData: number[],
   secondData: number[],
 ): [number, number] {
-  const range = Math.max(firstData.length, secondData.length);
+  const range = Math.min(firstData.length, secondData.length);
   let firstRet = 0;
   let secondRet = 0;
   for (let i = 0; i < range; i++) {
