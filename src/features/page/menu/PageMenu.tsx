@@ -15,7 +15,7 @@ import useWindowDimensions from '../../common/hooks';
 
 const EXPANDED_WIDTH = '250px';
 const COLLAPSED_WIDTH = '66px';
-const MAX_XD = 1006;
+const MAX_SMALL_SCREEN_WIDTH = 1006;
 
 const ItemText = styled(ListItemText)(() => ({
   whiteSpace: 'nowrap',
@@ -50,7 +50,7 @@ export default function PageMenu(): JSX.Element {
     history.push('/');
   };
 
-  const isBigScreen = windowWidth >= MAX_XD;
+  const isBigScreen = windowWidth >= MAX_SMALL_SCREEN_WIDTH;
   const drawerWidth = isBigScreen ? EXPANDED_WIDTH : COLLAPSED_WIDTH;
   const listPadding = {
     padding: '30px',
