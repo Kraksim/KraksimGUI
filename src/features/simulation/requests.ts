@@ -56,3 +56,9 @@ export interface CreateSimulationRequest {
   lightPhaseStrategies: CreateLightPhaseStrategyRequest[];
   initialState: CreateInitialSimulationStateRequest;
 }
+
+export interface Result {
+  type: ResultType;
+}
+
+export type ResultType = 'FINISHED' | 'STILL_SIMULATING';
