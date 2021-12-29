@@ -109,11 +109,17 @@ export default function SimulationList(): JSX.Element {
       >
         <Alert
           onClose={handleClose}
-          severity={result.isSuccess ? 'success' : 'error'}
+          severity={result.isSuccess ?
+            (result.data.type === 'FINISHED'
+              ? 'success'
+              : 'info') 
+            : 'error'}
           sx={{ width: '100%' }}
         >
           {result.isSuccess
-            ? 'Simulated successfully'
+            ? (result.data.type === 'FINISHED'
+              ? 'Simulated successfully'
+              : 'Simulation is still calculating, check again later.')
             : 'Something went wrong: ' + (result.error as any)?.data}
         </Alert>
       </Snackbar>
