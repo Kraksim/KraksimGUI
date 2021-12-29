@@ -72,6 +72,7 @@ function getStaticMapOptions() {
       zoomView: false,
       hover: false,
     },
+    clickToUse: true,
   };
 }
 
