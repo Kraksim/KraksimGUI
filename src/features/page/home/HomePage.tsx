@@ -22,8 +22,6 @@ const MainContainerWrapper = styled(Box)(() => ({
 }));
 
 const MainContainer = styled(Box)(() => ({
-  width: '100%',
-  height: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -45,8 +43,10 @@ export default function HomePage(): JSX.Element {
   return (
     <MainContainerWrapper>
       <MainContainer>
-        <SectionBox>
-          <Typography variant="h1">Kraksim</Typography>
+        <SectionBox sx={{ marginTop: '25vh' }}>
+          <Typography variant="h1" fontSize={'5rem'}>
+            Kraksim
+          </Typography>
           <Typography variant="h4">Traffic Simulator</Typography>
         </SectionBox>
         <SectionBox>
