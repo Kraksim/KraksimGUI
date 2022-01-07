@@ -46,18 +46,18 @@ export const initialSkeleton: CreateMapRequest = {
   ],
   roads: [
     {
-      length: 60,
+      length: 72,
       name: 'A->B',
       lanes: [
         {
           startingPoint: 0,
-          endingPoint: 60,
+          endingPoint: 72,
           indexFromLeft: 0,
           id: 0,
         },
         {
           startingPoint: 0,
-          endingPoint: 60,
+          endingPoint: 72,
           indexFromLeft: 1,
           id: 1,
         },
@@ -65,18 +65,18 @@ export const initialSkeleton: CreateMapRequest = {
       id: 1,
     },
     {
-      length: 60,
+      length: 72,
       name: 'B->C',
       lanes: [
         {
           startingPoint: 0,
-          endingPoint: 60,
+          endingPoint: 72,
           indexFromLeft: 0,
           id: 2,
         },
         {
           startingPoint: 0,
-          endingPoint: 60,
+          endingPoint: 72,
           indexFromLeft: 1,
           id: 3,
         },
