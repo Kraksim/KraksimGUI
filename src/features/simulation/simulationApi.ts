@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { Simulation, SimplifiedSimulation } from './types';
 import type { CreateSimulationRequest, SimulateRequest } from './requests';
 import type { StateStatistics } from './statistics/types';
+import { Result } from './requests';
 
 export const simulationApi = createApi({
   reducerPath: 'simulationApi',
@@ -33,17 +34,17 @@ export const simulationApi = createApi({
       }),
       invalidatesTags: ['Simulation', 'SimplifiedSimulation'],
     }),
-    simulate: builder.mutation<Simulation, SimulateRequest>({
+    simulate: builder.mutation<Result, SimulateRequest>({
       query: ({ id, times }) => ({
         url: `simulation/simulate?id=${id}&times=${times}`,
         method: 'POST',
       }),
-      invalidatesTags: (result) =>
+      invalidatesTags: (result, ignore, queryArg) =>
         result
           ? [
-            { id: result.id, type: 'Simulation' as const },
-            { id: result.id, type: 'Statistics' as const },
-            { id: result.id, type: 'SimplifiedSimulation' as const },
+            { id: queryArg.id, type: 'Simulation' as const },
+            { id: queryArg.id, type: 'Statistics' as const },
+            { id: queryArg.id, type: 'SimplifiedSimulation' as const },
             'Simulation',
             'Statistics',
             'SimplifiedSimulation',
