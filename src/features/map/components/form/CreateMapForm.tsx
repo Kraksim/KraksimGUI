@@ -1,22 +1,11 @@
 import {
-  Alert,
-  Box,
-  Button,
-  FormControlLabel,
-  Snackbar,
-  styled,
-  Switch,
+  Alert, Box, Button, FormControlLabel, Snackbar, styled, Switch,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, useFormikContext } from 'formik';
 
-import {
-  RoadNodeType,
-} from '../../requests';
-import MapVisualizer, {
-  DISTANCE_MULTIPLIER,
-  getNodeType,
-} from '../../MapVisualizer';
+import { RoadNodeType } from '../../requests';
+import MapVisualizer, { DISTANCE_MULTIPLIER, getNodeType } from '../../MapVisualizer';
 import { EdgeCreationData, Position } from '../../types';
 import { arraysIntersect, idGenerator } from '../../../common/utils';
 import { GraphData, Node } from '../../VisGraph';
@@ -24,7 +13,7 @@ import TrafficToggle from '../TrafficToggle';
 
 import { GatewayForm, IntersectionForm, RoadForm } from './map-forms';
 import {
-  FocusedElement, InitialMapFormValues, PartialGateway, PartialIntersection, PartialRoad, 
+  FocusedElement, InitialMapFormValues, PartialGateway, PartialIntersection, PartialRoad,
 } from './types';
 import { getRoadNodesFormikPrefix, mapFormValuesToBasicMap } from './mapFormUtils';
 import MapInfoForm from './map-forms/MapInfoForm';
@@ -34,6 +23,13 @@ const ActionButton = styled(Button)(() => ({
   margin: '10px',
 }));
 
+function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 function getFormToRender(element: FocusedElement) {
   const returnMap = {
@@ -60,8 +56,11 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
     modeOn: false,
     firstNodeId: undefined,
   });
-  
+
   const formik = useFormikContext<InitialMapFormValues>();
+  const prevFormik = usePrevious(
+    { intersections: formik.values.intersections, gateways: formik.values.gateways },
+  );
 
   function findNodeInFormikValues(nodeId: number): PartialGateway | PartialIntersection {
     return (formik.values.gateways[nodeId] ??
@@ -94,10 +93,63 @@ export default function CreateMapForm({ isError, isSuccess, error }: Props): JSX
     }
   }, [isError, isSuccess]);
 
+  useEffect(() => {
+    const roadsToChange: Set<number> = new Set(
+      [...Object.values(formik.values.intersections), ...Object.values(formik.values.gateways)]
+        .filter((node: PartialIntersection | PartialGateway) => {
+          const id = node.id;
+
+          if (prevFormik && id) {
+            const prevNode: PartialIntersection | PartialGateway | undefined =
+                prevFormik.intersections[id] ?? prevFormik.gateways[id];
+            if (prevNode) {
+              return prevNode.position !== node.position;
+            }
+          }
+          return false;
+        })
+        .flatMap((node: PartialIntersection | PartialGateway) =>
+          [...node.startingRoadsIds, ...node.endingRoadsIds]));
+
+
+    if (roadsToChange.size > 0) {
+      const newFormikValues =
+          Object.entries(formik.values.roads)
+            .map(([id, road]) =>{
+              if (!roadsToChange.has(Number(id))){
+                return [id, road];
+              }
+              const [first, second] = findStartAndEndOfRoad(road);
+              const distance = calculateDistance(first.position, second.position);
+              const oldDistance = road.length;
+              const newLanes = road.lanes.map((lane) => {
+                const newStartingPoint = Math.round((lane.startingPoint / oldDistance) * distance) || 0;
+                const newEndingPoint = Math.round((lane.endingPoint / oldDistance) * distance) || 0;
+
+                return { ...lane, endingPoint: newEndingPoint, startingPoint: newStartingPoint };
+              });
+              const updatedRoad = {
+                ...road,
+                length: distance,
+                lanes: newLanes,
+              };
+              return [id, updatedRoad];
+
+            })
+            .reduce((acc, recordArr) => {
+              acc[recordArr[0] as string] = recordArr[1] as PartialRoad;
+              return acc;
+            }, {} as Record<number, PartialRoad> );
+
+      formik.setFieldValue('roads', newFormikValues);
+    }
+    // eslint-disable-next-line
+  }, [formik.values.gateways, formik.values.intersections]);
+
   function handleCreateEdgeExistAlready(node: PartialGateway | PartialIntersection) {
     setEdgeCreationMode({ modeOn: false, firstNodeId: node.id });
   }
-  
+
   function calculateDistance(a: Position, b: Position): number{
     return Math.floor(Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.y - b.y), 2)));
   }

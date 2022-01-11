@@ -51,7 +51,24 @@ export default function GatewayForm({ element }: Props): JSX.Element{
                             component="div"
                             className="field-error"
                             />
-                        </Box>  
+                        </Box>
+                        <Box>
+                            <InputLabel
+                                htmlFor={`roads.${element.id}.length`}>
+                                Length
+                            </InputLabel>
+                            <FastField
+                                name={`roads.${element.id}.length`}
+                                placeholder="Length"
+                                disabled
+                                as={FormInpiutField}
+                            />
+                            <ErrorMessage
+                                name={`roads.${element.id}.length`}
+                                component="div"
+                                className="field-error"
+                            />
+                        </Box>
                     </ElementBox>
                     <ElementBox>
                       <FieldArray name={`roads.${element.id}.lanes`}>
