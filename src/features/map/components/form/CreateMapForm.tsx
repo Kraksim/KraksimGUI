@@ -3,12 +3,12 @@ import {
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { Form, useFormikContext } from 'formik';
+import { GraphData, Node } from 'react-vis-graph-wrapper';
 
 import { RoadNodeType } from '../../requests';
 import MapVisualizer, { DISTANCE_MULTIPLIER, getNodeType } from '../../MapVisualizer';
 import { EdgeCreationData, Position } from '../../types';
 import { arraysIntersect, idGenerator } from '../../../common/utils';
-import { GraphData, Node } from '../../VisGraph';
 import TrafficToggle from '../TrafficToggle';
 
 import { GatewayForm, IntersectionForm, RoadForm } from './map-forms';

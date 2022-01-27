@@ -1,10 +1,9 @@
 import { Box, IconButton } from '@mui/material';
 import React, { useRef } from 'react';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
-import { Network } from 'vis-network';
+import VisGraph, { Network, GraphData, Node } from 'react-vis-graph-wrapper';
 
 import { BasicMapInfo, Position, RoadNodeType } from './types';
-import VisGraph, { GraphData, Node } from './VisGraph';
 
 const NODE_SIZE = 50;
 export const DISTANCE_MULTIPLIER = 7;
