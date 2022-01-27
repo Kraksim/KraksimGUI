@@ -18,24 +18,24 @@ Kraksim is an environment for modeling and optimisation of road traffic. It give
 <table>
 <tr>
 <th align="center">
-<a href="">
+<a href="https://kraksim.vercel.app/">
 <img height="225" width="auto" class="center-block" src="docs/map-list-view.png">
 </a>
 </th>
 <th align="center">
-<a href="">
+<a href="https://kraksim.vercel.app/">
 <img height="225" width="auto" class="center-block" src="docs/create-map.png">
 </a>
 </th>
 </tr>
 <tr>
 <td align="center">
-<a href="">
+<a href="https://kraksim.vercel.app/">
 <img height="225" width="auto" class="center-block" src="docs/simulations-table-view.png">
 </a>
 </td>
 <td align="center">
-<a href="">
+<a href="https://kraksim.vercel.app/">
 <img height="225" width="auto" class="center-block" src="docs/statictics-compare.png">
 </a>
 </td>
