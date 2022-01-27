@@ -12,40 +12,24 @@
 
 Kraksim is an environment for modeling and optimisation of road traffic. It gives you possibility to create maps and simulations and to collect the data about road traffic. You can also view and compare results of different simulations which take place on the same map.
 
-<br/>
-<br/>
-<br/>
-<table>
-<tr>
-<th align="center">
-<a href="https://kraksim.vercel.app/">
-<img height="225" width="auto" class="center-block" src="docs/map-list-view.png">
-</a>
-</th>
-<th align="center">
-<a href="https://kraksim.vercel.app/">
-<img height="225" width="auto" class="center-block" src="docs/create-map.png">
-</a>
-</th>
-</tr>
-<tr>
-<td align="center">
-<a href="https://kraksim.vercel.app/">
-<img height="225" width="auto" class="center-block" src="docs/simulations-table-view.png">
-</a>
-</td>
-<td align="center">
-<a href="https://kraksim.vercel.app/">
-<img height="225" width="auto" class="center-block" src="docs/statictics-compare.png">
-</a>
-</td>
-</tr>
-</table>
- 
 
 Project was a part of Bachelor's degree thesis written in Polish, which can be red [here](docs/Bachelor's_degree_thesis.pdf)
 
 Backend can be found [here](https://github.com/Kraksim/Kraksim)
+ 
+<br/>
+<br/>
+<br/>
+<p align="center">
+ 
+<a href="https://kraksim.vercel.app/">
+<img src="docs/map-list-view.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+<img src="docs/create-map.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+<img src="docs/simulations-table-view.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+<img src="docs/statictics-compare.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+
+</a>
+</p>
 
 
 ### Setup
