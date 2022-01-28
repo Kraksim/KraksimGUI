@@ -1,32 +1,50 @@
-## Managing node version
+<h1 align="center">Kraksim</h1>
+<p align="center">
 
-Use `nvm` for managing node versions (https://tecadmin.net/install-nvm-macos-with-homebrew/) no idea if it works on windows tho
+<img src="https://img.shields.io/badge/Typescript-darkred" />
+<img src="https://img.shields.io/badge/MUI_material-blue" />
+<img src="https://img.shields.io/badge/Reduxjs_toolkit-lightgrey" />
+<img src="https://img.shields.io/badge/react--vis-green" />
+<img src="https://img.shields.io/badge/formik-blueviolet" />
+<img src="https://img.shields.io/badge/react--vis--graph--wrapper-red" />
+<br/>
 
-run `nvm install`
 
-## Available Scripts
+Kraksim is an environment for modeling and optimisation of road traffic. It gives you possibility to create maps and simulations and to collect the data about road traffic. You can also view and compare results of different simulations which take place on the same map.
 
-In the project directory, you can run:
 
-### `yarn start`
+Project was a part of Bachelor's degree thesis written in Polish, which can be red [here](docs/Bachelor's_degree_thesis.pdf)
 
-Runs the app in the development mode.\
+Backend can be found [here](https://github.com/Kraksim/Kraksim)
+ 
+<br/>
+<br/>
+<br/>
+<p align="center">
+ 
+<a href="https://kraksim.vercel.app/">
+<img src="docs/map-list-view.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+<img src="docs/create-map.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+<img src="docs/simulations-table-view.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+<img src="docs/statictics-compare.png" alt="" data-canonical-src="docs/map-list-view.png" width="87.5%" height="87.5%" />
+
+</a>
+</p>
+
+
+### Setup
+
+Use `nvm` for managing node versions (https://tecadmin.net/install-nvm-macos-with-homebrew/)
+
+run `nvm install` to switch to appropriate npm version
+
+### Running 
+
+Set environment variable with link to backend instance, e.g. 
+#### `export REACT_APP_API_URL=http://localhost:8081/`
+
+then run 
+
+#### `yarn start`
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.

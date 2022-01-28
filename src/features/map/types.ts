@@ -1,6 +1,7 @@
+import { GraphData } from 'react-vis-graph-wrapper';
+
 import { MovementSimulationStrategyType } from '../simulation/types';
 
-import { GraphData } from './VisGraph';
 
 export interface Position {
   x: number;
